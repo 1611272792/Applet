@@ -1,0 +1,68 @@
+<!--pages/editrolemanager/editrolemanager.wxml-->
+<view>
+  <form bindsubmit='formSubmit' bindreset='formReset'>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">角色名</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='RoleName' placeholder="角色名称" value='{{RoleName}}' />
+          <input style='display:none' class="weui-input" name='RoleId' value='{{RoleIdArry[0].AuthId}}' />
+        </view>
+      </view>
+
+    </view>
+
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">是否有效</view>
+        </view>
+        <view class="weui-cell__bd">
+          <i-cell title="" style='font-size:18px;'>
+            <i-switch value="{{switch1}}" size="large" bind:change="onChange2" slot="footer">
+              <view slot="open">开启</view>
+              <view slot="close">关闭</view>
+            </i-switch>
+          </i-cell>
+        </view>
+      </view>
+
+    </view>
+
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">选择权限</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" disabled='' name='DepName' />
+        </view>
+      </view>
+      <i-cell-group>
+<block wx:for='{{RoleIdArry}}'>
+        <view class='AuthorBlock'>
+        {{item.Name}}
+        </view>
+        <block wx:for='{{item.listAuthor}}' wx:for-item="listAuthor">
+        
+          <i-cell title="{{listAuthor.AuthorName}}">
+          
+            <i-switch wx:if="{{listAuthor.AuthorContian==1}}" value="{{false}}" bind:change="onChange" data-AuthId='{{listAuthor.AuthorId}}' slot="footer"></i-switch>
+
+            <i-switch wx:else value="{{true}}" bind:change="onChange" data-AuthId='{{listAuthor.AuthorId}}' slot="footer"></i-switch>
+          </i-cell>
+          </block>
+          </block>
+
+        
+      </i-cell-group>
+    </view>
+
+    <view class="btn-area">
+      <button id='btnsubmit' formType="submit">提交</button>
+      <!-- <button type='warn' id='btnreset' formType="reset">取消</button> -->
+    </view>
+  </form>
+</view>

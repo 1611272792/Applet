@@ -1,0 +1,365 @@
+<!--index.wxml-->
+<!-- 提示 -->
+<!-- <view wx:if="{{errlentght.length==0}}"></view>
+<block wx:else>
+<text>{{errorcontent}}</text>
+</block> -->
+<!-- 主页面 -->
+<!-- <view class='main' style="display:{{show3?'block':'none'}}">
+  <view class="tui-tabbar-content">
+    <view class="tui-tabbar-group">
+      <text data-id="0" bindtap="changeTabbar" class="tui-tabbar-cell {{index == 0 ? 'tui-active' : ''}}">注册账号</text>
+      <text data-id="1" bindtap="changeTabbar" class="tui-tabbar-cell {{index == 1 ? 'tui-active' : ''}}">注册公司</text>
+    </view>
+  </view>
+  <view class="tui-list-box {{index == 0 ? '' : 'tui-hide'}}">
+    <form bindsubmit='formSubmit' bindreset='formReset'>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">账号</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name='Name' placeholder="用户名" />
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">密码</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type='password' name='Pwd' placeholder="密码" />
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">确认密码</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type='password' name='RePwd' placeholder="确认密码" />
+          </view>
+        </view>
+      </view>
+      <view class="btn-area">
+        <button class='btnsubmit' formType="submit">下一步</button>
+      </view>
+    </form>
+  </view>
+  <view class="tui-list-box {{index == 1 ? '' : 'tui-hide'}}">
+    <form bindsubmit='formSubmit1' bindreset='formReset'>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">公司名称</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name='CompanyName' placeholder="公司名称" />
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">公司Logo</view>
+          </view>
+          <view class="weui-cell__bd" style='margin-top: 5px;'>
+            <view class="weui-uploader__bd">
+              <view class="weui-uploader__files" id="uploaderFiles">
+                <block wx:for="{{files}}" wx:key="*this">
+                  <view class="weui-uploader__file" style='position: relative;' bindtap="previewImage" id="{{item}}">
+                    <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                    <view class='deleteimg'>
+                      <icon type="cancel" size="23" catchtap="deleteImg"></icon>
+                    </view>
+                  </view>
+                </block>
+              </view>
+              <view class="weui-uploader__input-box" style="display:{{showAdd?'block':'none'}}">
+                <view class="weui-uploader__input" bindtap="chooseImage"></view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">公司电话</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name='CompanyPhone' placeholder="公司电话" />
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">公司邮箱</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name='CompanyEmail' placeholder="公司邮箱" />
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">负责人账号</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name='UserID' placeholder="负责人账号" />
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">负责人密码</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type='password' name='UserPWD' placeholder="负责人密码" />
+          </view>
+        </view>
+      </view>
+      <view class="btn-area">
+        <button class='btnsubmit' formType="submit">下一步</button>
+      </view>
+    </form>
+  </view>
+</view> -->
+<!-- 下一步界面 -->
+<!-- <view class='nextuser' style="display:{{show1?'block':'none'}}">
+  <form bindsubmit='formSubmit2' bindreset='formReset'>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">姓名</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='Names' placeholder="姓名" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">电话</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='phones' placeholder="电话" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">头像</view>
+        </view>
+        <view class="weui-cell__bd" style='margin-top: 5px;'>
+          <view class="weui-uploader__bd">
+            <view class="weui-uploader__files" id="uploaderFiles">
+              <block wx:for="{{files}}" wx:key="*this">
+                <view class="weui-uploader__file" style='position: relative;' bindtap="previewImage" id="{{item}}">
+                  <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                  <view class='deleteimg'>
+                    <icon type="cancel" size="23" catchtap="deleteImg"></icon>
+                  </view>
+                </view>
+              </block>
+            </view>
+            <view class="weui-uploader__input-box" style="display:{{showAdd?'block':'none'}}">
+              <view class="weui-uploader__input" bindtap="chooseImage"></view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">性别</view>
+        </view>
+        <view class="weui-cell__bd">
+          <radio-group class="radio-group" bindchange="radioChange" style='margin:10px auto;'>
+            <label class="radio" wx:for="{{items}}" wx:key="{{index}}">
+              <radio color="#007aff" value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
+            </label>
+          </radio-group>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">生日</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker class='mypicker' mode="date" value="{{begindate}}" style='margin:10px auto;' start="1900-10-01" bindchange="changeBegindate">
+            <view class="tui-picker-detail">
+              {{begindate}}
+            </view>
+          </picker>
+        </view>
+      </view>
+      <block wx:if="{{miyaos!=1}}">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">公司秘钥</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name='miyao' placeholder="公司秘钥" />
+          </view>
+        </view>
+      </block>
+    </view>
+    <view class="btn-area">
+      <button class='btnsubmit' formType="submit">提交</button>
+    </view>
+  </form>
+</view> -->
+<view class='tops'>
+  <view class='topscontent'>
+    <text class='topsbg' style="color:{{colorone}};border:{{borderone}}">1</text>
+    <text style="color:{{colorlineone}};"> —— </text>
+    <text class='topsbg' style="color:{{colortwo}};border:{{bordertwo}}">2</text>
+    <!-- <text style="color:{{colorlinetwo}};"> —— </text>
+    <text class='topsbg' style="color:{{colorthree}};border:{{borderthree}}">3</text> -->
+  </view>
+</view>
+<view class='onecenters' style="display:{{oneshows?'block':'none'}}">
+  <view class='centerstop'>
+    <view class='cenbtn'>
+      <button class='btncenters' open-type="getUserInfo" bindgetuserinfo="getUserInfo" catchtap='JoinExistCompany'>加入已有公司</button>
+    </view>
+    <view class='cenbtn'>
+      <button class='btncenters' open-type="getUserInfo" bindgetuserinfo="getUserInfo" catchtap='CreateCompany'>创\t建\t公\t司</button>
+    </view>
+  </view>
+</view>
+<view class='twocenters' style="display:{{twoshows?'block':'none'}}">
+  <form bindsubmit='formSubmit5' bindreset='formReset'>
+    <view class='imagesize'>
+      <image class="weuiimg" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+    </view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">公司秘钥</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='miyao' placeholder="公司秘钥" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">账号</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='userzh' placeholder="账号" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">姓名</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='userxm' value='{{userInfo.nickName}}' placeholder="姓名" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">生日</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker class='mypicker' name='bithtss' mode="date" value="{{begindate}}" start="1900-10-01" bindchange="changeBegindate">
+            <view class="tui-picker-detail">
+              {{begindate}}
+            </view>
+          </picker>
+        </view>
+      </view>      
+    </view>
+    <view class="btn-area">
+      <button class='btnsubmit' catchtap='LastOneClick'>上一步</button>
+      <button class='btnsubmit' formType="submit">注册</button>
+    </view>
+  </form>
+</view>
+<view class='threecenters' style="display:{{threeshows?'block':'none'}}">
+  <!-- <button class='pop_btn' plain="true" open-type='getPhoneNumber' bindgetphonenumber="getPhoneNumber">获取用户手机号</button> -->
+  <form bindsubmit='formSubmit6' bindreset='formReset'>
+    <view class='imagesize'>
+      <image class="weuiimg" style='width: 70px;height: 70px;' src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+    </view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">公司名称</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='comname' placeholder="公司名称" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">公司邮箱</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='comemail' placeholder="公司邮箱" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">公司电话</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='comphone' type='number' placeholder="公司电话" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">公司Logo</view>
+        </view>
+        <view class="weui-cell__bd" style='margin-top: 5px;'>
+          <view class="weui-uploader__bd">
+            <view class="weui-uploader__files" id="uploaderFiles">
+              <block wx:for="{{files}}" wx:key="*this">
+                <view class="weui-uploader__file" style='position: relative;' bindtap="previewImage" id="{{item}}">
+                  <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                  <view class='deleteimg'>
+                    <icon type="cancel" size="23" catchtap="deleteImg"></icon>
+                  </view>
+                </view>
+              </block>
+            </view>
+            <view class="weui-uploader__input-box" style="display:{{showAdd?'block':'none'}}">
+              <view class="weui-uploader__input" bindtap="chooseImage"></view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">负责人账号</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='userzhs' placeholder="负责人账号" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">负责人姓名</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='userxms' value='{{userInfo.nickName}}' placeholder="负责人姓名" />
+        </view>
+      </view> 
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">负责人手机</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" type='number' name='userPhone' placeholder="负责人手机" />
+        </view>
+      </view> 
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">出生日期</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker class='mypicker' name='bithts' mode="date" value="{{begindate}}" start="1900-10-01" bindchange="changeBegindate">
+            <view class="tui-picker-detail">
+              {{begindate}}
+            </view>
+          </picker>
+        </view>
+      </view>          
+    </view>
+    <view class="btn-area">
+      <button class='btnsubmit' catchtap='LastOneClicks'>上一步</button>
+      <button class='btnsubmit' formType="submit">注册</button>
+    </view>
+  </form>
+</view>

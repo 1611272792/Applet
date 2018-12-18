@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index2</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        $.ajax({
+            url: "/api/Bos/SendBonus/GetBenefitList",
+            type: "Get",
+            data: {
+                "DepId": "0",
+                "CompanyId": "A9A78C2C-445C-4827-AB31-F8C01FF9412E"
+                //"DepId":"1"
+                //"OpenId": "qeqwe",
+                //"UserId": "lzc123",
+                //"UserPwd": "lzc123",
+                //"UserName": "刘志成",
+                //"UserPhone": "18827507367",
+                //"Photo": "lzclogo.jpg",
+                //"Sex": "1",
+                //"Birth": "1997-10-14",
+                //"IsOut": "0",
+                //"CompanyId": "10101001"
+            },
+            success: function (obj) {
+             //   alert(obj.StateCode + obj.Reason);
+                //$("#DivFood").html(str);
+            }
+        })
+
+    </script>
+</head>
+<body>
+    <div>
+        <div id="DivFood"></div>
+    </div>
+</body>
+</html>

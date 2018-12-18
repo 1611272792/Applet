@@ -1,0 +1,15 @@
+<!--pages/cashsh/cashsh.wxml-->
+<view class="table">
+  <view class="tr">
+    <view class="th">发放人</view>
+    <view class="th">金额(￥)</view>
+    <view class="th">获得时间</view>
+    <view class="th">备注</view>
+  </view>
+  <view class="tr" wx:for="{{shendetail}}" wx:key="{{index}}">
+    <view class='td'> {{item.UserName}} </view>
+    <view class="td"> {{item.BonusMoney}} </view>
+    <view class="td"> {{item.DisDate}} </view>
+    <view class="td"> {{item.BrContent}}</view>
+  </view>
+</view>

@@ -1,0 +1,64 @@
+<!--pages/bonusitems/bonusitems.wxml-->
+<movable-area class='areas'>
+  <movable-view direction="all" x="0" y="200" bindtap='addBonusItem' class='views'>
+     <image class='addimg' src='../../src/image/add.png'></image>
+  </movable-view>
+  <view class="container">
+
+    <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove" wx:for="{{items}}" bindtap='editBonusItem' data-BomusItemId='{{index}}' wx:key="{{index}}">
+      <view class="weui-cell content">
+        <view class="weui-cell__hd">
+          <image src="{{icon}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+        </view>
+        <view class="weui-cell__bd">{{item.BonusItemName}}</view>
+        <!-- <view class="weui-cell__ft weui-cell__ft_in-access">{{item.count}}</view> -->
+      </view>
+      <view class="del" catchtap="AddMoney" data-index="{{index}}">注入金额</view>
+
+      <view class="edit" wx:if="{{item.RuleType==0}}" catchtap="AddRule" data-index="{{index}}">添加规则</view>
+      <view class="edit" wx:else catchtap="EditRule" data-index="{{index}}">设置规则</view>
+    </view>
+  </view>
+</movable-area>
+
+<view class='toast-box' wx:if="{{InputMoneyShow}}">
+
+        <view class='toastbg'></view>
+
+        <view class='showToast'>
+
+            <view class='toast-title'>
+
+                <text>注入奖金</text>
+
+            </view>
+
+            <view class='toast-main'>
+
+                <view class='toast-input'>
+
+                    <input placeholder='请输入金额（￥）' type='number' bindinput='setValue' ></input>
+
+                </view>
+
+            </view>
+
+            <view class='toast-button'>
+
+                <view class='button1'>
+
+                    <button catchtap='cancel'>取消</button>
+
+                </view>
+
+                <view class='button2'>
+
+                    <button catchtap='confirm'>确定</button>
+
+                </view>
+
+            </view>
+
+        </view>
+
+    </view>

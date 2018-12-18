@@ -1,0 +1,35 @@
+﻿using SUNPN.BONUS.BLL;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Web.Http;
+
+namespace SUNPN.BONUS.API.Areas.Bos.Controllers
+{
+    public class SendBonusController : ApiController
+    {
+        #region 定义变量
+        /// <summary>
+        /// 奖金项业务逻辑类
+        /// </summary>
+        SendBonusBLL sendBonusBLL = new SendBonusBLL();
+        #endregion
+
+        #region 根据部门Id和公司Id查询对应的可发放的人员列表
+        /// <summary>
+        /// 获取部门奖金列表
+        /// </summary>
+        /// <param name="DepId"></param>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HttpResponseMessage GetBenefitList(string DepId, string CompanyId)
+        {
+            return new HttpResponseMessage { Content = new StringContent(sendBonusBLL.GetBenefitList(DepId,CompanyId), Encoding.GetEncoding("UTF-8"), "text/json") };
+        }
+        #endregion
+    }
+}

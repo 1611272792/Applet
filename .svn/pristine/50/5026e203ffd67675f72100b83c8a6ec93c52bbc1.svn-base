@@ -1,0 +1,189 @@
+﻿using SUNPN.BONUS.BLL;
+using SUNPN.BONUS.DALFactory;
+using SUNPN.BONUS.IDAL;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SUNPN.BONUS.Model;
+using SUNPN.BONUS.DAL;
+using SUNPN.BONUS.Common;
+using SUNPN.BONUS.API.Models;
+using System.Text.RegularExpressions;
+
+namespace SUNPN.BONUS.BLL
+{
+  public  class PositionBLL
+    {
+        private readonly IPosition dal = DataAccess.CreatePosition();
+        string strSucess = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(0)).ToString();
+        string strFail = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(1)).ToString();
+        string strError = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(2)).ToString();
+        /// <summary>
+        /// 添加职位
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        public string AddPosition(Position pos)
+        {
+
+            string state = dal.AddPosition(pos);
+
+            if (state == "100")
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", null);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, state, null);
+            }
+        }
+
+        /// <summary>
+        /// 修改职位
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        public string UpdPosition(Position pos)
+        {
+            string state = dal.UpdPosition(pos);
+
+            if (state == "100")
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", null);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, state, null);
+            }
+        }
+
+        /// <summary>
+        /// 删除职位
+        /// </summary>
+        /// <param name="PostId"></param>
+        /// <returns></returns>
+        public string DelPosition(int PostId)
+        {
+            string state = dal.DelPosition(PostId);
+
+            if (state == "100")
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", null);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, state, null);
+            }
+        }
+
+
+        /// <summary>
+        /// 获取编辑职位信息
+        /// </summary>
+        /// <param name="PostId"></param>
+        /// <returns></returns>
+        public string GetPosition(int PostId)
+        {
+            DataTable state = dal.GetPosition(PostId);
+
+            if (state.Rows.Count>0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "无信息", null);
+            }
+        }
+ 
+        #region 获取父级部门列表
+
+        public string GetParList(string CompanyId)
+        {
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return "OpenId is Null";
+            }
+            else
+            {
+                try
+                {
+                    List<ParList> mes = dal.GetParList(CompanyId);
+                    if (mes != null)
+                    {
+                        return ResponseHandle<object>.GetResult(strSucess, "", mes);
+                    }
+                    else
+                    {
+                        return ResponseHandle<object>.GetResult(strFail, "查询失败", null);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return ResponseHandle<object>.GetResult(strError, ex.Message, null);
+                }
+            }
+        }
+        #endregion  
+
+        public string GetNoDepPosInfo(string CompanyId) {
+            try
+            {
+                DataTable mes1 = dal.GetNoDepPos(CompanyId);
+                return ResponseHandle<object>.GetResult(strSucess, "100", mes1);
+            }
+            catch (Exception e)
+            {
+                return ResponseHandle<object>.GetResult(strError, e.Message, null);
+            }
+        
+        }
+
+
+        #region 获取部门下的子部门列表和人员列表
+        public string GetDepPosInfo(string CompanyId, string DepId)
+        {
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return ResponseHandle<object>.GetResult(strFail, "OpenId为空", null);
+            }
+            if (string.IsNullOrEmpty(DepId))
+            {
+                return ResponseHandle<object>.GetResult(strFail, "DepId为空", null);
+            }
+            else
+            {
+                try
+                {
+                    List<ParList> mes = dal.GetChildList(CompanyId, DepId); 
+                    DataTable mes1 = dal.GetPosList(CompanyId,DepId);
+                    if (mes != null && mes1.Rows.Count>0)
+                    {
+                        return ResponseHandle<object>.GetResult(strSucess, "", mes, mes1);
+                    }
+                    else if (mes == null && mes1.Rows.Count>0)
+                    {
+                        return ResponseHandle<object>.GetResult(strSucess, "暂无子部门数据", mes, mes1);
+                    }
+                    else if (mes1.Rows.Count==0 && mes != null)
+                         {         
+                        return ResponseHandle<object>.GetResult(strSucess, "暂无职位数据", mes, mes1);
+                    }
+                    else
+                    {
+                        return ResponseHandle<object>.GetResult(strFail, "无数据", null, null);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return ResponseHandle<object>.GetResult(strError, ex.Message, null);
+                }
+            }
+        }
+        #endregion
+    }
+}
+  

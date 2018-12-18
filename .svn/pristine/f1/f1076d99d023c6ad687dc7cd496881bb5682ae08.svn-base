@@ -1,0 +1,11 @@
+/* pages/onetrans/onetrans.wxss */
+
+.sao {
+  width: 20px;
+  height: 20px;
+}
+
+.btn-area {
+  margin-top: 5px;
+}
+

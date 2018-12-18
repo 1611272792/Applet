@@ -1,0 +1,54 @@
+<!--pages/onetrans/onetrans.wxml-->
+<view>
+  <form bindsubmit="formSubmit">
+    <view class="weui-cells__title">拼音简写</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">
+          <input class="weui-input" type='text' name='EarMan' bindinput="bindinput" value="{{inputValue}}" placeholder="请输入拼音简写" />
+        </view>
+        <view class="weui-cell__ft" bindtap='Saoyisao'>
+          <image class='sao' src='../../src/image/sao.png'></image>
+        </view>
+      </view>
+    </view>
+    <scroll-view style="z-index:{{ShowTop?99999:-1}}" scroll-y="true" class="scrollview">
+      <view wx:for="{{bindSource}}" wx:key="{{index}}">
+        <view id="{{item}}" bindtap="itemtap" class="itemview">{{util.subs(item)}}</view>
+      </view>
+    </scroll-view>
+    <view class="weui-cells__title">金额</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">
+          <input class="weui-input" type='number' name='EarMoney' placeholder="请输入金额" />
+        </view>
+        <view class="weui-cell__ft" bindtap='Saoyisao'>
+          <text>元</text>
+        </view>
+      </view>
+    </view>
+    <view class="weui-cells__title">备注</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" name='ResonContent' bindinput='TextareaInput' placeholder="请输入备注内容" maxlength="{{max}}" style="height: 3.3em" />
+          <view class="weui-textarea-counter">{{currentlength}}/{{max}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="btn-area">
+      <button class='tijiao' formType="submit">提交</button>
+    </view>
+  </form>
+</view>
+<wxs module="util">
+  var subs = function(val) {
+    if (val == null) {
+      return val
+    } else {
+      return val.split(',')[0]
+    }
+  }
+  module.exports.subs = subs;
+</wxs>

@@ -1,0 +1,38 @@
+﻿using SUNPN.BONUS.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.IDAL
+{
+    public interface ISendBonus
+    {
+        ///// <summary>
+        ///// 根据部门Id和公司Id查询对应的可发放的人员列表
+        ///// </summary>
+        ///// <param name="DepId"></param>
+        ///// <param name="CompanyId"></param>
+        ///// <returns></returns>
+        //List<BenefitList> GetBenefitList(string DepId, string CompanyId);
+
+            /// <summary>
+            /// 获取受益人列表
+            /// </summary>
+            /// <param name="DepId"></param>
+            /// <param name="CompanyId"></param>
+            /// <returns></returns>
+        DataTable GetBenefitUser(string DepId, string CompanyId);
+
+        /// <summary>
+        /// 获取部门列表
+        /// </summary>
+        /// <param name="DepId"></param>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        DataTable GetBenefitDep(string DepId, string CompanyId);
+
+    }
+}

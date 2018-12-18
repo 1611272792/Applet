@@ -1,0 +1,51 @@
+/* pages/ideaback/ideaback.wxss */
+
+page {
+  background-color: #f5f5f5;
+}
+
+.btn-area {
+  margin-top: 8px;
+}
+
+/* 删除样式 */
+
+.deleteimg {
+  position: absolute;
+  top: 0px;
+  left: 60px;
+  width: 20px;
+  height: 20px;
+}
+
+.deleteimg image {
+  width: 20px;
+  height: 20px;
+}
+
+/* 上传图像 */
+
+.weui-uploader__bd {
+  margin-top: 5px;
+}
+
+/* 默认头像 */
+
+.weuiimg {
+  width: 77px;
+  height: 77px;
+}
+
+.imgviw {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.deleteimgs {
+  position: absolute;
+  top: 0px;
+  left: 190px;
+  width: 20px;
+  height: 20px;
+}

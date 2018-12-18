@@ -1,0 +1,124 @@
+﻿using SUNPN.BONUS.BLL;
+using SUNPN.BONUS.DALFactory;
+using SUNPN.BONUS.IDAL;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SUNPN.BONUS.Model;
+using SUNPN.BONUS.DAL;
+using SUNPN.BONUS.Common;
+using SUNPN.BONUS.API.Models;
+using System.Text.RegularExpressions;
+
+
+
+namespace SUNPN.BONUS.BLL
+{
+
+ public   class PinYinBLL
+    {
+        private readonly IPinYin dal = DataAccess.CreatePinYin();
+        string strSucess = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(0)).ToString();
+        string strFail = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(1)).ToString();
+
+        /// <summary>
+        /// 查找所有人员拼音简称
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
+        public string GetPinYin(string CompanyId)
+        {
+            DataTable state = dal.GetPinYin(CompanyId);
+          
+            if (state.Rows.Count>0)
+            {
+                string[] array = new string[state.Rows.Count];
+                if (state.Rows.Count > 0)
+                {
+                    for (int i = 0; i < state.Rows.Count; i++)
+                    {
+                        array[i] = state.Rows[i]["SpellJp"].ToString().ToLower();
+                    }
+                }
+                return ResponseHandle<object>.GetResult(strSucess, "", array);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail,"No Users");
+            }
+        }
+        /// <summary>
+        /// 通过字母查找人名
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
+        public string GetUserName(string userName,string CompanyId)
+        {
+            DataTable state = dal.GetUserName(userName.ToUpper(), CompanyId);
+
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state.Rows[0]["UserName"].ToString() + "," + state.Rows[0]["OpenId"].ToString());
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "No Users");
+            }
+        }
+
+        #region 获取部门简拼
+        /// <summary>
+        /// 获取部门简拼
+        /// </summary>
+        /// <param name="CompanyId">公司Id</param>
+        /// <returns></returns>
+        public string GetDepPY(string CompanyId)
+        {
+            DataTable state = dal.GetDepPY(CompanyId);
+
+            if (state.Rows.Count > 0)
+            {
+                string[] array = new string[state.Rows.Count];
+                if (state.Rows.Count > 0)
+                {
+                    for (int i = 0; i < state.Rows.Count; i++)
+                    {
+                        array[i] = state.Rows[i]["SpellJp"].ToString().ToLower();
+                    }
+                }
+                return ResponseHandle<object>.GetResult(strSucess, "", array);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "No Deps");
+            }
+        }
+        #endregion
+
+        #region 获取部门名字
+        /// <summary>
+        /// 获取部门名字
+        /// </summary>
+        /// <param name="DepName">部门名称</param>
+        /// <param name="CompanyId">公司Id</param>
+        /// <returns></returns>
+        public string GetDepName(string DepName, string CompanyId)
+        {
+            DataTable state = dal.GetDepName(DepName.ToUpper(), CompanyId);
+
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state.Rows[0]["DepId"].ToString() + "," + state.Rows[0]["DepName"].ToString());
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "No Deps");
+            }
+        } 
+        #endregion
+
+    }
+}

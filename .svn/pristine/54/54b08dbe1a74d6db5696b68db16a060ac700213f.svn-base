@@ -1,0 +1,75 @@
+/* pages/sonsposition/positionFour/positionFour.wxss */
+/* 滑块 */
+.areas {
+  /* position: fixed; */
+  height: 100%;
+  width: 100%;
+  min-height: 320px;
+}
+
+.views {
+  height: 25px;
+  width: 25px;
+  z-index: 9999;
+}
+
+/* 列表样式 */
+
+.touch-item {
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #cccccc;
+  width: 100%;
+  overflow: hidden;
+}
+
+.content {
+  width: 100%;
+  padding: 10px;
+  line-height: 22px;
+  margin-right: 0;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  -webkit-transform: translateX(180px);
+  transform: translateX(180px);
+  margin-left: -180px;
+}
+
+.del {
+  background-color: #ff4500;
+  width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  -webkit-transform: translateX(180px);
+  transform: translateX(180px);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.edit {
+  background-color: #663399;
+  width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  -webkit-transform: translateX(180px);
+  transform: translateX(180px);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.touch-move-active .content, .touch-move-active .del {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+
+.touch-move-active .edit {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}

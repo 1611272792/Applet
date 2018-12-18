@@ -1,0 +1,22 @@
+/* pages/itemremark/itemremark.wxss */
+.myfont{
+  font-weight: bolder;
+}
+.tuihead{
+  padding: 0 10px;
+  /* line-height: 80rpx; */
+  font-size: 35rpx;
+  position: relative;
+}
+.tuiimgs{
+  width: 100%;
+  height: 300px;
+}
+.tuiimg{
+  width: 100%;
+  height: 300px;
+}
+.noyuan{
+  color: #808080;
+  margin-left: 10px;
+}

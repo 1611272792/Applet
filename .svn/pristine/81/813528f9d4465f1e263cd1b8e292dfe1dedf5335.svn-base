@@ -1,0 +1,38 @@
+<!--pages/itemdetailwo/itemdetailwo.wxml-->
+<view>
+  <radio-group class="radio-group" bindchange="radioChange">
+    <label class="radio" wx:for="{{items}}" wx:key="{{index}}">
+      <radio class='pickthree' color="#007aff" value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
+    </label>
+  </radio-group>
+</view>
+<view>
+  <view class="table" style="display:{{show?'block':'none'}}">
+    <view class="tr">
+      <view class="th">发放方</view>
+      <view class="th">接收方</view>
+      <view class="th">金额</view>
+      <view class="th">时间</view>
+    </view>
+    <view class="tr" catchtap='ShenheClick' id='{{item.BdId}}' wx:for="{{zhichu}}" wx:key="{{index}}">
+      <view class='td'> {{item.DisName}} </view>
+      <view class="td"> {{item.EarName}} </view>
+      <view class="td"> {{item.BonusMoney}} </view>
+      <view class="td"> {{item.DisDate}}</view>
+    </view>
+  </view>
+  <view class="table" style="display:{{show2?'block':'none'}}">
+    <view class="tr">
+      <view class="th">接收方</view>
+      <view class="th">金额（￥）</view>
+      <view class="th">接收时间</view>
+      <view class="th">截止时间</view>
+    </view>
+    <view class="tr" catchtap='RecodeClick' wx:for="{{shouru}}" wx:key="{{index}}">
+      <view class='td'> {{item.UserName}} </view>
+      <view class="td"> {{item.AddMoney}} </view>
+      <view class="td"> {{item.AddDate}} </view>
+      <view class="td"> {{item.EndDate}} </view>
+    </view>
+  </view>
+</view>

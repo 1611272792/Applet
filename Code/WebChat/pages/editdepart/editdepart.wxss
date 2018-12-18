@@ -1,0 +1,16 @@
+/* pages/editdepart/editdepart.wxss */
+page{
+  position: relative;
+}
+.tui-picker-detail {
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #ffffff;
+  font-size: 35rpx;
+  padding: 0 10px;
+  overflow: hidden;
+}
+
+.aa{
+  padding-left: 90px;
+}

@@ -1,0 +1,49 @@
+<!--pages/ideaback/ideaback.wxml-->
+<!--pages/cjproblem/cjproblem.wxml-->
+<view>
+  <form bindsubmit="formSubmit">
+
+    <view class="weui-cells__title">问题描述与建议</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" name='ResonContent' bindinput='TextareaInput' placeholder="请输入详细内容" maxlength="{{max}}" style="height: 3.3em" />
+          <view class="weui-textarea-counter">{{currentlength}}/{{max}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-cells__title">添加截图(最多三张)</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">
+          <view class="weui-uploader__bd">
+            <view class="weui-uploader__files" id="uploaderFiles">
+              <block wx:for="{{files}}" wx:key="*this">
+                <view class="weui-uploader__file" style='position: relative;' bindtap="previewImage" id="{{item}}">
+                  <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                  <view class='deleteimg'>
+                    <icon type="cancel" size="23" catchtap="deleteImg"></icon>
+                  </view>
+                </view>
+              </block>
+            </view>
+            <view class="weui-uploader__input-box" style="display:{{showAdd?'block':'none'}}">
+              <view class="weui-uploader__input" bindtap="chooseImage"></view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-cells__title">联系方式</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">
+          <input class="weui-input" type="number" name='phone' placeholder="手机" />
+        </view>
+      </view>
+    </view>
+    <view class="btn-area">
+      <button type='primary' formType="submit">提交</button>
+    </view>
+  </form>
+</view>

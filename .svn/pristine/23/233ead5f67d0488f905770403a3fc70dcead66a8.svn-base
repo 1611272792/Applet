@@ -1,0 +1,158 @@
+<!--pages/bonussend/bonussend.wxml-->
+
+<import src='/pages/TemplateUsers/users.wxml'>
+</import>
+<i-panel title="奖金项">
+  <view class='jiangjinxiang'>
+    <view class="section">
+      <picker bindchange="bindPickerChange" mode="selector" range="{{BonusItemArray}}" range-key="BonusItemName">
+        <view class="picker" data-pid="{{1}}">
+
+          <text>{{BonusItemArray.length>0?BonusItemArray[currentItem].BonusItemName:'暂无奖金项'}}</text>
+        </view>
+      </picker>
+    </view>
+    <radio-group class="radio-group" bindchange="radioChange">
+      <label class="radio">
+        <radio value="jiang" checked="true" />奖
+      </label>
+      <label class="radio">
+        <radio value="fa" />罚
+      </label>
+    </radio-group>
+  </view>
+
+</i-panel>
+
+<i-panel title="金额选择">
+  <block wx:for="{{moneyArry}}">
+    <view wx:if="{{item.State=='true'}}" class='moneyClass' data-pid="{{item.BonusParamId}}" catchtap='chooseMoney'>
+
+      <text>{{item.BPName}}</text>
+      <text>({{item.BPMoney}})</text>
+    </view>
+    <view wx:else class='moneyClass2' catchtap='chooseMoney' data-pid="{{item.BonusParamId}}">
+
+      <text>{{item.BPName}}</text>
+      <text>({{item.BPMoney}})</text>
+    </view>
+  </block>
+  <!-- <i-input wx:if="{{qtdisable}}" value="" catchtap='qtMoney' type="number" right title="其他金额" mode="wrapped" placeholder="不可超过200元" disabled/> -->
+  <!-- <i-input value="" bindinput='bindQtMoney' type="number" right title="其他金额" mode="wrapped" placeholder="不可超过200元" /> -->
+  <input type='number' bindinput='bindQtMoney' catchtap='qtMoney' class='qtclass' placeholder="其他金额，不可超过200" value='{{qtmoneys}}'></input>
+
+</i-panel>
+
+<i-panel title="人员选择">
+  <view>
+    <view style='float:left;border: 1px solid gray;width:85%'>
+      <input type='text' placeholder="请输入名字拼音简写" value='{{inputValue}}' class='inputClass' bindinput='UserSelect' />
+
+      <i-icon bindtap='ScansUser' type="scan" size='40' color="#80848f" style='float:left' />
+    </view>
+    <i-icon catchtap='ChooseUsers' style='float:left' type="add" size='40' color="#319ee3" />
+
+  </view>
+
+  <view class='xzUserClass'>
+    <block wx:for="{{userList}}">
+
+      <view class='cho' catchtap='delUsers' data-openid='{{item.OpenId}}' wx:if="{{item.ischeck}}">
+
+        <i-avatar size="large" wx:if='{{item.Photo!=""}}' src='{{durl+item.Photo}}' style=' display: flex;flex-direction: row;'>{{item.subName}}</i-avatar>
+
+        <i-avatar size="large" wx:else style=' display: flex;flex-direction: row;'>{{item.subName}}</i-avatar>
+
+        <text class='chooseUserGh' style=' display: flex;flex-direction: row;'>{{item.UserId}}</text>
+      </view>
+
+    </block>
+
+  </view>
+
+</i-panel>
+
+<scroll-view style="z-index:{{ShowTop?99999:-99999}}" scroll-y="true" class="scrollview">
+  <view wx:for="{{bindUserSource}}" wx:key="{{index}}">
+    <view id="{{item}}" bindtap="Binditemtap" class="itemview">{{util.subs(item)}}</view>
+  </view>
+</scroll-view>
+
+
+<i-panel title="原因">
+  <i-tabs current="{{currentyy}}" color="#319ee3" bindchange="handleChange">
+    <i-tab key="tab1" title="常用原因"></i-tab>
+    <i-tab key="tab2" title="其他原因"></i-tab>
+  </i-tabs>
+  <view class="section2" wx:if="{{currentyyshow}}">
+    <picker bindchange="bindGrantReson" value="{{index}}" range="{{GrantResonArry}}" range-key="BrContent">
+      <view class="picker">
+
+        <text>{{GrantResonArry.length>0?GrantResonArry[currentItem2].BrContent:'暂无原因'}}</text>
+      </view>
+    </picker>
+  </view>
+  <view class="section2" wx:else>
+    <textarea placeholder="请输入原因" focus="{{focus}}" bindinput='bindReson' style='padding-left:5px;' />
+    <view class="btn-area">
+      <button bindtap="bindAddReson">添加为常用原因</button>
+    </view>
+  </view>
+  <view style='margin-top:5px;'>
+    <block wx:for="{{chooseImg}}">
+      <image src='{{item.path}}' class='choImg' mode='scaleToFill' data-index="{{index}}" catchtap='delImg'>
+
+      </image>
+
+
+    </block>
+    <view wx:if='{{chooseImg.length<3}}' catchtap='CatchchooseImgs' class='jiahao'>
+      <i-icon type="add" size='90' color="#80848f"></i-icon>
+    </view>
+
+  </view>
+</i-panel>
+
+<i-button bind:click="bindSendBonus" type="info">发放奖金</i-button>
+
+<i-drawer mode="right" visible="{{showRight1}}" bind:close="toggleRight1">
+  <view class='searchBg'>
+    <input placeholder="搜索" type='text' class='searchInput' confirm-type='search' bindinput='catSearch' />
+    <i-icon catchtap='ChooseUsers' style='float:left' type="search" size='40' color="red" />
+  </view>
+  <scroll-view style="z-index:{{ShowTop2?99999:-99999}}" scroll-y="true" class="scrollview2">
+  <view wx:for="{{bindUserSource2}}" wx:key="{{index}}">
+    <view id="{{item}}" bindtap="Binditemtap" class="itemview">{{util.subs(item)}}</view>
+  </view>
+</scroll-view>
+  <scroll-view scroll-y style='border:1px soild red;'>
+    <view class="demo-container">
+      <view style='margin-top:60px;'></view>
+      <!-- <block wx:for='{{userList}}' wx:key="{{userList}}" wx:for-item="item" wx:for-index="index"> -->
+      <view>
+        <template is='userpan' data='{{userList,durl}}'>
+        </template>
+      </view>
+
+      <!-- </block> -->
+      <view style='margin-bottom:30px;height:80px;background-color: white;'></view>
+
+
+    </view>
+  </scroll-view>
+
+  <view class='bottonFix'>
+    <text catchtap='quedingUsers'>确定</text>
+  </view>
+</i-drawer>
+
+<wxs module="util">
+  var subs = function(val) {
+    if (val == null) {
+      return val
+    } else {
+      return val.split(',')[0]
+    }
+  }
+  module.exports.subs = subs;
+</wxs>

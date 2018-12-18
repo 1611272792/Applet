@@ -1,0 +1,16 @@
+/* pages/shencompany/shencompany.wxss */
+.tui-picker-content {
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.mypicker {
+  width: 100%;
+}
+
+.tui-picker-detail {
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 35rpx;
+  width: 100%;
+}

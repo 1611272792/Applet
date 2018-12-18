@@ -1,0 +1,81 @@
+/* pages/cashexamine/cashexamine.wxss */
+
+/* 布局 */
+.Grid {
+  display: flex;
+}
+
+.Grid-cell {
+  flex: 1;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  margin: 5px 2px;
+}
+/* 表格 */
+
+.table {
+  margin-top: 15px;
+  border-right: 0;
+  border-bottom: 0;
+  width: 100%;
+}
+
+.tr {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.th, .td {
+  padding: 10px;
+  border-bottom: 1px solid #808080;
+  border-right: 1px solid #808080;
+  text-align: center;
+  width: 100%;
+}
+
+.td {
+  word-break: break-all;
+}
+
+.th {
+  font-weight: 100;
+  background-color: #007aff;
+  color: #ffffff;
+}
+
+.select_none{
+  width: 50rpx;
+  height: 50rpx;
+  border: 1rpx solid #d6d6d6;
+  margin: 0px auto;
+  border-radius: 50%;
+}
+
+
+/*列表*/
+ .icon_none{
+  width: 50rpx;
+  height: 50rpx;
+  border: 1rpx solid #d6d6d6;
+  border-radius: 50%;
+  margin: 0px auto;
+}
+.tishen{
+  width: 55px;
+  height: 33px;
+  font-size: 12px;
+  line-height: 33px;
+  background-color: #007aff;
+  color: #ffffff;
+}
+.aa{  
+  float: left;
+}
+.aac{
+  float: right;
+}
+.paa{
+  padding-top: 12px;
+}

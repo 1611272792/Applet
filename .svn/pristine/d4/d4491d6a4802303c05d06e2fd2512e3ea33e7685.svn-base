@@ -1,0 +1,58 @@
+/* pages/company/company.wxss */
+
+/* 日期 */
+.tui-picker-content {
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.mypicker {
+  width: 100%;
+}
+.tui-picker-detail {
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 35rpx;
+  width: 100%;
+}
+
+/* 删除样式 */
+.deleteimg {
+  position: absolute;
+  top: 0px;
+  left: 60px;
+  /* border: 1px solid #ff0000; */
+  width: 20px;
+  height: 20px;
+}
+.deleteimg image {
+  width: 20px;
+  height: 20px;
+}
+
+/* 上传图像 */
+.weui-uploader__bd {
+  display: flex;
+  justify-content: center;
+}
+/* 默认头像 */
+.weuiimg {
+  width: 77px;
+  height: 77px;
+}
+.imgviw {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.deleteimgs {
+  position: absolute;
+  top: 0px;
+  left: 190px;
+  width: 20px;
+  height: 20px;
+}
+.aa{
+  padding-left: 90px;
+}

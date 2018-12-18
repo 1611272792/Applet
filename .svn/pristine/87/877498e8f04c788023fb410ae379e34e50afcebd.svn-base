@@ -1,0 +1,148 @@
+<form bindsubmit='formSubmit' bindreset='formReset'>
+  <view class="weui-cells weui-cells_after-title">
+
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">工号</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input class="weui-input weui-disable" name='UserId' placeholder="工号" disabled='disabled' value='{{UserArryE[0].UserId}}' />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">姓名</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input class="weui-input" name='UserName' placeholder="姓名" value='{{UserArryE[0].UserName}}' />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">手机号</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input class="weui-input weui-disable"  placeholder="手机号" disabled='disabled' value='{{UserArryE[0].UserPhone}}' />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">性别</view>
+      </view>
+      <view class="weui-cell__bd">
+
+        <input wx:if="{{UserArryE[0].Sex}}" class="weui-input weui-disable" name='UserId' placeholder="性别" disabled='disabled' value='男' />
+        <input wx:else class="weui-input weui-disable" disabled='disabled' value='女' />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">生日</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input class="weui-input weui-disable" placeholder="" disabled='disabled' value='{{UserArryE[0].Birth}}' />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">部门</view>
+      </view>
+      <view class="weui-cell__bd">
+
+        <input class="weui-input" type='text' bindinput="bindDep" value="{{inputName}}" placeholder="请输入拼音简写" />
+      </view>
+    </view>
+    <scroll-view style="z-index:{{ShowTop?99999:-99999}}" scroll-y="true" class="scrollview">
+      <view wx:for="{{bindDepSource}}" wx:key="{{index}}">
+        <view id="{{item}}" bindtap="Depitemtap" class="itemview">{{util.subs(item)}}</view>
+      </view>
+    </scroll-view>
+    <view class="weui-cell">
+      <view class="weui-cell__hd">
+        <view class="weui-label">ְ职位</view>
+      </view>
+      <view class="weui-cell__bd">
+        <picker bindchange="bindPositChange" mode="selector" range="{{PositArry}}" range-key="PostName">
+          <!-- <view class="picker" data-pid="{{1}}"> -->
+          <text wx:if="{{false}}">111</text>
+
+          <text>{{PosName}}</text>
+          <!-- </view> -->
+        </picker>
+      </view>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__hd">
+        <view class="weui-label">权限</view>
+      </view>
+      <view class="weui-cell__bd">
+
+
+
+        <picker bindchange="bindRoleChange" mode="selector" range="{{RoleArry}}" range-key="RoleName">
+          <!-- <view class="picker" data-pid="{{1}}"> -->
+
+
+          <text>{{RoleArry[currentItem].RoleName}}<text class='abc'>sss</text> </text>
+          <!-- </view> -->
+        </picker>
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">入职时间</view>
+      </view>
+      <view class="weui-cell__bd">
+        <picker mode="date" value="{{joinDate}}" start="1900-09-01" end="2200-10-08" bindchange="changeDate">
+          <view class="tui-picker-detail">
+            {{joinDate}}
+          </view>
+        </picker>
+      </view>
+    </view>
+    <!-- <view class="weui-cell">
+    <view class="weui-cell__hd">
+      <view class="weui-label">入职时间</view>
+    </view>
+    <view class="weui-cell__bd">
+      <view class="tui-picker-content">
+        <picker mode="date" value="{{date}}" start="1800-1-01" end="2200-10-08" bindchange="changeDate">
+          <view class="tui-picker-detail">
+            {{date}}
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view> -->
+    <view class="weui-cell">
+      <view class="weui-cell__hd">
+        <view class="weui-label">离职状态</view>
+      </view>
+      <view class="weui-cell__bd">
+        <radio-group class="radio-group" bindchange="radioChange">
+          <label class="radio">
+            <radio value="1"  checked='{{OutCtflag==1?true:false}}'/>离职
+          </label>
+          <label class="radio">
+            <radio value="0" checked="{{OutCtflag==0?true:false}}" />在职
+          </label>
+        </radio-group>
+      </view>
+    </view>
+    <view class="btn-area">
+      <button id='btnsubmit' formType="submit">提交</button>
+      <!-- <button type='warn' id='btnreset' formType="reset">取消</button> -->
+    </view>
+
+  </view>
+</form>
+<wxs module="util">
+  var subs = function(val) {
+    if (val == null) {
+      return val
+    } else {
+      return val.split(',')[1]
+    }
+  }
+  module.exports.subs = subs;
+</wxs>

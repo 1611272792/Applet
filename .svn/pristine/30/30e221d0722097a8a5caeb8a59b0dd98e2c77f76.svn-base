@@ -1,0 +1,69 @@
+<!--pages/editrule/editrule.wxml-->
+<form bindsubmit='formSubmit' bindreset='formReset'>
+<view class="weui-cells weui-cells_after-title">
+<!-- 名称 -->
+  <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__hd">
+      <view class="weui-label">名称</view>
+    </view>
+    <view class="weui-cell__bd">
+      <input class="weui-input" name='BonusItemName' placeholder="奖金项名称" disabled='disabled' value='{{BonusItemName}}' />
+    </view>
+  </view>
+  
+<!-- 类型 -->
+ <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__hd">
+      <view class="weui-label">规则名称</view>
+    </view>
+    <view class="weui-cell__bd">
+      <input class="weui-input" name='BRName' placeholder="规则名称" />
+    </view>
+  </view>
+
+  <!-- 刨除人数 -->
+   <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__hd">
+      <view class="weui-label">刨除人数</view>
+    </view>
+    <view class="weui-cell__bd">
+      <input class="weui-input" type='number' name='RemainNum' maxlength='3' placeholder="刨除人数"  />
+    </view>
+  </view>
+  
+  <!-- 平均收益金额 -->
+   <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__hd">
+      <view class="weui-label">金额（￥）</view>
+    </view>
+    <view class="weui-cell__bd">
+      <input class="weui-input" type='number' name='AvgMoney' maxlength='5' placeholder="平均受益金额"  />
+    </view>
+  </view>
+
+  <view class="btn-area">
+    <button id='btnsubmit' formType="submit">提交</button>
+    <button type='warn' id='btnreset' formType="reset">取消</button>
+  </view>
+
+</view>
+</form>
+<wxs module="util">
+  var subs = function(val) {
+    if (val == null) {
+      return val
+    } else {
+      return val.split(',')[0]
+    }
+  }
+  module.exports.subs = subs;
+
+   var subs2 = function(val) {
+    if (val == null) {
+      return val
+    } else {
+      return val.split(',')[1]
+    }
+  }
+  module.exports.subs2 = subs2;
+</wxs>

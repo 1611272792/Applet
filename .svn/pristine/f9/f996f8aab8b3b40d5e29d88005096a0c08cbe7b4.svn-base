@@ -1,0 +1,54 @@
+<!--pages/cashexamine/cashexamine.wxml-->
+<view>
+  <view class="Grid">
+    <view class="Grid-cell">
+      <radio-group class="radio-group" bindchange="radioChange">
+        <label class="radio" wx:for="{{items}}" wx:key="{{index}}">
+          <radio class='pickthree' color="#007aff" value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
+        </label>
+      </radio-group>
+    </view>
+    <view class="Grid-cell">
+      <view class="Grid">
+        <view class="Grid-cell">
+          <button class='btnsubmit' style="display:{{show?'block':'none'}}">批准</button>
+        </view>
+        <view class="Grid-cell">
+          <button class='btnsubmit' style="display:{{show?'block':'none'}}">驳回</button>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view>
+    <view class="table" style="display:{{show?'block':'none'}}">
+      <view class="tr">
+        <view class="th">姓名</view>
+        <view class="th">金额(￥)</view>
+        <view class="th">申请时间</view>
+        <view class="th"><checkbox color="#007aff" value="0" />全选</view>
+      </view>
+      <view class="tr" catchtap='ShenheClick' id='{{item.GetBonusID}}' wx:for="{{shenhe}}" wx:key="{{index}}">
+        <view class='td'> {{item.UserName}} </view>
+        <view class="td"> {{item.GetMoney}} </view>
+        <view class="td"> {{item.GetDate}} </view>
+        <view class="td">
+          <checkbox color="#007aff" value="{{item.GetBonusID}}" />         
+        </view>
+      </view>
+    </view>
+    <view class="table" style="display:{{show2?'block':'none'}}">
+      <view class="tr">
+        <view class="th">申请人</view>
+        <view class="th">金额(￥)</view>
+        <view class="th">申请时间</view>
+        <view class="th">状态</view>
+      </view>
+      <view class="tr" catchtap='RecodeClick' id='{{item.GetBonusID}}' wx:for="{{record}}" wx:key="{{index}}">
+        <view class='td'> {{item.UserName}} </view>
+        <view class="td"> {{item.GetMoney}} </view>
+        <view class="td"> {{item.GetDate}} </view>
+        <view class="td"> {{item.isOrNO}} </view>
+      </view>
+    </view>
+  </view>
+</view>

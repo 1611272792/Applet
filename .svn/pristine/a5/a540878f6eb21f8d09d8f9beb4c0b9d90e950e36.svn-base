@@ -1,0 +1,50 @@
+<!--pages/depbonusdetial/depbonusdetial.wxml-->
+<view class='dataClss'>
+
+  <view class="section">
+
+    <picker mode="date" value="{{begindate}}" start="2015-09-01" end="2100-09-01" bindchange="bindBegin">
+      <view class="picker">
+        {{begindate}}
+      </view>
+    </picker>
+  </view>
+  <text class='zhi'> 至 </text>
+  <view class="section">
+
+    <picker mode="date" value="{{enddate}}" start="2015-09-01" end="2100-09-01" bindchange="bindEnd">
+      <view class="picker">
+        {{enddate}}
+      </view>
+    </picker>
+  </view>
+  <view class="icon-group iconlist" bindtap='bindSearch'>
+    <view class='myicon'>
+      <icon type="search" color='#007AFF' size="20"></icon>
+    </view>
+
+  </view>
+</view>
+
+<block>
+  <!-- 表格 -->
+  <view class="table">
+    <view class="tr">
+      <view class="th th3">奖金项</view>
+      <view class="th th1">金额(￥)</view>
+      <view class="th th2">发放人</view>
+      <view class="th th3">日期</view>
+    </view>
+    <view class="tr" wx:for="{{BonusList}}" wx:key="{{index}}" catchtap='SelectReson' data-remake='{{item.Remake}}'>
+      <view class='td th3'> {{item.BonusItemName}} </view>
+
+      <view class="td th1"> {{item.BonusMoney}}</view>
+      <!-- <view class="td th2" else> 本月有效</view> -->
+
+      <view class="td th2"> {{item.UserName}} </view>
+      <view class="td th3">
+        {{item.DisDate}}
+      </view>
+    </view>
+  </view>
+</block>

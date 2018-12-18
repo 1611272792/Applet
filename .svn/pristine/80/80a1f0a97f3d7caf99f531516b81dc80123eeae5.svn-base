@@ -1,0 +1,34 @@
+<!--pages/depart/depart.wxml-->
+<!-- 滑块 -->
+<movable-area class='areas'>
+  <movable-view direction="all" x="0" y="200" bindtap='SelectUser' class='views'>
+
+    <icon wx:if='{{IsYou}}' type="warn" size="25" ></icon>
+    <icon wx:else type="info" size="25" ></icon>
+  </movable-view>
+<block wx:for='{{DepArry}}' wx:for-item="item">
+    <i-panel class="cell-panel-demo" title="" bindtap='DepartClick' data-dip='{{item.DepId}}' data-pid='{{item.Pid}}'> 
+      <i-cell title="{{item.DepName}}" is-link value="{{item.UserNum}}">
+        <i-icon type="like_fill" slot="icon" />
+      </i-cell>
+    </i-panel>
+  </block>
+
+
+  <view class="container">
+
+    <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove" wx:for="{{items}}" bindtap='UserEdit' wx:key="{{index}}">
+      <view class="weui-cell content">
+        <view class="weui-cell__hd">
+          <image src="{{item.Photo}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+        </view>
+        <view class="weui-cell__bd">{{item.UserName}}</view>
+        <!-- <view class="weui-cell__ft weui-cell__ft_in-access">{{item.UserNum}}</view> -->
+      </view>
+      <view class="del" catchtap="UserDel" data-index="{{index}}">删除</view>
+      <view class="edit" catchtap="UserEdit" data-index="{{index}}">编辑</view>
+    </view>
+  </view>
+
+  
+</movable-area>

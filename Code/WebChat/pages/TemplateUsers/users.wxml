@@ -1,0 +1,29 @@
+<template name='userpan'>
+  
+    <checkbox-group bindchange="checkboxChange">
+
+      <block wx:for='{{userList}}' wx:key="{{userList}}" wx:for-item="item" wx:for-index="index">
+      <view class='listuser'>
+        <label class="checkbox">
+          <view style='width: 700rpx;'>
+            <checkbox value="{{item.OpenId}}" checked='{{item.ischeck}}' class='check' style='float:left;display: flex;flex-direction: row; ' />
+            <view class="i-class i-avatar i-avatar-circle i-avatar-large {{ src ? 'i-avatar-image' : '' }}" style='float:left;'>
+              <image src="{{durl+item.Photo}}" wx:if="{{item.Photo != '' }}"></image>
+              <view class="i-avatar-string" wx:else>
+               {{item.subName}}
+                <slot></slot>
+              </view>
+            </view>
+            <text class='wenzi'> 
+          <text style='display: flex;flex-direction: column;'>{{item.UserName}}</text>
+            <text style='display: flex;flex-direction: column;font-size:14px;color:gray'>{{item.UserId}}</text>
+            </text>
+
+          </view>
+        </label>
+        </view>
+      </block>
+
+    </checkbox-group>
+  
+</template>

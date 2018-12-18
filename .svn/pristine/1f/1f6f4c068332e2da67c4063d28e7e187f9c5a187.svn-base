@@ -1,0 +1,48 @@
+<!--pages/bonusseldataUse/bonusseldataUse.wxml-->
+<view class='container'>
+  <!-- 日期框 -->
+  <view class="tui-picker-content">
+    <view class="tui-picker-name">选择日期</view>
+    <picker class='mypicker' mode="date" value="{{begindate}}" start="1900-10-01" bindchange="changeBegindate">
+      <view class="tui-picker-detail">
+        {{begindate}}
+      </view>
+    </picker>
+    <text class='mytext'>至</text>
+    <picker class='mypicker' mode="date" value="{{enddate}}" start="1900-10-01" bindchange="changeEnddate">
+      <view class="tui-picker-detail">
+        {{enddate}}
+      </view>
+    </picker>
+    <view class="icon-group iconlist" bindtap='SouSuo'>
+      <view class='myicon'>
+        <icon type="search" color='white' size="20"></icon>
+      </view>
+
+    </view>
+  </view>
+  <view>
+    <view class='zanwu' wx:if="{{userDetail.length==0}}">
+      <text>暂无数据</text>
+    </view>
+    <block wx:else>
+      <!-- 表格 -->
+      <view class="table">
+        <view class="tr">
+          <view class="th">来源</view>
+          <view class="th">金额(￥)</view>
+          <view class="th">日期</view>
+          <view class="th">状态</view>
+        </view>
+        <view class="tr" wx:for="{{userDetail}}" wx:key="{{index}}" catchtap='GrPriClick' id='{{item.BdId}}'>
+          <view class='td'> {{item.Bonusform}} </view>
+          <view class="td"> {{item.BonusMoney}} </view>
+          <view class="td"> {{item.DisDate}} </view>
+          <view class="td"> {{item.isget}} </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+
+</view>

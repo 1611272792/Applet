@@ -1,0 +1,37 @@
+﻿using SUNPN.BONUS.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.IDAL
+{
+    public interface ICompany
+    {
+        /// <summary>
+        /// 注册公司
+        /// </summary>
+        /// <returns></returns>
+        string RegCompany(Company company);
+
+        /// <summary>
+        /// 显示公司
+        /// </summary>
+        /// <returns></returns>
+        DataTable ShowCompany(Company company);
+
+        /// <summary>
+        /// 修改公司
+        /// </summary>
+        /// <returns></returns>
+        string UpdateCompany(Company company);
+
+        /// <summary>
+        /// 修改公司不包括log
+        /// </summary>
+        /// <returns></returns>
+        string UpdateComNoLog(Company company);
+    }
+}

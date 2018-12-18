@@ -1,0 +1,4 @@
+/* pages/addrule/addrule.wxss */
+.weui-disable{
+color: rgb(160, 160, 160);
+}

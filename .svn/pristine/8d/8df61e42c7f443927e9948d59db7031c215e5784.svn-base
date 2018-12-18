@@ -1,0 +1,58 @@
+/* pages/bonusseldata/bonusseldata.wxss */
+
+/* 搜搜 */
+
+.searchbar-result {
+  margin-top: 0;
+  font-size: 14px;
+}
+
+.searchbar-result:before {
+  display: none;
+}
+
+.weui-cell {
+  padding: 12px 15px 12px 35px;
+}
+
+.inputss {
+  border: 1px solid #ff0000;
+}
+
+.radio-group {
+  margin: 5px;
+}
+
+/* 表格 */
+
+.table {
+  margin-top: 15px;
+  border-right: 0;
+  border-bottom: 0;
+  width: 100%;
+}
+
+.tr {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.th, .td {
+  padding: 10px;
+  border-bottom: 1px solid #808080;
+  border-right: 1px solid #808080;
+  text-align: center;
+  width: 100%;
+}
+
+.td {
+  word-break: break-all;
+}
+
+.th {
+  font-weight: 100;
+  background-color: #007aff;
+  color: #ffffff;
+}
+

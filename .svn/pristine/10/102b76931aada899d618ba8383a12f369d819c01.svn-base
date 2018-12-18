@@ -1,0 +1,41 @@
+<!--pages/main/main.wxml-->
+<view class="section" wx:if="{{menuList.length>0}}">
+  <block wx:for='{{menuList}}'>
+    <view class="section__title titleclass" wx:if='{{item.IsActive==0}}'>{{item.Name}}</view>
+
+    <view class="flex-wrp" style="flex-wrap:wrap;display:flex" wx:if='{{item.IsActive==0}}'>
+      <block wx:for='{{item.listAuthor}}' wx:for-item="itemss">
+        <view class="flex-item bc_green" catchtap='RedirectUrl' data-url='{{itemss.AuthorUrl}}' wx:if='{{itemss.AuthorContian==0}}'>
+          <!-- <i-icon type="{{itemss.AuthorIcons}}" size="28" color="#80848f"></i-icon> -->
+          <image src='{{durl+itemss.AuthorIcons}}' class='img'></image>
+          <view class="icon-item-name nameclass">{{itemss.AuthorName}}</view>
+        </view>
+
+      </block>
+
+
+    </view>
+   
+  </block>
+
+  <!-- <view class="flex-wrp" style="flex-direction:row;">
+    <view class="flex-item bc_green" catchtap='RedirectUrl'>
+      <i-icon type="add" size="28" color="#80848f"></i-icon>
+      <view class="icon-item-name">111</view>
+    </view>
+
+  </view> -->
+</view>
+
+<view class="page" wx:else>
+   
+    <view class="page__bd">
+       
+        <view class="weui-loadmore weui-loadmore_line">
+            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无数据</view>
+        </view>
+        <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+            <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
+        </view>
+    </view>
+</view>

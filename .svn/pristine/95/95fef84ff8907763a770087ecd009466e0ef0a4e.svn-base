@@ -1,0 +1,38 @@
+<!--pages/pricewo/pricewo.wxml-->
+<view class='container'>
+  <view class='top'>
+    <view class='myphotoss'>
+      <view class='myphotos'>
+        <image class='myphoto' src='{{photo}}'></image>
+      </view>
+    </view>
+    <view class='vtext'>
+      <text>{{name}}</text>
+    </view>
+    <view>
+      <view class="Grid">
+        <view class="Grid-cell" style='text-align: center;'>工号：{{gonghao}}</view>
+        <view class="Grid-cell" style='text-align: center;'>部门：{{depart}}</view>
+        <view class="Grid-cell">职位：{{position}}</view>
+      </view>
+    </view>
+  </view>
+  <view class='center'>
+    <view class="weui-cell__ft">
+      <view class='bigweuis'>
+        个人奖金
+      </view>
+      <view class='bigweui bigweuiss'>
+        <view class='smaweui'>{{grprice}}￥</view>
+        <view class='smaweui smaweuis'>
+          <button class="weuibtn">交易</button>
+        </view>
+        <view class='smaweui smaweuis'>
+          <button class="weuibtn" bindtap='grtixian'>提现</button>
+        </view>
+      </view>
+    </view>
+
+  </view>
+  <view class='bottom'></view>
+</view>

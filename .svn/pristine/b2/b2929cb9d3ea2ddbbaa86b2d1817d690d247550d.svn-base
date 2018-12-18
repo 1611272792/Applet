@@ -1,0 +1,112 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using SUNPN.BONUS.BLL;
+using SUNPN.BONUS.Model;
+using SUNPN.BONUS.API.Models;
+using System.Web;
+using System.IO;
+using System.Text;
+
+namespace SUNPN.BONUS.API.Areas.Sys.Controllers
+{
+    public class CompanyController : ApiController
+    {
+        //[FromBody]
+        //object CompanyParm
+        CompanyBLL comBll = new CompanyBLL();
+        #region 注册公司 
+        [HttpPost]
+        public HttpResponseMessage AddRegCompany()
+        {
+
+            Company comModel = new Company();
+
+            //comModel.CompanyName = "shits";
+            //comModel.ComPhoto = "123";
+            //comModel.OpenId = "123";
+            //comModel.CompanyEmail = "123@1a.com";
+            //comModel.CompanyPhone = "21221321";
+
+
+            comModel.CompanyName = HttpContext.Current.Request["CompanyName"];
+            comModel.OpenId = HttpContext.Current.Request["OpenId"];
+            comModel.CompanyEmail = HttpContext.Current.Request["CompanyEmail"];
+            comModel.CompanyPhone = HttpContext.Current.Request["CompanyPhone"];
+
+
+            //获取图片
+            HttpPostedFile file = HttpContext.Current.Request.Files["image"];
+            string filename = file.FileName;
+            var v = HttpContext.Current.Server.MapPath("~/Images/CompanyImg/") + filename;
+            comModel.ComPhoto = "/Images/CompanyImg/" + filename;
+            file.SaveAs(v);
+            return new HttpResponseMessage { Content = new StringContent(comBll.RegCompany(comModel), Encoding.GetEncoding("UTF-8"), "text/json") }; 
+        }
+        #endregion
+
+        #region 显示公司信息 
+        [HttpGet]
+        public HttpResponseMessage GetCompany()
+        {
+            Company comModel = new Company();
+            //comModel.OpenId = "o986o5aiCMVw98o1WpMm98IKD7NY";
+            comModel.OpenId = HttpContext.Current.Request["OpenId"];
+            //comModel.CompanyID = HttpContext.Current.Request["CompanyID"];
+            return new HttpResponseMessage { Content = new StringContent(comBll.ShowCompany(comModel), Encoding.GetEncoding("UTF-8"), "text/json") }; ;
+            //return comBll.RegCompany(comModel);  
+        }
+        #endregion
+
+        #region 修改公司信息
+        [HttpPost]
+        public HttpResponseMessage UpdCompany()
+        {
+            Company comModel = new Company();
+            comModel.CompanyName = HttpContext.Current.Request["CompanyName"];
+            comModel.OpenId = HttpContext.Current.Request["OpenId"];
+            comModel.CompanyEmail = HttpContext.Current.Request["CompanyEmail"];
+            comModel.CompanyPhone = HttpContext.Current.Request["CompanyPhone"];
+            comModel.CompanyID = HttpContext.Current.Request["CompanyID"];
+            //获取图片
+            HttpPostedFile file = HttpContext.Current.Request.Files["image"];
+            string filename = file.FileName;
+            var v = HttpContext.Current.Server.MapPath("~/Images/CompanyImg/") + filename;
+            comModel.ComPhoto = "/Images/CompanyImg/" + filename;
+            file.SaveAs(v);
+            return new HttpResponseMessage { Content = new StringContent(comBll.UpdateCompany(comModel), Encoding.GetEncoding("UTF-8"), "text/json") }; ;
+        }
+        #endregion
+
+        #region 修改公司信息不包括Log
+        [HttpPost]
+        public HttpResponseMessage UpdComNoLog([FromBody]Company comModel)
+        {
+            //Company comModel = new Company();
+            //comModel.CompanyName = HttpContext.Current.Request["CompanyName"];
+            //comModel.OpenId = HttpContext.Current.Request["OpenId"];
+            //comModel.CompanyEmail = HttpContext.Current.Request["CompanyEmail"];
+            //comModel.CompanyPhone = HttpContext.Current.Request["CompanyPhone"];
+            //comModel.CompanyID = HttpContext.Current.Request["CompanyID"];
+            
+            return new HttpResponseMessage { Content = new StringContent(comBll.UpdateComNolog(comModel), Encoding.GetEncoding("UTF-8"), "text/json") }; ;
+        }
+        #endregion
+
+        #region 日志
+        private void WriteLog(string strmsg)
+        {
+            strmsg = $"{strmsg}\r\n";
+            using (FileStream fs = System.IO.File.Open("D:\\公司控制器.txt", FileMode.Append, FileAccess.Write, FileShare.Write))
+            {
+                byte[] bys = Encoding.Default.GetBytes(strmsg);
+                fs.Write(bys, 0, bys.Length);
+                fs.Close();
+            }
+        }
+        #endregion
+    }
+}

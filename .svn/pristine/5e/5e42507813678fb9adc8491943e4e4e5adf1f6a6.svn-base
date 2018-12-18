@@ -1,0 +1,36 @@
+<!--pages/bonusimpower/bonusimpower.wxml-->
+<movable-area class='areas'>
+  <!-- <movable-view direction="all" x="0" y="200" bindtap='addBonusItem' class='views'>
+    <icon type="info" size="25"></icon>
+  </movable-view> -->
+  <view wx:if='{{items.length>0}}' class="container">
+
+    <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove" wx:for="{{items}}" bindtap='SelectBonusInpower' data-BomusItemId='{{index}}'
+      wx:key="{{index}}">
+      <view class="weui-cell content">
+        <view class="weui-cell__hd">
+          <image src="{{icon}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+        </view>
+        <view class="weui-cell__bd">{{item.BonusItemName}}</view>
+        <!-- <view class="weui-cell__ft weui-cell__ft_in-access">{{item.count}}</view> -->
+      </view>
+      <view class="del" catchtap="AddMoney" data-index="{{index}}">添加授权</view>
+
+
+    </view>
+
+    
+
+  </view>
+  <view class="page" wx:else>
+      <view class="page__bd">
+
+        <view class="weui-loadmore weui-loadmore_line">
+          <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无可授权奖金项</view>
+        </view>
+        <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+          <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
+        </view>
+      </view>
+    </view>
+</movable-area>

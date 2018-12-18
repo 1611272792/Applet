@@ -1,0 +1,606 @@
+//index.js
+//获取应用实例
+var util = require('../../utils/util.js');
+const app = getApp()
+
+Page({
+  data: {
+    motto: 'Hello World',
+    userInfo: {},
+    hasUserInfo: false,
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    index: 0,
+    show1: false,
+    show3: true,
+    files: [],//第二种
+    showAdd: true,
+    items: [
+      { name: '0', value: '女', checked: 'true' },
+      { name: '1', value: '男' }
+    ],
+    radioStr: 0,
+    begindate: "",
+    myusers:[],
+    durl: "http://192.168.15.139:1818"
+  },
+  radioChange: function (e) {
+    var radioStr = this.data.radioStr;
+    this.setData({ radioStr: e.detail.value });
+  },
+  changeBegindate(e) {
+    var begindate = this.data.begindate;
+    this.setData({ begindate: e.detail.value });
+  },
+  chooseImage: function (e) {
+    var that = this;
+    var showAdd = that.data.showAdd;
+    if (this.data.files.length >= 1) {
+      this.setData({
+        lenMore: 1,
+        showAdd: false
+      });
+      setTimeout(function () {
+        that.setData({
+          lenMore: 0,
+          showAdd: false
+        });
+      }, 2500);
+      return false;
+    }
+    wx.chooseImage({
+      count: 1, // 默认9
+      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+      success: function (res) {
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+        var tempFilePaths = res.tempFilePaths;
+        var files_data = that.data.files;
+        var showAdd = that.data.showAdd;
+
+        for (var i = 0; i < tempFilePaths.length; i++) {
+          if (that.data.files.length < 1) {
+            // console.log("123");
+            files_data.push(tempFilePaths[i]);
+          }
+        }
+        that.setData({
+          files: files_data
+        });
+        if (files_data.length >= 1) {
+          that.setData({
+            showAdd: false
+          });
+        } else {
+          that.setData({
+            showAdd: true
+          });
+        }
+      }
+    })
+  },
+  previewImage: function (e) {
+    wx.previewImage({
+      current: e.currentTarget.id, // 当前显示图片的http链接
+      urls: this.data.files // 需要预览的图片http链接列表
+    })
+  },
+  // 删除图片
+  deleteImg: function (e) {
+    var files = this.data.files;
+    var showAdd = this.data.showAdd;
+    // console.log(files.length);
+    if (files.length > 1) {
+      this.setData({
+        showAdd: false
+      });
+    }
+    else {
+      this.setData({
+        showAdd: true
+      });
+    }
+    var index = e.currentTarget.dataset.index;
+    files.splice(index, 1);
+    this.setData({
+      files: files
+    });
+
+  },
+  changeTabbar(e) {
+    this.setData({ index: e.currentTarget.dataset.id })
+  },
+  //事件处理函数
+  bindViewTap: function () {
+    wx.navigateTo({
+      url: '../logs/logs'
+    })
+  },
+  onLoad: function () {
+    var that = this;
+    var show1 = this.data.show1;
+    var show3 = this.data.show3;
+    wx.getStorage({
+      key: 'openid',
+      success: function (res) {
+        wx.request({
+          url: that.data.durl+'/api/Sys/User/CheckReg',
+          data: {
+            OpenId: res.data
+          },
+          method: "GET",
+          header: {
+            'content-type': 'application/x-www-form-urlencoded' // 默认值
+          },
+          success: function (ress) {
+            console.log(ress.data);
+            if (ress.data.code == 100) {
+              wx.switchTab({
+                url: '../../pages/pricewo/pricewo',
+              })
+              // wx.redirectTo({
+              //   url: '../../pages/pricewo/pricewo',
+              // })
+            }
+            else if (ress.data.code == 104) {
+              if (ress.data.msg == "已离职") {
+                that.setData({
+                  show1: false,
+                  show3: false
+                })
+                wx.showModal({
+                  title: '提示',
+                  content: '您已离职，请联系管理员',
+                  showCancel: false,
+                  confirmColor: '#007aff'
+                })
+              }
+              else if (ress.data.msg == "已注销系统") {
+                that.setData({
+                  show1: false,
+                  show3: false
+                })
+                wx.showModal({
+                  title: '提示',
+                  content: '您已注销系统，请联系管理员',
+                  showCancel: false,
+                  confirmColor: '#007aff'
+                })
+              }
+              else if (ress.data.msg == "已注册未通过") {
+                that.setData({
+                  show1: false,
+                  show3: false
+                })
+                wx.showModal({
+                  title: '提示',
+                  content: '您已注册，管理员还未审核',
+                  showCancel: false,
+                  confirmColor: '#007aff'
+                })
+              }
+              else if (ress.data.msg == "未注册") {
+              }
+            }
+            // console.log(ress.data);
+            // console.log(JSON.parse(ress.data));
+          },
+          fail: function () {
+            console.log("no");
+          }
+        })
+      },
+    })
+
+    // 调用函数时，传入new Date()参数，返回值是日期和时间
+    var time = util.formatTime(new Date());
+    this.setData({ begindate: time.substring(0, 10) });
+    if (app.globalData.userInfo) {
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        hasUserInfo: true
+      })
+    } else if (this.data.canIUse) {
+      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+      // 所以此处加入 callback 以防止这种情况
+      app.userInfoReadyCallback = res => {
+        this.setData({
+          userInfo: res.userInfo,
+          hasUserInfo: true
+        })
+      }
+    } else {
+      // 在没有 open-type=getUserInfo 版本的兼容处理
+      wx.getUserInfo({
+        success: res => {
+          app.globalData.userInfo = res.userInfo
+          this.setData({
+            userInfo: res.userInfo,
+            hasUserInfo: true
+          })
+        }
+      })
+    }
+  },
+  getUserInfo: function (e) {
+    app.globalData.userInfo = e.detail.userInfo
+    this.setData({
+      userInfo: e.detail.userInfo,
+      hasUserInfo: true
+    })
+  },
+  formSubmit: function (e) {
+    var that = this;
+    var myusers = this.data.myusers;
+    var namereg = /^[a-zA-Z0-9]{3,10}$/;//字母，数字，位数3-15位
+    var pwdmyreg = /^[a-zA-Z0-9_]{3,10}$/;//字母，数字，下划线，位数3-15位
+    if (e.detail.value.Name == "") {
+      wx.showModal({
+        title: '提示',
+        content: '用户名必填',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (!namereg.test(e.detail.value.Name)) {
+      wx.showModal({
+        title: '提示',
+        content: '用户名可以为字母，数字，位数3-15位',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (e.detail.value.Pwd == "") {
+      wx.showModal({
+        title: '提示',
+        content: '密码必填',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (!pwdmyreg.test(e.detail.value.Pwd)) {
+      wx.showModal({
+        title: '提示',
+        content: '密码可以为字母，数字，下划线，位数3-15位',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (e.detail.value.Pwd != e.detail.value.RePwd) {
+      wx.showModal({
+        title: '提示',
+        content: '两次输入的密码不一致',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else {
+      //执行提交事件
+      // wx.getStorage({
+      //   key: 'openid',
+      //   success: function (res) {
+      //     wx.request({
+      //       url: 'http://192.168.15.139:1919/api/User/RegUser',
+      //       data: {
+      //         OpenId: res.data,
+      //         UserId: e.detail.value.Name
+      //       },
+      //       method: "POST",
+      //       header: {
+      //         'content-type': 'application/x-www-form-urlencoded' // 默认值
+      //       },
+      //       success: function (ress) {
+      //         console.log(ress.data);
+      //         that.setData({
+      //           show1: true,
+      //           show3: false
+      //         });
+      //         wx.setStorage({
+      //           key: 'user',
+      //           data: e.detail.value,
+      //         });
+      //       },
+      //       fail: function () {
+      //         console.log("no");
+      //       }
+      //     })
+      //   },
+      // })
+      that.setData({
+        show1: true,
+        show3: false,
+        myusers: e.detail.value
+      });
+      // wx.setStorage({
+      //   key: 'user',
+      //   data: e.detail.value,
+      // });
+    }
+  },
+  formSubmit2: function (e) {
+    var that = this;
+    // console.log(e.detail.value);
+    var myusers = this.data.myusers;
+    var username = /^[\u4E00-\u9FA5A-Za-z]+$/;//只能输入中文或英文
+    var phone = /^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/;//手机号
+    if (e.detail.value.Names == "") {
+      wx.showModal({
+        title: '提示',
+        content: '用户姓名必填',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (!username.test(e.detail.value.Names)) {
+      wx.showModal({
+        title: '提示',
+        content: '用户姓名只能输入中文或英文',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (e.detail.value.phones == "") {
+      wx.showModal({
+        title: '提示',
+        content: '手机号必填',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (that.data.files.length <= 0) {
+      wx.showModal({
+        title: '提示',
+        content: '选择头像',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (!phone.test(e.detail.value.phones)) {
+      wx.showModal({
+        title: '提示',
+        content: '手机号格式不正确',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (e.detail.value.sex == "") {
+      wx.showModal({
+        title: '提示',
+        content: '性别必填',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (e.detail.value.sr == "") {
+      wx.showModal({
+        title: '提示',
+        content: '生日必填',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (e.detail.value.miyao == "") {
+      wx.showModal({
+        title: '提示',
+        content: '公司秘钥必填',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else {
+      // console.log(myusers.Name);
+      wx.getStorage({
+        key: 'openid',
+        success: function (res) {
+          for (var i = 0; i < that.data.files.length; i++) {
+            wx.uploadFile({
+              url: that.data.durl +'/api/Sys/User/AddUser',
+              filePath: that.data.files[i],
+              name: 'image',
+              header: { 'content-type': 'multipart/form-data' },
+              formData: {
+                OpenId: res.data,
+                UserId: myusers.Name,
+                UserPwd: myusers.Pwd,
+                UserName: e.detail.value.Names,
+                UserPhone: e.detail.value.phones,
+                Sex: that.data.radioStr,
+                Birth: that.data.begindate,
+                CompanyId: e.detail.value.miyao
+              },
+              success: function (resd) {
+                var datainfo = JSON.parse(resd.data);
+                // console.log(datainfo)
+                if (datainfo.code == 100) {
+                  // that.setData({
+                  //   index: 1,
+                  //   show1: false,
+                  //   show3: true
+                  // })
+                  wx.showToast({
+                    title: '成功',
+                    icon: 'success',
+                    duration: 3000
+                  });
+                  //获取公司id
+                  wx.request({
+                    url: that.data.durl +'/api/Bos/Wo/GetEmpInfo',
+                    data: {
+                      OpenId: res.data,
+                    },
+                    method: "GET",
+                    header: {
+                      'content-type': 'application/json'
+                    },
+                    success: function (companyIdRes) {
+                      // console.log(companyIdRes.data.data[0].CompanyID);
+                      if (companyIdRes.data.code == 100) {
+                        wx.setStorage({
+                          key: 'CompanyId',
+                          data: companyIdRes.data.data[0].CompanyID,
+                        })
+                      }
+                    },
+                    fail: function () {
+                      console.log("no");
+                    }
+                  })
+                  
+                }
+                else if (datainfo.code == 104) {
+                  if (datainfo.msg == "此UserId已在本公司注册") {
+                    that.setData({
+                      index: 0,
+                      show1: false,
+                      show3: true
+                    });
+
+                  }
+                  wx.showModal({
+                    title: '提示',
+                    content: datainfo.msg,
+                    showCancel: false,
+                    confirmColor: '#007aff'
+                  })
+                }
+              },
+              fail: function (e) {
+                console.log(e.data);
+              }
+            })
+          }
+
+        },
+      })
+    }
+  },
+  formSubmit1: function (e) {
+    var that = this;
+    // console.log(e.detail.value);
+    var comname = /^[\u4E00-\u9FA5A-Za-z]+$/;//只能输入中文或英文
+    var phone = /^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/;//手机号
+    var email = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;//邮箱
+    if (e.detail.value.CompanyName == "") {
+      wx.showModal({
+        title: '提示',
+        content: '公司名称必填',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (!comname.test(e.detail.value.CompanyName)) {
+      wx.showModal({
+        title: '提示',
+        content: '公司名称只能输入中文或英文',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (that.data.files.length <= 0) {
+      wx.showModal({
+        title: '提示',
+        content: '选择logo',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (e.detail.value.CompanyPhone == "") {
+      wx.showModal({
+        title: '提示',
+        content: '电话必填',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (!phone.test(e.detail.value.CompanyPhone)) {
+      wx.showModal({
+        title: '提示',
+        content: '手机号格式不正确',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (e.detail.value.CompanyEmail == "") {
+      wx.showModal({
+        title: '提示',
+        content: '邮箱必填',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else if (!email.test(e.detail.value.CompanyEmail)) {
+      wx.showModal({
+        title: '提示',
+        content: '邮箱格式不正确',
+        showCancel: false,
+        confirmColor: '#007aff'
+      })
+      return false;
+    }
+    else {
+      wx.getStorage({
+        key: 'openid',
+        success: function (res) {
+          for (var i = 0; i < that.data.files.length; i++) {
+            //  console.log(that.data.files[i]);
+            //   console.log(e.detail.value);          
+            wx.uploadFile({
+              url: that.data.durl +'/api/Company/AddRegCompany',
+              filePath: that.data.files[i],
+              name: 'image',
+              header: { 'content-type': 'multipart/form-data' },
+              formData: {
+                CompanyName: e.detail.value.CompanyName,
+                OpenId: res.data,
+                CompanyPhone: e.detail.value.CompanyPhone,
+                CompanyEmail: e.detail.value.CompanyEmail
+              },
+              success: function (resd) {
+                // console.log(resd.data);
+                var datainfo = JSON.parse(resd.data);
+                // console.log(datainfo);
+                if (datainfo.code == 100) {
+                  wx.showToast({
+                    title: '成功',
+                    icon: 'success',
+                    duration: 3000
+                  });
+                }
+                else {
+                  wx.showModal({
+                    title: '提示',
+                    content: datainfo.msg,
+                    showCancel: false,
+                    confirmColor: '#007aff'
+                  })
+                }
+              },
+              fail: function () {
+                console.log("no");
+              }
+            })
+          }
+
+        },
+      })
+    }
+  }
+})

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "授权人员列表",
+ "usingComponents": {
+ "i-load-more": "../../dist/load-more/index"
+}
+}

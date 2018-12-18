@@ -1,0 +1,90 @@
+/* pages/backrecord/backrecord.wxss */
+.tui-picker-content {
+  overflow: hidden;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+
+.mypicker {
+  float: left;
+  width: 36%;
+}
+
+.mytext {
+  float: left;
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 30px;
+  text-align: center;
+}
+
+.tui-picker-name {
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+}
+
+.tui-picker-detail {
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #fff;
+  font-size: 35rpx;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #808080;
+}
+
+.iconlist {
+  /* border: 1px solid #17abe3; */
+  float: left;
+  margin-left: 10px;
+}
+
+.myicon {
+  height: 80rpx;
+  /* line-height: 80rpx; */
+  background-color: #007aff;
+  border-radius: 4px;
+  width: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 表格 */
+
+.table {
+  margin-top: 15px;
+  border-right: 0;
+  border-bottom: 0;
+  width: 100%;
+}
+
+.tr {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.th, .td {
+  padding: 10px;
+  border-bottom: 1px solid #808080;
+  border-right: 1px solid #808080;
+  text-align: center;
+  width: 100%;
+}
+
+.td {
+  word-break: break-all;
+}
+
+.th {
+  font-weight: 100;
+  background-color: #007aff;
+  color: white;
+}
+
+.zanwu {
+  text-align: center;
+  color: gainsboro;
+}

@@ -1,0 +1,38 @@
+<!--pages/addposition/addposition.wxml-->
+<view>
+  <form bindsubmit='formSubmit' bindreset='formReset'>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">职位名称</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='PosName' value='{{posName}}' placeholder="职位名称" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">选择部门</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker class='picktwo' bindchange="changeCountry" value="{{countryIndex}}" range="{{countryList}}">
+            <view class="tui-picker-detail">{{countryList[countryIndex]}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">备注</view>
+        </view>
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" value='{{txtinpout}}' name='ResonContent' bindinput='TextareaInput' placeholder="请输入备注内容" maxlength="{{max}}" style="height: 3.3em;padding-top:5px;" />
+          <view class="weui-textarea-counter">{{currentlength}}/{{max}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="btn-area">
+      <button class='btnsubmit' formType="submit">提交</button>
+      <!-- <button type='warn' id='btnreset' formType="reset">取消</button> -->
+    </view>
+  </form>
+</view>

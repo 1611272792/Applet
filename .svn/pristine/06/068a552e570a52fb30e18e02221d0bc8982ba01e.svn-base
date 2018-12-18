@@ -1,0 +1,50 @@
+<!--pages/customerman/customerman.wxml-->
+<view>
+  <radio-group class="radio-group" bindchange="radioChange">
+    <label class="radio" wx:for="{{items}}" wx:key="{{index}}">
+      <radio class='pickthree' color="#007aff" value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
+    </label>
+  </radio-group>
+</view>
+<view>
+  <view class="table" style="display:{{show?'block':'none'}}">
+    <view class="tr">
+      <view class="th">公司名</view>
+      <view class="th">负责人</view>
+      <view class="th">是否过期</view>
+      <view class="th">操作</view>
+    </view>
+    <view class="tr" wx:for="{{guqidata}}" wx:key="{{index}}">
+      <view class='td'> {{item.CompanyName}} </view>
+      <view class="td"> {{item.UserName}} </view>
+      <view class="td"> 已过期 </view>
+      <view class="td tdfont" data-text='{{item}}' catchtap='Update'> 审核</view>
+    </view>
+  </view>
+  <view class="table" style="display:{{show2?'block':'none'}}">
+    <view class="tr">
+      <view class="th">公司名</view>
+      <view class="th">负责人</view>
+      <view class="th">是否过期</view>
+      <view class="th">操作</view>
+    </view>
+    <view class="tr" wx:for="{{weishenhe}}" wx:key="{{index}}">
+      <view class='td'> {{item.CompanyName}} </view>
+      <view class="td"> {{item.UserName}} </view>
+      <view class="td"> 未审核 </view>
+      <view class="td" data-text='{{item}}' catchtap='Update'> 审核 </view>
+    </view>
+    <view class="tr" wx:for="{{yishenghe}}" wx:key="{{index}}">
+      <view class='td'> {{item.CompanyName}} </view>
+      <view class="td"> {{item.UserName}} </view>
+      <view class="td"> 已审核 </view>
+      <view class="td" data-text='{{item}}' catchtap='Update'> 审核 </view>
+    </view>
+    <view class="tr" wx:for="{{guqidata}}" wx:key="{{index}}">
+      <view class='td'> {{item.CompanyName}} </view>
+      <view class="td"> {{item.UserName}} </view>
+      <view class="td"> 已过期 </view>
+      <view class="td" data-text='{{item}}' catchtap='Update'> 审核</view>
+    </view>
+  </view>
+</view>

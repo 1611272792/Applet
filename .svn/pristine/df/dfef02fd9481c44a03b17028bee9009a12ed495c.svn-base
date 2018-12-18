@@ -1,0 +1,608 @@
+﻿using SUNPN.BONUS.Common.PinYin;
+using SUNPN.BONUS.DBUtility;
+using SUNPN.BONUS.IDAL;
+using SUNPN.BONUS.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.DAL
+{
+   public class WoDAL:IWo
+    {
+
+        /// <summary>
+        /// 查看个人奖余额
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetEmpBonus(string CompanyId, string OpenId)
+        {
+             
+            try
+            {  
+                string strSql = string.Format($@"SELECT ISNULL((SELECT SUM(BonusMoney) FROM dbo.BosBonusData WHERE CompanyId='{CompanyId}' AND  BonusType !=0 AND EarMan='{OpenId}'),0)
+                - ISNULL((SELECT  SUM(BonusMoney) DisMoney FROM dbo.BosBonusData WHERE CompanyId='{CompanyId}' AND BonusType = 2 AND DisMan = '{OpenId}'), 0)
+                - ISNULL((SELECT  SUM(GetMoney) AudMoney FROM dbo.BosAuditBonus WHERE IsState != 2 AND GetOpenId = '{OpenId}' AND  CompanyId = '{CompanyId}'),0)  AS bonus
+                ");
+                DataTable ds = DbHelperSQL.ExecuteDataTable(strSql);
+                return ds;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 查看单个人员奖金详情
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="OpenId"></param>
+        /// <returns></returns>
+        public DataTable GetOneBonusInfo(string CompanyId, string OpenId, string StartTime, string EndTime) {
+            string strSql = "";
+            try
+            {
+
+                if (string.IsNullOrEmpty(StartTime)&&string.IsNullOrEmpty(EndTime))
+                {
+                    strSql = string.Format($@"select BdId,UserName,DisDate,BonusMoney,('收入') bty from dbo.BosBonusData b INNER join dbo.SysUser e on b.DisMan=e.OpenId 
+where   BonusType!=0  and EarMan='{OpenId}' and b.CompanyID='{CompanyId}' and e.CompanyID='{CompanyId}'  
+UNION ALL 
+SELECT BdId,UserName,DisDate,(0-BonusMoney) BonusMoney,('支出') bty   FROM dbo.BosBonusData b INNER join dbo.SysUser e on b.EarMan=e.OpenId 
+where  BonusType=2 and DisMan='{OpenId}' and b.CompanyId='{CompanyId}'  
+ UNION ALL
+  SELECT '' BdId,'' UserName,[GetDate] DisDate,(0-GetMoney) BonusMoney,('提现') bty from dbo.BosAuditBonus b INNER join dbo.SysUser e on b.GetOpenId=e.OpenId 
+where  GetOpenId='{OpenId}' AND IsState!=2 and b.CompanyID='{CompanyId}' and e.CompanyID='{CompanyId}' ORDER BY DisDate DESC");
+                }
+                else if (!string.IsNullOrEmpty(StartTime) && string.IsNullOrEmpty(EndTime))
+                {
+                    strSql = string.Format($@"select BdId,UserName,DisDate,BonusMoney,('收入') bty from dbo.BosBonusData b INNER join dbo.SysUser e on b.DisMan=e.OpenId 
+where   BonusType!=0  and EarMan='{OpenId}' and b.CompanyID='{CompanyId}' and e.CompanyID='{CompanyId}'  and CONVERT(DATE,DisDate) >= '{StartTime}'   
+UNION ALL 
+SELECT BdId,UserName,DisDate,(0-BonusMoney) BonusMoney,('支出') bty   FROM dbo.BosBonusData b INNER join dbo.SysUser e on b.EarMan=e.OpenId 
+where  BonusType=2 and DisMan='{OpenId}' and b.CompanyId='{CompanyId}'  and CONVERT(DATE,DisDate) >= '{StartTime}' 
+ UNION ALL
+  SELECT '' BdId,'' UserName,[GetDate] DisDate,(0-GetMoney) BonusMoney,('提现') bty from dbo.BosAuditBonus b INNER join dbo.SysUser e on b.GetOpenId=e.OpenId 
+where  GetOpenId='{OpenId}' AND IsState!=2 and b.CompanyID='{CompanyId}' and e.CompanyID='{CompanyId}' and CONVERT(DATE,[GetDate]) >= '{StartTime}'");
+
+                }
+                else if(string.IsNullOrEmpty(StartTime) && !string.IsNullOrEmpty(EndTime))
+                {
+                    strSql = string.Format($@"select BdId,UserName,DisDate,BonusMoney,('收入') bty from dbo.BosBonusData b INNER join dbo.SysUser e on b.DisMan=e.OpenId 
+where   BonusType!=0  and EarMan='{OpenId}' and b.CompanyID='{CompanyId}' and e.CompanyID='{CompanyId}'  and CONVERT(DATE,DisDate) <= '{EndTime}' 
+UNION ALL 
+SELECT BdId,UserName,DisDate,(0-BonusMoney) BonusMoney,('支出') bty   FROM dbo.BosBonusData b INNER join dbo.SysUser e on b.EarMan=e.OpenId 
+where  BonusType=2 and DisMan='{OpenId}' and b.CompanyId='{CompanyId}'  and CONVERT(DATE,DisDate) <= '{EndTime}' 
+ UNION ALL
+  SELECT '' BdId,'' UserName,[GetDate] DisDate,(0-GetMoney) BonusMoney,('提现') bty from dbo.BosAuditBonus b INNER join dbo.SysUser e on b.GetOpenId=e.OpenId 
+where  GetOpenId='{OpenId}' AND IsState!=2 and b.CompanyID='{CompanyId}' and e.CompanyID='{CompanyId}' and CONVERT(DATE,[GetDate]) <= '{EndTime}'  ");
+
+                }
+                else
+                {
+                    strSql = string.Format($@"select BdId,UserName,DisDate,BonusMoney,('收入') bty from dbo.BosBonusData b INNER join dbo.SysUser e on b.DisMan=e.OpenId 
+where   BonusType!=0  and EarMan='{OpenId}' and b.CompanyID='{CompanyId}' and e.CompanyID='{CompanyId}'  and CONVERT(DATE,DisDate) BETWEEN '{StartTime}' AND '{EndTime}' 
+UNION ALL 
+SELECT BdId,UserName,DisDate,(0-BonusMoney) BonusMoney,('支出') bty   FROM dbo.BosBonusData b INNER join dbo.SysUser e on b.EarMan=e.OpenId 
+where  BonusType=2 and DisMan='{OpenId}' and b.CompanyId='{CompanyId}'  and CONVERT(DATE,DisDate) BETWEEN '{StartTime}' AND '{EndTime}' 
+ UNION ALL
+  SELECT '' BdId,'' UserName,[GetDate] DisDate,(0-GetMoney) BonusMoney,('提现') bty from dbo.BosAuditBonus b INNER join dbo.SysUser e on b.GetOpenId=e.OpenId 
+where  GetOpenId='{OpenId}' AND IsState!=2 and b.CompanyID='{CompanyId}' and e.CompanyID='{CompanyId}' and CONVERT(DATE,[GetDate]) BETWEEN '{StartTime}' AND '{EndTime}'  ");
+
+                }
+                DataTable ds = DbHelperSQL.ExecuteDataTable(strSql);
+                return ds;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        /// <summary>
+        /// 查看部门奖余额
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetDepBonus(string CompanyId, string OpenId)
+        {
+
+            try
+            {
+                string strSql = string.Format($@"SELECT DepId,DepName,ISNULL(EarMoney,'0.00') Earmoney,EarMan FROM  dbo.SysDepart d  LEFT JOIN 
+(SELECT  SUM(BonusMoney) EarMoney ,EarMan   FROM dbo.BosBonusData WHERE BonusType=0 AND IsGet=0 GROUP BY EarMan )
+ b ON d.DepId=b.EarMan  WHERE   OpenId='{OpenId}'  and CompanyID='{CompanyId}'");
+                DataTable ds = DbHelperSQL.ExecuteDataTable(strSql);
+                return ds;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 查看个人信息 alice good night
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetEmpInfo(string CompanyId, string OpenId)
+        {
+
+            try
+            {
+                string strSql = string.Format($@"       
+ SELECT e.RoleID,e.UserId,e.CompanyID,e.OpenId,e.UserPwd,e.UserPhone,e.Photo,e.IsOut,e.DepId,e.PostId,d.DepName,p.PostName,e.UserName
+ FROM dbo.SysUser e left join dbo.SysDepart d on e.DepId=d.DepId left join dbo.SysPosition p on e.PostId=p.PostId 
+WHERE   e.CompanyID='{CompanyId}' and d.CompanyID='{CompanyId}' AND e.OpenId='{OpenId}'");
+                DataTable ds = DbHelperSQL.ExecuteDataTable(strSql);
+                return ds;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 个人提现
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="OpenId"></param>
+        /// <param name="Summoney"></param>
+        /// <returns></returns>
+        public string GetDeposit(string CompanyId, string OpenId, decimal Summoney) {
+            try
+            {
+                string allUserID = getAllUserID(OpenId, "emp");//获取提取的所有BD2中ID
+                //decimal SumMoney = getAllMoney(allUserID);//获取要提取的总金额
+                decimal SumMoney = Summoney; ;//要提取的总金额
+                string CompanyID = CompanyId;//公司ID
+                if (string.IsNullOrEmpty(allUserID) || Summoney == 0||string.IsNullOrEmpty(CompanyID))
+                {
+                    return "prama is error";
+                }
+                else
+                {
+                 
+                    string aa = DbHelperSQL.EditDataCommand("EXEC aboutTIJIAO '" + OpenId + "','" + allUserID + "'," + SumMoney + ",'" + CompanyId + "'");
+                    if (aa == "0")
+                    {
+                        return "success";
+                    }
+                    else
+                    {
+                        return "error";
+                    }
+                }
+              
+            }
+            catch (Exception)
+            {
+
+                return " Exception error";
+            }
+        }
+
+        /// <summary>
+        /// 部门提现
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="OpenId"></param>
+        /// <returns></returns>
+      public  string GetDepDeposit(string CompanyId, int DepID) {
+            try
+            {
+                /*  string departID = getDepartID(userID);*/ //获得部门ID
+                string allUserID = getAllUserID(DepID.ToString(), "dep");//获取提取的所有BD2中ID
+                decimal SumMoney = getAllMoney(allUserID);//获取要提取的总金额
+                string CompanyID = CompanyId;//公司ID
+                string aa = DbHelperSQL.EditDataCommand("EXEC departTIJIAO " + DepID + ",'" + allUserID + "'," + SumMoney + ",'" + CompanyID + "'");
+                if (aa == "0")
+                {
+                    return "success";
+                }
+                else
+                {
+                    return "error";
+                }
+
+            }
+            catch (Exception)
+            {
+
+                return " Exception error";
+            }
+
+        }
+
+        /// <summary>
+        /// 查看奖金项
+        /// </summary>
+        /// <returns></returns>
+        public List<BonusItemInfo> GetItemsBonus(string CompanyId, string OpenId)
+        {
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return null;
+            }
+            if (string.IsNullOrEmpty(OpenId))
+            {
+                return null;
+            }
+            List<BonusItemInfo> lbi = new List<BonusItemInfo>();
+            try
+            {
+                string strSql = string.Format($@"SELECT A.BonusItemId,A.BonusItemName,A.DepId,ISNULL(RM,0) RM,ISNULL(IM,0) IM FROM (
+SELECT r.BonusItemId,b.BonusItemName,b.DepId,ISNULL(SUM(RemainMoney),0) RM FROM dbo.BosBonusItemData  r
+INNER JOIN dbo.BosBonusItem b ON b.BonusItemID = r.BonusItemID
+WHERE  r.BonusItemId IN (SELECT BonusItemId FROM dbo.BosBonusImpower   WHERE  IsActive=0 AND BImpowerUser='{OpenId}') AND CompanyId='{CompanyId}'
+AND GETDATE()<EndDate
+GROUP BY r.BonusItemId,BonusItemName,b.DepId) AS A
+LEFT JOIN 
+(SELECT b2.BonusItemId,BonusItemName,b2.DepId,ISNULL(SUM(b1.RemainMoney),0) IM FROM dbo.BosBonusImpower  b1
+INNER JOIN dbo.BosBonusItem b2 ON b2.BonusItemId = b1.BonusItemId 
+WHERE IsActive=0 AND BImpowerUser = '{OpenId}' AND (ImpowerDate >= DATEADD(MM, DATEDIFF(MM, 0, GETDATE()), 0) and IsVaild=0)
+GROUP BY b2.BonusItemID, BonusItemName,b2.DepId) AS B ON A.BonusItemId=B.BonusItemId ");
+                DataTable ds = DbHelperSQL.ExecuteDataTable(strSql);
+                if (ds.Rows.Count>0)
+                {
+                    for (int i = 0; i < ds.Rows.Count; i++)
+                    {
+                        BonusItemInfo bii = new BonusItemInfo();
+                        bii.BonusItemId = ds.Rows[i]["BonusItemId"].ToString();
+                        bii.BonusItemName = ds.Rows[i]["BonusItemName"].ToString();
+                        bii.DepId= ds.Rows[i]["DepId"].ToString();
+                        if (double.Parse(ds.Rows[i]["RM"].ToString())>double.Parse(ds.Rows[i]["IM"].ToString()))
+                        {
+                            bii.RemainMoney = ds.Rows[i]["IM"].ToString();
+                        }
+                        else
+                        {
+                            bii.RemainMoney = ds.Rows[i]["RM"].ToString();
+                        }
+                        lbi.Add(bii);
+                    }
+                }
+                return lbi;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// 查看自己负责奖金项
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetMyItemsBonus(string CompanyId, string OpenId) {
+            try
+            {
+                string strSql = string.Format($@"SELECT dbo.BosBonusItemData.BonusItemID,dbo.BosBonusItem.BonusItemName,dbo.BosBonusItem.DepId,SUM(RemainMoney) AllMoney FROM dbo.BosBonusItemData 
+INNER JOIN dbo.BosBonusItem ON BosBonusItem.BonusItemID = BosBonusItemData.BonusItemID 
+WHERE IsActive=0 AND CompanyID='{CompanyId}' AND BosBonusItem.OpenId = '{OpenId}' AND CONVERT(VARCHAR(30), GETDATE(), 102) < EndDate GROUP BY dbo.BosBonusItemData.BonusItemID, dbo.BosBonusItem.BonusItemName,dbo.BosBonusItem.DepId
+");
+                DataTable ds = DbHelperSQL.ExecuteDataTable(strSql);
+                return ds;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        /// <summary>
+        /// 查看奖金项明细（支出收入）
+        /// </summary>
+        /// <returns></returns>
+        public List<DataTable> GetMyItemsDetail(string CompanyId, string OpenId, string ItemsId) {
+            //查询该用户是否是这个奖金项的负责人
+            try
+            {
+            string isItemsPic = string.Format("SELECT * FROM dbo.BosBonusItem WHERE  OpenId='{0}' AND BonusItemID='{1}' AND CompanyID='{2}'", OpenId, ItemsId, CompanyId);
+            DataTable ds = DbHelperSQL.ExecuteDataTable(isItemsPic);
+            string Picsqls = "";
+            DataTable item = null;
+            if (ds?.Rows.Count > 0)
+            {
+                //为该奖金项负责人
+                Picsqls = string.Format(@"SELECT b2.BdId,e.UserName DisName,e2.UserName EarName ,BonusMoney,DisDate  FROM  dbo.BosBonusData b2 
+INNER JOIN dbo.SysUser e ON b2.DisMan=e.OpenId
+INNER JOIN dbo.SysUser e2 ON b2.EarMan=e2.OpenId
+ WHERE b2.CompanyID='{2}'AND e.CompanyID='{4}' AND e2.CompanyID='{5}' AND b2.BonusItemID='{0}' AND (b2.BonusType=1 OR BonusType=2)  
+ UNION ALL
+SELECT b2.BdId, e.UserName DisName,d.DepName EarName,BonusMoney,DisDate  FROM  dbo.BosBonusData b2 
+INNER JOIN  dbo.SysUser e ON b2.DisMan= e.OpenId
+INNER JOIN dbo.SysDepart d ON b2.EarMan=d.DepId
+ WHERE b2.CompanyID='{3}' AND e.CompanyID='{6}' AND d.CompanyID='{7}' AND  b2.BonusItemID='{1}'  AND b2.BonusType=0  ORDER BY b2.DisDate DESC", ItemsId, ItemsId, CompanyId, CompanyId, CompanyId, CompanyId, CompanyId, CompanyId);
+            }
+            else
+            {
+                //为被授权人
+                Picsqls = string.Format(@"    SELECT b2.BdId, e.UserName DisName,e2.UserName EarName ,BonusMoney,DisDate  FROM  dbo.BosBonusData b2 
+INNER JOIN dbo.SysUser e ON b2.DisMan=e.OpenId
+INNER JOIN dbo.SysUser e2 ON b2.EarMan=e2.OpenId
+ WHERE b2.CompanyID='{4}' AND e.CompanyID='{6}' AND e2.CompanyID='{7}' AND b2.BonusItemID='{0}' AND (b2.BonusType=1 OR BonusType=2)  AND b2.DisMan='{1}'
+ UNION ALL
+SELECT b2.BdId,e.UserName DisName,d.DepName EarName,BonusMoney,DisDate  FROM  dbo.BosBonusData b2 
+INNER JOIN  dbo.SysUser e ON b2.DisMan= e.OpenId
+INNER JOIN dbo.SysDepart d ON b2.EarMan=d.DepId
+ WHERE b2.CompanyID='{5}'AND e.CompanyID='{8}' AND d.CompanyID='{9}' AND b2.BonusItemID='{2}'  AND b2.BonusType=0 AND b2.DisMan='{3}' ORDER BY b2.DisDate DESC", ItemsId, OpenId, ItemsId, OpenId, CompanyId, CompanyId, CompanyId, CompanyId, CompanyId, CompanyId);
+            }
+            DataTable Picdt = DbHelperSQL.ExecuteDataTable(Picsqls);
+
+            #region 收入
+            if (ds?.Rows.Count > 0)
+            {
+                string dtsql = string.Format(@"SELECT UserName,AddMoney,BosBonusItemData.AddDate,EndDate FROM dbo.BosBonusItemData 
+                JOIN dbo.BosBonusItem ON BosBonusItem.BonusItemID = BosBonusItemData.BonusItemID
+                 INNER JOIN dbo.SysUser ON SysUser.OpenId = dbo.BosBonusItem.OpenId WHERE BosBonusItem.CompanyID = '{2}' AND dbo.SysUser.CompanyID = '{3}' AND BosBonusItem.BonusItemID = '{0}' AND BosBonusItem.OpenId = '{1}' ORDER BY BosBonusItemData.AddDate DESC
+                ", ItemsId, OpenId, CompanyId, CompanyId);
+                  item = DbHelperSQL.ExecuteDataTable(dtsql);
+          
+            }
+            else
+            {
+                //被授权人
+                string dtsql = string.Format(@"SELECT BiId,e.UserName EarName,e1.UserName DisName,AddMoney,RemainMoney,Model,ImpowerDate FROM dbo.BosBonusImpower 
+                INNER JOIN dbo.SysUser e ON e.OpenId = BosBonusImpower.BImpowerUser
+                INNER JOIN dbo.SysUser e1 ON e1.OpenId = dbo.BosBonusImpower.BItemUser WHERE e.CompanyID = '{2}' AND e1.CompanyID = '{3}' AND BonusItemID = '{0}' and IsVaild = 0 and dbo.BosBonusImpower.BImpowerUser = '{1}' ORDER BY ImpowerDate DESC
+                ", ItemsId, OpenId, CompanyId, CompanyId);
+                  item = DbHelperSQL.ExecuteDataTable(dtsql);
+            }
+
+            #endregion
+            List<DataTable> list = new List<DataTable>();
+            list.Add(Picdt);
+            list.Add(item);
+            return list;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+
+        /// <summary>
+        /// 个人交易
+        /// </summary>
+        /// <param name="deal"></param>
+        /// <returns></returns>
+        public string AddTrading(BonusDeal deal)
+        {
+            try
+            {
+                if (CheckIsCompany(deal.EarMan, deal.CompanyId)=="yes")
+                {
+                    string sqlStr = "";
+                    if (!string.IsNullOrEmpty(deal.Remark))
+                    {
+                 string RemarkGuid =System.Guid.NewGuid().ToString();//原因guid
+                        sqlStr = string.Format($@"INSERT INTO dbo.BosBonusReson
+                        ( BrId, BrContent, BrType )
+                VALUES  ( '{RemarkGuid}', -- BrId - varchar(200)
+                          N'{deal.Remark}', -- BrContent - nvarchar(max)
+                          2  -- BrType - int
+                          )");
+
+
+                        sqlStr += string.Format($@"   INSERT INTO dbo.BosBonusData
+                       ( 
+                         DisMan ,
+                         DisDate ,
+                         EarMan ,
+                         BonusMoney ,
+                         BonusType ,
+                         IsGet ,
+                         CompanyId ,
+                         ResonId
+                       )
+               VALUES  (  
+                         '{deal.DisMan}' , -- DisMan - varchar(200)
+                         GETDATE() , -- DisDate - datetime
+                         '{deal.EarMan}' , -- EarMan - varchar(200)
+                         {deal.TradingMoney} , -- BonusMoney - decimal
+                         2 , -- BonusType - int
+                         0 , -- IsGet - int
+                         N'{deal.CompanyId}' , -- CompanyId - nvarchar(50)
+                         '{RemarkGuid}'  -- ResonId - varchar(200)
+                       ) ");
+
+                    }
+                    else
+                    {
+                        sqlStr  = string.Format($@"   INSERT INTO dbo.BosBonusData
+                       ( 
+                         DisMan ,
+                         DisDate ,
+                         EarMan ,
+                         BonusMoney ,
+                         BonusType ,
+                         IsGet ,
+                         CompanyId  
+                       )
+               VALUES  (  
+                         '{deal.DisMan}' , -- DisMan - varchar(200)
+                         GETDATE() , -- DisDate - datetime
+                         '{deal.EarMan}' , -- EarMan - varchar(200)
+                         {deal.TradingMoney} , -- BonusMoney - decimal
+                         2 , -- BonusType - int
+                         0 , -- IsGet - int
+                         N'{deal.CompanyId}'   -- CompanyId - nvarchar(50)
+                       ) ");
+                    }
+                    int state = DbHelperSQL.ExecuteSql(sqlStr);
+                    if (state>0)
+                    {
+                        return "success";
+                    }
+                    else
+                    {
+                        return "insert false";
+                    }
+                }
+                else
+                {
+                    return "is not company user";
+                }
+           
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        //验证这个人是否属于公司
+        public string CheckIsCompany(string Openid, string CompanyId)
+        {
+            try
+            {
+                string strSql = string.Format($"SELECT * FROM dbo.SysUser WHERE OpenId='{Openid}' AND  CompanyId='{CompanyId}'");
+                DataTable dt = DbHelperSQL.ExecuteDataTable(strSql);
+                if (dt.Rows.Count>0)
+                {
+                    return "yes";
+                }
+                else
+                {
+                    return "no";
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+        }
+
+        //  要提取的所有奖金id
+        public string getAllUserID(string userID, string state)
+        {
+            string sqls = "";
+            if (state == "emp")
+            {
+                sqls = string.Format(" SELECT * FROM dbo.BosBonusData WHERE EarMan='{0}' AND IsGet=0 AND BonusType!=0        ", userID);
+            }
+            else if (state == "dep")
+            {
+                sqls = string.Format("SELECT * FROM dbo.BosBonusData  WHERE EarMan='{0}' AND IsGet=0 AND BonusType=0", userID);
+            }
+
+            DataTable dt = DbHelperSQL.ExecuteDataTable(sqls);
+            string BonusAllID = "";//要提取的所有奖金id
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    BonusAllID = BonusAllID + "," + dt.Rows[i]["BdId"].ToString();
+                }
+                BonusAllID = BonusAllID.Substring(1, BonusAllID.Length - 1);
+            }
+            else
+            {
+                BonusAllID = "";
+            }
+
+            return BonusAllID;
+        }
+
+       
+        //  获取提取的奖金总额
+        public decimal getAllMoney(string bonusAllID)
+        {
+            decimal SumMoney = 0;
+            try
+            {
+                string SMsqls = string.Format(" SELECT ISNULL(SUM(BonusMoney),0) SumMoney FROM dbo.BosBonusData WHERE BdId IN ('{0}') ", bonusAllID);
+                DataTable SMdt = DbHelperSQL.ExecuteDataTable(SMsqls);
+                if (SMdt.Rows.Count > 0)
+                {
+                    SumMoney = decimal.Parse(SMdt.Rows[0][0].ToString());
+                }
+                else
+                {
+                    SumMoney = 0;
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return SumMoney;
+        }
+
+
+        #region 获取部门奖金详情
+        /// <summary>
+        /// 获取部门奖金详情
+        /// </summary>
+        /// <param name="DepId"></param>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        public DataTable GetDepBonusInfo(string DepId, string CompanyId, string StartTime, string EndTime)
+        {
+            if (string.IsNullOrEmpty(DepId))
+            {
+                return null;
+            }
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return null;
+            }
+            try
+            {
+                string bonusinfosql = string.Format($@"SELECT BdId,BonusItemName,BonusMoney,UserName DisManName,DisDate,ResonId   
+ FROM dbo.BosBonusData b INNER JOIN dbo.SysDepart  d 
+ ON b.EarMan=d.DepId  INNER JOIN dbo.BosBonusItem b2 
+ ON b.BonusItemID=b2.BonusItemID INNER JOIN dbo.SysUser e 
+ ON b.DisMan=e.OpenId
+ WHERE BonusType=0 AND EarMan='{DepId}' and b.CompanyId='{CompanyId}' 
+ and d.CompanyID='{CompanyId}' and b2.CompanyID='{CompanyId}'
+ and e.CompanyID='{CompanyId}'");
+                if (!string.IsNullOrEmpty(StartTime) && !string.IsNullOrEmpty(EndTime))
+                {
+                    bonusinfosql += string.Format($@" AND DisDate BETWEEN '{StartTime}' AND '{EndTime}'");
+                }
+                if (!string.IsNullOrEmpty(StartTime)&& string.IsNullOrEmpty(EndTime))
+                {
+                    bonusinfosql += string.Format($@" AND DisDate >'{StartTime}'");
+                }
+                if (string.IsNullOrEmpty(StartTime) && !string.IsNullOrEmpty(EndTime))
+                {
+                    bonusinfosql += string.Format($@" AND DisDate <'{EndTime}'");
+                }
+                if (string.IsNullOrEmpty(StartTime) && string.IsNullOrEmpty(EndTime))
+                {
+                    bonusinfosql += string.Format($@" AND DisDate>=DATEADD(MM,DATEDIFF(MM,0,GETDATE()),0)");
+                }
+                bonusinfosql += string.Format(" ORDER BY DisDate  DESC");
+                //WriteLog(bonusinfosql);
+                DataTable bonusinfo = DbHelperSQL.ExecuteDataTable(bonusinfosql);
+                return bonusinfo;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+    
+    }
+}

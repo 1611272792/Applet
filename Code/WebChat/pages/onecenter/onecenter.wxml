@@ -1,0 +1,75 @@
+<!--pages/onecenter/onecenter.wxml-->
+<view>
+  <form bindsubmit='formSubmit' bindreset='formReset'>
+    <view>
+      <view class="weui-uploader__bd">
+        <view class="weui-uploader__files" id="uploaderFiles">
+          <view class="weui-uploader__file" style='position: relative;' id="{{files}}">
+            <image style='border:1px solid WhiteSmoke;' class="weui-uploader__img" catchtap="chooseImage" src="{{files}}" mode="aspectFill" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">姓名</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" disabled='true' style='color:gray;' value='{{name}}' />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">手机号</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" value='{{phone}}' type='number' name='UserPhone' />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">邮箱</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" value='{{emails}}' name='Useremails' />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">性别</view>
+        </view>
+        <view class="weui-cell__bd">
+          <radio-group class="radio-group" style='height:45px;line-height:45px;' bindchange="radioChange">
+            <label class="radio" wx:for="{{items}}" wx:key="{{index}}">
+              <radio class='pickthree' color="#007aff" value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
+            </label>
+          </radio-group>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">出生日期</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker class='mypicker' mode="date" value='{{begindate}}' start="1900-10-01" bindchange="changeBegindate">
+            <view class="tui-picker-detail">
+              {{begindate}}
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+    <view class="btn-area">
+      <button class='btnsubmit' formType="submit">提交</button>
+      <!-- <button type='warn' id='btnreset' formType="reset">取消</button> -->
+    </view>
+  </form>
+</view>
+
+<wxs module="util">
+  var sub = function(val) {
+    return val.split(',')[0]
+  }
+  module.exports.sub = sub;
+</wxs>

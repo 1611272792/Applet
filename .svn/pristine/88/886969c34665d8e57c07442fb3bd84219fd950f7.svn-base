@@ -1,0 +1,335 @@
+2018-12-05 10:00:26:1391 INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'ddd' , -- CompanyName - nvarchar(200)
+          'oym6H5NQwCQMVldW-AbRBODaTmyU' , -- OpenId - varchar(200)
+          N'/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.PtrwxiEcJWvkb023980eff8cd6edb6ef2974c20cfe14.png' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          convert(char,dateadd(dd,30,GETDATE()),21) , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'18852454545' , -- CompanyPhone - nvarchar(11)
+          N'888@qq.com'  -- CompanyEmail - nvarchar(50)
+        )
+2018-12-05 10:12:49:3660 INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'张哥' , -- CompanyName - nvarchar(200)
+          'oym6H5NQwCQMVldW-AbRBODaTmyU' , -- OpenId - varchar(200)
+          N'/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.2l91WgGieHQfb023980eff8cd6edb6ef2974c20cfe14.png' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          convert(char,dateadd(dd,30,GETDATE()),21) , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'15545454542' , -- CompanyPhone - nvarchar(11)
+          N'555@qq.com'  -- CompanyEmail - nvarchar(50)
+        )
+2018-12-05 11:04:27:0044 SendBonus-Dal.txt
+          UPDATE dbo.SysDepart 
+          SET DepName='问问',OpenId='oym6H5NQwCQMVldW-AbRBODaTmyU',pid=0,SpellJp='WW',SpellQp='WenWen' WHERE DepId=12
+2018-12-05 11:12:28:6971 SendBonus-Dal.txt
+          UPDATE dbo.SysDepart 
+          SET DepName='深圳市讯鹏鹅湖有限公司',OpenId='oym6H5NQwCQMVldW-AbRBODaTmyU',pid=0,SpellJp='SZSXPEHYXGS',SpellQp='ShenZhenShiXunPengEHuYouXianGongSi' WHERE DepId=12
+2018-12-05 11:37:49:5454 INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'eeee' , -- CompanyName - nvarchar(200)
+          'oym6H5NQwCQMVldW-AbRBODaTmyU' , -- OpenId - varchar(200)
+          N'/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.bygTPha14eJH04968f785ee98345a3a43a3daeaa9028.png' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          convert(char,dateadd(dd,30,GETDATE()),21) , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'18854545454' , -- CompanyPhone - nvarchar(11)
+          N'888@qq.com'  -- CompanyEmail - nvarchar(50)
+        )
+2018-12-05 11:49:04:8043 SendBonus-Dal.txt
+          UPDATE dbo.SysDepart 
+          SET DepName='生真心好看是大家伙都能考上',OpenId='oym6H5NQwCQMVldW-AbRBODaTmyU',pid=0,SpellJp='SZXHKSDJHDNKS',SpellQp='ShengZhenXinHaoKanShiDaJiaHuoDuNengKaoShang' WHERE DepId=13
+2018-12-05 12:02:53:9441 INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'的地方都' , -- CompanyName - nvarchar(200)
+          'oym6H5NQwCQMVldW-AbRBODaTmyU' , -- OpenId - varchar(200)
+          N'/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.lZYeWD42yTay04968f785ee98345a3a43a3daeaa9028.png' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          convert(char,dateadd(dd,30,GETDATE()),21) , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'18827545654' , -- CompanyPhone - nvarchar(11)
+          N'888@qq.com'  -- CompanyEmail - nvarchar(50)
+        )
+2018-12-11 14:17:14:4131 INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'12' , -- CompanyName - nvarchar(200)
+          'oym6H5NQwCQMVldW-AbRBODaTmyU' , -- OpenId - varchar(200)
+          N'/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.GGjXpS3s1DCyefa3d0842be1137251c8b8d564cca8b0.png' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          convert(char,dateadd(dd,30,GETDATE()),21) , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'18854542545' , -- CompanyPhone - nvarchar(11)
+          N'123@qq.com'  -- CompanyEmail - nvarchar(50)
+        )
+2018-12-11 14:22:40:2609 INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'111' , -- CompanyName - nvarchar(200)
+          'oym6H5NQwCQMVldW-AbRBODaTmyU' , -- OpenId - varchar(200)
+          N'/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.QKb1Ap7LzeyI0a13ad6cc4393c0c57ab9183cfedcbc9.png' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          convert(char,dateadd(dd,30,GETDATE()),21) , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'18854545454' , -- CompanyPhone - nvarchar(11)
+          N'111@qq.com'  -- CompanyEmail - nvarchar(50)
+        )
+2018-12-11 14:38:46:1634 INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'111' , -- CompanyName - nvarchar(200)
+          'oym6H5NQwCQMVldW-AbRBODaTmyU' , -- OpenId - varchar(200)
+          N'/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.TMKu8JkMhApZa0a5d5110f05d963e3b954b4bb28ac00.png' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          convert(char,dateadd(dd,30,GETDATE()),21) , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'18827508169' , -- CompanyPhone - nvarchar(11)
+          N'111@qq.com'  -- CompanyEmail - nvarchar(50)
+        )
+2018-12-11 15:54:32:0274 INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'1111' , -- CompanyName - nvarchar(200)
+          'oym6H5NQwCQMVldW-AbRBODaTmyU' , -- OpenId - varchar(200)
+          N'/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.UQ5ReSIMiKmbb023980eff8cd6edb6ef2974c20cfe14.png' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          convert(char,dateadd(dd,30,GETDATE()),21) , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'18827505254' , -- CompanyPhone - nvarchar(11)
+          N'111@qq.com'  -- CompanyEmail - nvarchar(50)
+        )
+2018-12-11 16:00:52:4188 INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'111' , -- CompanyName - nvarchar(200)
+          'oym6H5NQwCQMVldW-AbRBODaTmyU' , -- OpenId - varchar(200)
+          N'/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.OORZZT5wW4DUb023980eff8cd6edb6ef2974c20cfe14.png' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          convert(char,dateadd(dd,30,GETDATE()),21) , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'18854525452' , -- CompanyPhone - nvarchar(11)
+          N'111@qq.com'  -- CompanyEmail - nvarchar(50)
+        )
+2018-12-11 16:18:15:1097 INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'111' , -- CompanyName - nvarchar(200)
+          'oym6H5NQwCQMVldW-AbRBODaTmyU' , -- OpenId - varchar(200)
+          N'/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.WNqcrZ7XJq1Db023980eff8cd6edb6ef2974c20cfe14.png' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          convert(char,dateadd(dd,30,GETDATE()),21) , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'18825454525' , -- CompanyPhone - nvarchar(11)
+          N'111@qq.com'  -- CompanyEmail - nvarchar(50)
+        )
+2018-12-13 11:04:51:0898 UPDATE  dbo.SysCompany 
+SET CompanyName='讯鹏Q',ComPhoto='/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.27ZbwKd9ZwjSb023980eff8cd6edb6ef2974c20cfe14.png',OpenId='oym6H5NQwCQMVldW-AbRBODaTmyU' 
+WHERE CompanyId='DD6CFD6D-7053-46EE-8499-A8B0D080A8E2'
+2018-12-13 11:04:57:6900 UPDATE  dbo.SysCompany 
+SET CompanyName='讯鹏QQ',ComPhoto='/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.27ZbwKd9ZwjSb023980eff8cd6edb6ef2974c20cfe14.png',OpenId='oym6H5NQwCQMVldW-AbRBODaTmyU' 
+WHERE CompanyId='DD6CFD6D-7053-46EE-8499-A8B0D080A8E2'
+2018-12-13 11:29:00:4098 UPDATE  dbo.SysCompany 
+SET CompanyName='讯鹏QQ',ComPhoto='/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.IZNYbkAhkkErd0582b43f564d21bab52e8a0f28d68f8.jpg',OpenId='oym6H5OeZL8AVcPSYhzt5tYkfCgc' 
+WHERE CompanyId='DD6CFD6D-7053-46EE-8499-A8B0D080A8E2'
+2018-12-13 14:34:56:1781 tijiaoNum:1bd2ID:2,3OpenID:oym6H5NQwCQMVldW-AbRBODaTmyU
+2018-12-13 14:34:59:3498 tijiaoNum:1bd2ID:2,3OpenID:oym6H5NQwCQMVldW-AbRBODaTmyU
+2018-12-13 14:35:10:6010 tijiaoNum:1bd2ID:2,3OpenID:oym6H5NQwCQMVldW-AbRBODaTmyU
+2018-12-13 14:40:37:8339 SendBonus-Dal.txt
+          UPDATE dbo.SysDepart 
+          SET DepName='研发组',OpenId='oym6H5NQwCQMVldW-AbRBODaTmyU',pid=1,SpellJp='YFZ',SpellQp='YanFaZu' WHERE DepId=2
+2018-12-13 15:01:38:1164 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:01:44:8956 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:01:47:4897 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:01:50:6401 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:01:52:5360 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:02:18:5585 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:02:18:5615 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:02:18:5735 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:02:18:5795 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:02:18:5875 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:02:33:2993 aaaa:zscDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:02:41:5850 aaaa:zscDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:02:58:4696 aaaa:zscDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:06:32:7422 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:06:32:7482 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:06:32:7492 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:06:32:7571 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:06:32:7611 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:06:40:1406 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:06:40:1416 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:06:40:1466 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:06:40:1606 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:06:40:1606 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:08:03:8223 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:08:03:8233 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:08:03:8283 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:08:03:8372 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:08:03:8372 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:19:9193 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:19:9193 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:19:9213 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:20:3252 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:20:3512 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:20:3952 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:20:3972 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:20:4022 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:20:4042 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:20:4092 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:20:4241 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:20:4331 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:35:2434 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:35:2474 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:35:2494 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:35:2733 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:35:2753 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:36:3164 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:37:7452 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:38:5732 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:38:5742 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:40:2894 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:46:4118 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:46:4138 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:46:4297 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:46:4317 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:46:4337 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:10:52:0464 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:43:1606 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:43:1645 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:43:1695 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:43:1795 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:43:1835 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:45:6851 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:45:6861 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:45:6901 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:45:6961 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:45:6991 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:47:9407 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:47:9417 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:47:9437 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:47:9587 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:47:9587 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:50:0192 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:50:0401 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:50:0471 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:50:0511 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:11:50:0680 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:12:01:6266 aaaa:zsc,86off5aiCMVw9811WpMm98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:12:01:6296 aaaa:zsc,86off5aiCMVw9811Mmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:12:01:6346 aaaa:zsc,86off5aiCMVw9811WpMmf98IKD711DD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:12:01:6366 aaaa:yfzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2
+2018-12-13 15:12:01:6416 aaaa:cpzDD6CFD6D-7053-46EE-8499-A8B0D080A8E2

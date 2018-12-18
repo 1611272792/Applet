@@ -1,0 +1,100 @@
+//app.js
+App({
+  onLaunch: function () {
+    var that=this;
+    // 展示本地存储能力
+    var logs = wx.getStorageSync('logs') || []
+    logs.unshift(Date.now())
+    wx.setStorageSync('logs', logs)
+    // 登录
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        console.log(res.code);
+        wx.request({
+          // url: 'http://192.168.15.139:1919/api/GetOpenId/GetOpenID',
+          url: 'http://192.168.15.139:1818/api/Sys/User/GetOpenID',
+          data: {
+            appid: "wxc8f3e894c6694d3b",//小程序唯一标识
+            secret: "ffe51fc62a5924dda9b7576c39e83dc3",//小程序的 app secret
+            js_code: res.code,
+            grant_type: "authorization_code"
+          },
+          method: "GET",
+          header: { 'content-type': 'application/json' },
+          success: function (openIdRes) {
+            console.log(openIdRes.data);
+            wx.setStorage({
+              key: 'openid',
+              data: openIdRes.data,
+            });
+            //通过open查询是否有此人的信息
+            //获取公司id
+            wx.getStorage({
+              key: 'openid',
+              success: function (openIdRes) {
+                wx.request({
+                  url: 'http://192.168.15.110:1592/api/Bos/Wo/GetEmpInfo',
+                  data: {
+                    OpenId: openIdRes.data,
+                  },
+                  method: "GET",
+                  header: {
+                    'content-type': 'application/json'
+                  },
+                  success: function (companyIdRes) {
+                    // console.log(companyIdRes.data.data[0].CompanyID);
+                    if (companyIdRes.data.code == 100) {
+                      wx.setStorage({
+                        key: 'CompanyId',
+                        data: companyIdRes.data.data[0].CompanyID,
+                      })
+                    }
+                  },
+                  fail: function () {
+                    console.log("no");
+                  }
+                })
+              },
+            })
+          }
+        })
+      }
+    })
+    // 获取用户信息
+    wx.getSetting({
+      success: res => {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          wx.getUserInfo({
+            success: res => {
+              // 可以将 res 发送给后台解码出 unionId
+              this.globalData.userInfo = res.userInfo
+
+              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+              // 所以此处加入 callback 以防止这种情况
+              if (this.userInfoReadyCallback) {
+                this.userInfoReadyCallback(res)
+              }
+            }
+          })
+        }
+      }
+    })
+    //获取设备信息
+    wx.getSystemInfo({
+      success: function (ress) {
+        // console.log(ress.windowHeight)
+        that.globalData.phoneheight = ress.windowHeight
+      }
+    })
+  },
+
+  globalData: {
+    userInfo: null,
+    phoneheight:0
+  },
+  onError: function (msg) {
+    console.log(msg)
+  }
+})

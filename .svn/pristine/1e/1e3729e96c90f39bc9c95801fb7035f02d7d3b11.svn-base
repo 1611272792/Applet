@@ -1,0 +1,147 @@
+// pages/userinpower/userinpower.js
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    items: [],//被授权人列表
+    BonusItemId:'',//奖金项id
+    durl: 'http://192.168.15.139:1818',
+    CompanyId: 'A4739A5E-51E4-424B-B656-DFB3557FF9B2',
+    OpenId: 'o986o5RVO8lkbx5I0ZBGBWNrmTI0' //登陆进来的openid
+    
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.UserInpowerList();
+  },
+  //这个奖金项授权给那些人的列表信息
+  UserInpowerList: function (e) {
+    var that = this;
+    wx.getStorage({
+      key: 'BonusItemId',
+      success: function (resdp) {
+        that.setData({
+          BonusItemId: resdp.data
+        })
+        wx.request({
+          url: that.data.durl + '/api/Bos/BonusImpower/GetBonusRecord',
+          method: "GET",
+          data: {
+            BonusItemId: resdp.data
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (resd) {
+            var countryIndexs = 0;
+            if (resd.data.code == 100) {
+              that.setData({
+                items: []
+              })
+              for (var i = 0; i < resd.data.data.length; i++) {
+
+
+                that.data.items.push({
+                  BImpowerUser: resd.data.data[i].BImpowerUser,//被授权人id
+                  Photo:that.data.durl+ resd.data.data[i].Photo,//头像
+                  BonusItemId: resd.data.data[i].BonusItemId,//被授权人奖金项id
+                  UserName: resd.data.data[i].UserName,//姓名
+                  isTouchMove: false //默认全隐藏删除
+                })
+              }
+              that.setData({
+                items: that.data.items
+              });
+             
+            }
+            else {
+              wx.showModal({
+                title: '提示',
+                content: resd.data.msg,
+              })
+            }
+
+
+          },
+          fail: function () {
+            console.log("fail");
+          }
+        })
+      },
+    })
+  },
+  //查看授权给这人的详情信息
+  BonusInpowerDetial:function(e){
+    //奖金项id
+    var BonusItemId = this.data.items[e.currentTarget.dataset.index].BonusItemId;
+    wx.setStorage({
+      key: 'BonusItemId',
+      data: BonusItemId,
+    })
+   console.log("缓存："+BonusItemId);
+    //被授权人id
+    var BImpowerUser = this.data.items[e.currentTarget.dataset.index].BImpowerUser;
+    wx.setStorage({
+      key: 'BImpowerUser',
+      data: BImpowerUser,
+    })
+    console.log("缓存2：" + BImpowerUser);
+    wx.navigateTo({
+      url: '../inpowerdetial/inpowerdetial',
+    })
+  },
+  
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  }
+})

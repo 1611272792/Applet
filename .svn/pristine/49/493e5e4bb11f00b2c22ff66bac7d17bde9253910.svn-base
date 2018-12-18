@@ -1,0 +1,18 @@
+<!--pages/about/about.wxml-->
+<view class='contaner'>
+  <view class='myimg'>
+    <image class='images' mode="aspectFill" src='{{icon}}'></image>
+  </view>
+  <view class='mylist'>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell" bindtap='ContactUs'>
+        <view class="weui-cell__bd">联系我们</view>
+        <!-- <view class="weui-cell__ft">说明文字</view> -->
+      </view>
+      <view class="weui-cell" bindtap='CheckBb'>
+        <view class="weui-cell__bd">检查新版本</view>
+        <!-- <view class="weui-cell__ft">说明文字</view> -->
+      </view>
+    </view>
+  </view>
+</view>

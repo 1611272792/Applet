@@ -1,0 +1,13 @@
+/* pages/backredeta/backredeta.wxss */
+.tui-card-content{
+  line-height: 55rpx;
+  padding: 10px;
+}
+.tuiimgs{
+  width: 100%;
+  height: 300px;
+}
+.tuiimg{
+  width: 100%;
+  height: 300px;
+}

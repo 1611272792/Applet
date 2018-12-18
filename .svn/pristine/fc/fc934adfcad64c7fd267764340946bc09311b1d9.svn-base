@@ -1,0 +1,94 @@
+﻿using SUNPN.BONUS.IDAL;
+using SUNPN.BONUS.Model;
+using SUNPN.BONUS.Model.UserClass.EditUser;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.IDAL
+{
+    public interface IUser
+    {
+       /// <summary>
+       /// 注册用户
+       /// </summary>
+       /// <param name="user">用户信息</param>
+       /// <returns>返回状态码和结果</returns>
+        string AddUser(User user);
+
+        /// <summary>
+        /// 判断用户是否注册过
+        /// </summary>
+        /// <param name="OpenId">用户OpenId</param>
+        /// <returns>返回状态码和结果</returns>
+        string CheckReg(string OpenId);
+
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="OpenId">用户OpenId</param>
+        /// <returns>返回状态码和结果</returns>
+        string DelUser(string OpenId);
+
+        /// <summary>
+        /// 管理员修改用户
+        /// </summary>
+        /// <param name="meuser">管理员可以修改的用户信息</param>
+        /// <returns></returns>
+        string UpdMUser(MEditUser meuser);
+
+        /// <summary>
+        ///自己修改用户
+        /// </summary>
+        /// <param name="ieuser">自己可以修改的用户信息</param>
+        /// <returns></returns>
+        string UpdIUser(IEditUser ieuser);
+
+        /// <summary>
+        /// 根据OpenId获取用户信息
+        /// </summary>
+        /// <param name="OpenId"></param>
+        /// <returns></returns>
+        DataTable GetUserInfo(string OpenId);
+
+        /// <summary>
+        /// 查要进入我们公司的人
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="IsOut"></param>
+        /// <returns></returns>
+        DataTable GetWaitUser(string CompanyId, string IsOut);
+
+        /// <summary>
+        /// 查询公司所有的人
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        List<DepUser> GetAllUser(string CompanyId);
+
+        /// <summary>
+        /// 员工管理--获取父级部门列表
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        List<ParList> GetParList(string CompanyId);
+
+        /// <summary>
+        /// 员工管理--根据父级部门Id查询对应的子部门列表
+        /// </summary>
+        /// <param name="DepId"></param>
+        /// <returns></returns>
+        List<ParList> GetChildList(string CompanyId,string DepId);
+
+        /// <summary>
+        /// 员工管理--根据部门Id查询其对应的所有员工列表
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="DepId"></param>
+        /// <returns></returns>
+        DataTable GetUserList(string CompanyId, string DepId);
+    }
+}

@@ -1,0 +1,333 @@
+// pages/bonussend/bonussend.js
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    userList: [],//根据奖金项查的可发放的人
+    durl: 'http://192.168.15.139:1818',
+    OpenId:'o986o5RVO8lkbx5I0ZBGBWNrmTI0',
+    CompanyId: 'A4739A5E-51E4-424B-B656-DFB3557FF9B2',
+    showRight1: false,
+    Data: [{
+      id: 0,
+      value: 'a',
+      name: 'A'
+    }, {
+      id: 2,
+      value: 'b',
+      name: 'B'
+    }],
+    GrantResonArry: [],//常用原因
+    BonusItemArray:[],//奖金项
+    currentItem: 0,//奖金项下标
+    currentItem2: 0,//常用原因下标
+    qtdisable: true,
+    moneyArry: [], //奖金参数
+    currentyy: 'tab1',
+    currentyy_scroll: 'tab1',
+    currentyyshow: true,
+    chooseImg: []
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    //查看奖金参数
+    this.SelectParams();
+    //查询奖金项
+    this.SelectBonusItem();
+    //请求常用原因的接口
+    this.SelectGrentReson();
+  },
+  //查询奖金项
+  SelectBonusItem:function(){
+    var that = this;
+    wx.request({
+      url: that.data.durl +'/api/Bos/Wo/GetItemsBonus',
+      data: {
+        CompanyId: that.data.CompanyId,
+        OpenId: that.data.OpenId
+      },
+      method: "GET",
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      },
+      success: function (resd) {
+        if (resd.data.code == "100") {
+          var Bonus=new Array();
+          for (var i = 0; i < resd.data.data.length;i++){
+            Bonus.push(
+              resd.data.data[i]
+
+            )
+          }
+          
+          
+          for (var i = 0; i < resd.data.data1.length; i++) {
+            Bonus.push(
+              resd.data.data1[i]
+
+            )
+          }
+          
+          // Bonus.push(resd.data.data1)
+          that.setData({
+            BonusItemArray: Bonus
+          })
+        }
+        else {
+          that.setData({
+            BonusItemArray: []
+          })
+        }
+      },
+      fail: function () {
+        console.log("no");
+      }
+    })
+  },
+  //查询奖金参数
+  SelectParams: function (event) {
+    var that = this;
+    wx.request({
+      url: 'http://192.168.15.110:1592/api/Sys/BonusParam/GetAllBonusParam',
+      data: {
+        CompanyId: that.data.CompanyId,
+      },
+      method: "GET",
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      },
+      success: function (resd) {
+        if (resd.data.code == "100") {
+          that.setData({
+            moneyArry: resd.data.data
+          })
+        }
+        else {
+          that.setData({
+            moneyArry: []
+          })
+        }
+      },
+      fail: function () {
+        console.log("no");
+      }
+    })
+  },
+  //选择原因类型
+  handleChange({detail}) {
+    if (detail.key == 'tab1') {
+      this.setData({
+        currentyy: detail.key,
+        currentyyshow: true
+      });
+      //请求常用原因的接口
+      this.SelectGrentReson();
+    } else {
+      this.setData({
+        currentyy: detail.key,
+        currentyyshow: false
+      });
+    }
+
+  },
+  //查常用原因
+  SelectGrentReson:function(){
+    var that = this;
+    wx.request({
+      url: that.data.durl +'/api/Bos/SendBonus/GetUsualReason',
+      data: {
+        OpenId: that.data.OpenId,
+      },
+      method: "GET",
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      },
+      success: function (resd) {
+        if (resd.data.code == "100") {
+          that.setData({
+            GrantResonArry: resd.data.data
+          })
+        }
+        else {
+          that.setData({
+            GrantResonArry: []
+          })
+        }
+      },
+      fail: function () {
+        console.log("no");
+      }
+    })
+  },
+  //选择常用原因
+  bindGrantReson:function(e){
+    console.log('picker发送选择改变，携带值为', e.detail.value);
+    this.setData({
+      currentItem2: e.detail.value
+    })
+  },
+  //扫码
+  ScansUser:function(){
+    wx.scanCode({
+      success: (res) => {
+
+        var personId = res.result;
+
+        for (var index in this.data.userList) {
+          if (this.data.userList[index].ischeck) {
+            wx.showToast({
+              title: '该用户已存在',
+              icon: 'success',
+              duration: 2000
+            })
+          }
+          else {
+            this.data.userList[index].ischeck = false;
+
+            if (this.data.userList[index].personId == personId) {
+              this.data.userList[index].ischeck = true;
+              break;
+            }
+          }
+
+
+        }
+        this.setData({
+
+          userList: this.data.userList
+        });
+      }
+    })
+  },
+  //金额选择
+  chooseMoney:function(e){
+    var that = this;
+    
+    for (var a in this.data.moneyArry) {
+
+      if (this.data.moneyArry[a].BonusParamId == e.currentTarget.dataset.pid) {
+        this.data.moneyArry[a].State = "false";
+        
+      } else {
+        this.data.moneyArry[a].State = "true";
+      }
+    }
+    this.setData({
+      moneyArry: this.data.moneyArry
+    })
+  },
+  //其他金额
+  qtMoney: function (e) {
+    for (var a in this.data.moneyArry) {
+
+
+      this.data.moneyArry[a].State = "true";
+
+    }
+    this.setData({
+      qtdisable: false,
+      moneyArry: this.data.moneyArry
+    });
+  },
+  //多选人员
+  ChooseUsers:function(e){
+    wx.showLoading({
+      title: '加载中',
+    })
+    this.setData({
+      showRight1: !this.data.showRight1
+    });
+    wx.hideLoading();
+    this.SelectUserByBID();
+  },
+  //通过奖金项id得到这个奖金项应该发的人
+SelectUserByBID:function(e){
+  var that = this;
+  var depId = that.data.BonusItemArray[that.data.currentItem].DepId;
+  wx.request({
+    url: that.data.durl + '/api/Bos/SendBonus/GetBenefitList',
+    data: {
+      DepId: depId,
+      CompanyId: that.data.CompanyId
+    },
+    method: "GET",
+    header: {
+      'content-type': 'application/x-www-form-urlencoded' // 默认值
+    },
+    success: function (resd) {
+      if (resd.data.code == "100") {
+        that.setData({
+          userList: resd.data.data
+        })
+      }
+      else {
+        that.setData({
+          userList: []
+        })
+      }
+    },
+    fail: function () {
+      console.log("no");
+    }
+  })
+},
+  //隐藏多选人员框
+  toggleRight1() {
+    this.setData({
+      showRight1: !this.data.showRight1
+    });
+  },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  }
+})

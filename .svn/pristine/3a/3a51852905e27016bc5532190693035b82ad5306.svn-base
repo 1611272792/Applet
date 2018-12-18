@@ -1,0 +1,32 @@
+<!--pages/depart/depart.wxml-->
+<!-- 滑块 -->
+<movable-area class='areas'>
+  <movable-view direction="all" x="0" y="200" bindtap='DepartAdd' class='views'>
+    <!-- <icon type="info" size="25"></icon> -->
+    <image class='addimg' src='../../src/image/add.png'></image>
+  </movable-view>
+  <view class="container">
+    <!-- <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove" wx:for="{{items}}" bindtap='DepartClick' wx:key="{{index}}">
+      <navigator url='' class="weui-cell weui-cell_access content" hover-class="weui-cell_active">
+        <view class="weui-cell__hd">
+          <image src="{{icon}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+        </view>
+        <view class="weui-cell__bd">{{item.content}}</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access">{{item.count}}</view>
+      </navigator>
+      <view class="del" catchtap="del" data-index="{{index}}">删除</view>
+      <view class="edit" catchtap="edit" data-index="{{index}}">编辑</view>
+    </view> -->
+    <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove" wx:for="{{items}}" id='{{item.DepId}}' bindtap='DepartClick' wx:key="{{index}}">
+      <view class="weui-cell content">
+        <view class="weui-cell__hd">
+          <image src="{{icon}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+        </view>
+        <view class="weui-cell__bd">{{item.content}}</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access">{{item.count}}</view>
+      </view>
+      <view class="del" catchtap="del" id='{{item.DepId}}-{{item.Pid}}' data-index="{{index}}">删除</view>
+      <view class="edit" catchtap="edit" id='{{item.DepId}}-{{item.Pid}}' data-index="{{index}}">编辑</view>
+    </view>
+  </view>
+</movable-area>

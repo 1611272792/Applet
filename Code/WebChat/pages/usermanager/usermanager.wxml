@@ -1,0 +1,85 @@
+<!--pages/depart/depart.wxml-->
+<!-- 滑块 -->
+<movable-area class='areas'>
+  <movable-view direction="all" x="0" y="200" bindtap='SelectUser' class='views'>
+
+    <icon wx:if='{{IsYou}}' type="warn" size="40"></icon>
+    <icon wx:else type="info" size="40"></icon>
+  </movable-view>
+  <view>
+    <view class="weui-search-bar">
+      <view class="weui-search-bar__form">
+        <view class="weui-search-bar__box">
+          <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+          <!-- <input type="text" class="weui-search-bar__input" placeholder="搜索个人" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" /> -->
+          <input type="text" class="weui-search-bar__input" placeholder="搜索个人" name='UserName' value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+          <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+            <icon type="clear" size="14"></icon>
+          </view>
+        </view>
+        <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+          <icon class="weui-icon-search" type="search" size="14"></icon>
+          <view class="weui-search-bar__text">搜索员工</view>
+        </label>
+      </view>
+      <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">搜索</view>
+    </view>
+  </view>
+  
+  <view wx:if="{{DepArry.length>0}}">
+    <block wx:for='{{DepArry}}' wx:for-item="item">
+      <i-panel class="cell-panel-demo" title="" bindtap='DepartClick' data-dip='{{item.DepId}}' data-pid='{{item.Pid}}'>
+        <i-cell title="{{item.DepName}}" is-link value="{{item.UserNum}}">
+          <i-icon type="like_fill" slot="icon" />
+        </i-cell>
+      </i-panel>
+    </block>
+  </view>
+  <view class="page" wx:else>
+
+    <view class="page__bd">
+
+      <view class="weui-loadmore weui-loadmore_line">
+        <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无部门</view>
+      </view>
+      <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+        <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
+      </view>
+    </view>
+  </view>
+
+
+
+  <view class="container">
+
+    <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove" wx:for="{{items}}" bindtap='UserEdit' wx:key="{{index}}">
+      <view class="weui-cell content">
+        <view class="weui-cell__hd">
+          <image src="{{item.Photo}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+        </view>
+        <view class="weui-cell__bd">{{item.UserName}}</view>
+        <!-- <view class="weui-cell__ft weui-cell__ft_in-access">{{item.UserNum}}</view> -->
+      </view>
+      <view class="del" catchtap="UserDel" data-index="{{index}}">删除</view>
+      <view class="edit" catchtap="UserEdit" data-index="{{index}}">编辑</view>
+    </view>
+  </view>
+<scroll-view style="z-index:{{ShowTop?99999:-1}},display:{{show?'block':'none'}}" scroll-y="true" class="scrollview">
+    <view wx:for="{{bindSource}}" wx:key="{{index}}">
+      <view id="{{item}}" bindtap="itemtap" class="itemview">{{util.subs(item)}}</view>
+    </view>
+  </scroll-view>
+
+</movable-area>
+<wxs module="util">
+  var subs = function(val) {
+    if (val == null) {
+      return val
+    } else {
+      return val.split(',')[0]
+    }
+  }
+ 
+  module.exports.subs = subs;
+  
+</wxs>

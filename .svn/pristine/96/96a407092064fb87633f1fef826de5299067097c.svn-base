@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "奖金",
+  "usingComponents": {
+    "i-panel": "../../dist/panel/index",
+    "i-input": "../../dist/input/index",
+    "i-icon": "../../dist/icon/index",
+    "i-avatar": "../../dist/avatar/index",
+    "i-tabs": "../../dist/tabs/index",
+    "i-tab": "../../dist/tab/index",
+    "i-button": "../../dist/button/index",
+    "i-col": "../../dist/col/index",
+    "i-drawer": "../../dist/drawer/index"
+  }
+}

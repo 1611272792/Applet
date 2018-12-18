@@ -1,0 +1,383 @@
+﻿using SUNPN.BONUS.DALFactory;
+using SUNPN.BONUS.IDAL;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SUNPN.BONUS.Model;
+using SUNPN.BONUS.DAL;
+using SUNPN.BONUS.Common;
+using SUNPN.BONUS.API.Models;
+using System.Text.RegularExpressions;
+
+namespace SUNPN.BONUS.BLL
+{
+   public class WoBLL
+    {
+        private readonly IWo dal = DataAccess.CreateWo();
+        string strSucess = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(0)).ToString();
+        string strFail = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(1)).ToString();
+
+
+
+        /// <summary>
+        /// 查看个人余额
+        /// </summary>
+        /// <returns></returns>
+        public string GetEmpBonus(string CompanyId, string OpenId)
+        {
+            DataTable state = dal.GetEmpBonus(CompanyId, OpenId);
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "no info", null);
+            }
+        }
+        /// <summary>
+        /// 查看单个人员奖金详情
+        /// </summary>
+        /// <returns></returns>
+        public string GetOneBonusInfo(string CompanyId, string OpenId, string StartTime, string EndTime)
+        {
+            DataTable state = dal.GetOneBonusInfo(CompanyId, OpenId, StartTime, EndTime);
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "no info", null);
+            }
+        }
+
+
+    /// <summary>
+    /// 查看部门余额
+    /// </summary>
+    /// <returns></returns>
+    public string GetDepBonus(string CompanyId, string OpenId)
+        {
+            DataTable state = dal.GetDepBonus(CompanyId, OpenId);
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "no info", null);
+            }
+        }
+
+
+        /// <summary>
+        /// 查看个人信息
+        /// </summary>
+        /// <returns></returns>
+        public string GetEmpInfo(string CompanyId, string OpenId)
+        {
+            DataTable state = dal.GetEmpInfo(CompanyId, OpenId);
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "error", null);
+            }
+        }
+
+
+        /// <summary>
+        /// 个人提现
+        /// </summary>
+        /// <returns></returns>
+               public string GetDeposit(string CompanyId, string OpenId,decimal Summoney)
+        {
+            string state = dal.GetDeposit(CompanyId, OpenId, Summoney);
+            if (state=="success")
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", null);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, state, null);
+            }
+        }
+
+        /// <summary>
+        /// 部门提现
+        /// </summary>
+        /// <returns></returns>
+        public string GetDepDeposit(string CompanyId, int DepID)
+        {
+            string state = dal.GetDepDeposit(CompanyId, DepID);
+            if (state == "success")
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", null);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, state, null);
+            }
+        }
+
+
+
+        /// <summary>
+        /// 查看奖金项
+        /// </summary>
+        /// <returns></returns>
+        public string GetItemsBonus(string CompanyId, string OpenId)
+        {
+            try
+            {
+                List<BonusItemInfo> listmes = dal.GetItemsBonus(CompanyId, OpenId);
+                DataTable state = dal.GetMyItemsBonus(CompanyId, OpenId);
+                if (listmes != null&& state.Rows.Count > 0)
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", listmes,state);
+                }
+                else if (listmes == null && state.Rows.Count > 0)
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "无被授权奖金项", null,state);
+                }
+                else if (listmes != null && state.Rows.Count <= 0)
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "暂无奖金项", listmes,null);
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "暂无信息", listmes, state);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// 查看自己负责奖金项
+        /// </summary>
+        /// <returns></returns>
+        public string GetMyItemsBonus(string CompanyId, string OpenId)
+        {
+            DataTable state = dal.GetMyItemsBonus(CompanyId, OpenId);
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "no info", null);
+            }
+        }
+
+
+
+        /// <summary>
+        /// 查看奖金项明细（支出和收入）
+        /// </summary>
+        /// <returns></returns>
+        public string GetMyItemsDetail(string CompanyId, string OpenId,string ItemsId)
+        {
+            List<DataTable> state = dal.GetMyItemsDetail(CompanyId, OpenId, ItemsId);
+            DataTable dd = state[0];
+            DataTable dd2 = state[1];
+            if (dd.Rows.Count>0&& dd2.Rows.Count>0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", dd, dd2);
+            }
+            else if (dd.Rows.Count == 0 && dd2.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", null, dd2);
+            }
+            else if (dd.Rows.Count > 0 && dd2.Rows.Count == 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", dd, null);
+            }  
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "no info", null);
+            }
+        }
+        
+
+        /// <summary>
+        /// 获取部门奖金详情
+        /// </summary>
+        /// <param name="DepId"></param>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        public string GetDepBonusInfo(string DepId, string CompanyId, string StartTime, string EndTime)
+        {
+            if (string.IsNullOrEmpty(DepId))
+            {
+                return ResponseHandle<object>.GetResult(strFail, "departID is null", null);
+            }
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return ResponseHandle<object>.GetResult(strFail, "CompanyID is null", null);
+            }
+            try
+            {
+                DataTable dtbmes = dal.GetDepBonusInfo(DepId, CompanyId, StartTime, EndTime);
+                if (dtbmes.Rows.Count > 0)
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", dtbmes);
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "暂无数据", null);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message, null);
+            }
+        }
+
+
+        /// <summary>
+        /// 个人交易
+        /// </summary>
+        /// <returns></returns>
+        public string AddTrading(BonusDeal deal)
+        {
+            if (deal.TradingMoney <= 0)
+            {
+                return ResponseHandle<object>.GetResult(strFail, "no money!", null);
+            } 
+            else if (deal.DisMan == deal.EarMan)
+            {
+                return ResponseHandle<object>.GetResult(strFail, "disman and earman is one people!", null);
+            } else if (deal.HaveMoney<deal.TradingMoney) {
+                return ResponseHandle<object>.GetResult(strFail, "not sufficient funds", null);
+            }
+            else                                              
+            {
+                string state = dal.AddTrading(deal);
+
+                if (state == "success")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, state);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 意见反馈
+        /// </summary>
+        /// <returns></returns>
+        public string AddSuggest(Suggest sug)
+        {
+            string state="";
+           
+                state = dal.AddSuggestNoImg(sug);
+         
+               
+
+                if (state == "success")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", null);
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, state, null);
+                }
+            }
+
+        /// <summary>
+        /// 查看意见反馈
+        /// </summary>
+        /// <returns></returns>
+        public string GetSuggest(string StartTime,string EndTime)
+        {
+            
+                 DataTable state = dal.GetSuggest(StartTime, EndTime);
+                if (state.Rows.Count > 0)
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", state);
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "no info", null);
+                }
+          
+         
+        }
+
+        /// <summary>
+        /// 查看意见反馈详情
+        /// </summary>
+        /// <returns></returns>
+        public string GetSuggestDetail(string ResonId)
+        {
+
+        List<DataTable> state = dal.GetSuggestDetail(ResonId);
+            DataTable dd = state[0];
+            DataTable dd2 = state[1];
+            if (dd.Rows.Count > 0 && dd2.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", dd, dd2);
+            }
+            else if (dd.Rows.Count == 0 && dd2.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "no imageSuggest", null, dd2);
+            }
+            else if (dd.Rows.Count > 0 && dd2.Rows.Count == 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "no wordSuggest", dd, null);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "no info", null);
+            }
+
+        }
+
+
+        /// <summary>
+        /// 查看奖金数据中的备注信息
+        /// </summary>
+        /// <param name="BonusId"></param>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        public string GetRemark(string BonusId, string CompanyId)
+        {
+
+            DataTable ContentDT = dal.GetRemark(BonusId, CompanyId,0);
+            DataTable ImageDT = dal.GetRemark(BonusId, CompanyId, 1);
+            if (ContentDT.Rows.Count > 0&& ImageDT.Rows.Count>0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", ContentDT, ImageDT);
+            }
+            else if (ContentDT.Rows.Count <= 0 && ImageDT.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", null, ImageDT);
+            }
+            else if (ContentDT.Rows.Count > 0 && ImageDT.Rows.Count <= 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", ContentDT, null);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "no info", null);
+            }
+
+
+        }
+    }
+}

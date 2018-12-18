@@ -1,0 +1,101 @@
+2018-12-05 10:00:26:1391 INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'ddd' , -- CompanyName - nvarchar(200)
+          'oym6H5NQwCQMVldW-AbRBODaTmyU' , -- OpenId - varchar(200)
+          N'/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.PtrwxiEcJWvkb023980eff8cd6edb6ef2974c20cfe14.png' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          convert(char,dateadd(dd,30,GETDATE()),21) , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'18852454545' , -- CompanyPhone - nvarchar(11)
+          N'888@qq.com'  -- CompanyEmail - nvarchar(50)
+        )
+2018-12-05 10:12:49:3660 INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'张哥' , -- CompanyName - nvarchar(200)
+          'oym6H5NQwCQMVldW-AbRBODaTmyU' , -- OpenId - varchar(200)
+          N'/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.2l91WgGieHQfb023980eff8cd6edb6ef2974c20cfe14.png' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          convert(char,dateadd(dd,30,GETDATE()),21) , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'15545454542' , -- CompanyPhone - nvarchar(11)
+          N'555@qq.com'  -- CompanyEmail - nvarchar(50)
+        )
+2018-12-05 11:04:27:0044 SendBonus-Dal.txt
+          UPDATE dbo.SysDepart 
+          SET DepName='问问',OpenId='oym6H5NQwCQMVldW-AbRBODaTmyU',pid=0,SpellJp='WW',SpellQp='WenWen' WHERE DepId=12
+2018-12-05 11:12:28:6971 SendBonus-Dal.txt
+          UPDATE dbo.SysDepart 
+          SET DepName='深圳市讯鹏鹅湖有限公司',OpenId='oym6H5NQwCQMVldW-AbRBODaTmyU',pid=0,SpellJp='SZSXPEHYXGS',SpellQp='ShenZhenShiXunPengEHuYouXianGongSi' WHERE DepId=12
+2018-12-05 11:37:49:5454 INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'eeee' , -- CompanyName - nvarchar(200)
+          'oym6H5NQwCQMVldW-AbRBODaTmyU' , -- OpenId - varchar(200)
+          N'/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.bygTPha14eJH04968f785ee98345a3a43a3daeaa9028.png' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          convert(char,dateadd(dd,30,GETDATE()),21) , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'18854545454' , -- CompanyPhone - nvarchar(11)
+          N'888@qq.com'  -- CompanyEmail - nvarchar(50)
+        )
+2018-12-05 11:49:04:8043 SendBonus-Dal.txt
+          UPDATE dbo.SysDepart 
+          SET DepName='生真心好看是大家伙都能考上',OpenId='oym6H5NQwCQMVldW-AbRBODaTmyU',pid=0,SpellJp='SZXHKSDJHDNKS',SpellQp='ShengZhenXinHaoKanShiDaJiaHuoDuNengKaoShang' WHERE DepId=13
+2018-12-05 12:02:53:9441 INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'的地方都' , -- CompanyName - nvarchar(200)
+          'oym6H5NQwCQMVldW-AbRBODaTmyU' , -- OpenId - varchar(200)
+          N'/Images/CompanyImg/wx734c6668ffb249a8.o6zAJs53t1YLgVLMKEIb4l0xBw94.lZYeWD42yTay04968f785ee98345a3a43a3daeaa9028.png' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          convert(char,dateadd(dd,30,GETDATE()),21) , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'18827545654' , -- CompanyPhone - nvarchar(11)
+          N'888@qq.com'  -- CompanyEmail - nvarchar(50)
+        )

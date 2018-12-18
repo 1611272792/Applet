@@ -1,0 +1,404 @@
+﻿using SUNPN.BONUS.DBUtility;
+using SUNPN.BONUS.IDAL;
+using SUNPN.BONUS.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.DAL
+{
+    public class RoleDal : IRole
+    {
+        #region 添加角色
+        /// <summary>
+        /// 添加角色
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        public string AddRole(Role role)
+        {
+            if (string.IsNullOrEmpty(role.RoleName))
+            {
+                return "RoleName is Null";
+            }
+            if (string.IsNullOrEmpty(role.AuthorId))
+            {
+                return "AuthorId is Null";
+            }
+            try
+            {
+                role.AuthorId = role.AuthorId.Substring(0, role.AuthorId.Length);
+                var changdu = role.AuthorId.Split(',');
+                string sqlstr = string.Format($"exec proc_Role 'AddRole',0,'{role.RoleName}','{role.CompanyId}',{role.IsActive},'{role.AuthorId}',{changdu.Length}");
+                string info = DbHelperSQL.EditDataCommand(sqlstr);
+                if (info == "0")
+                {
+                    return "ok";
+                }
+                else
+                {
+                    return "no";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+        #endregion
+
+        #region 更新角色
+        /// <summary>
+        /// 更新角色
+        /// </summary>
+        /// <param name="role">Role实体类</param>
+        /// <returns></returns>
+        public string UpdRole(Role role)
+        {
+            if (string.IsNullOrEmpty(role.RoleId))
+            {
+                return "RoleId is Null";
+            }
+            if (string.IsNullOrEmpty(role.RoleName))
+            {
+                return "RoleName is Null";
+            }
+            if (string.IsNullOrEmpty(role.AuthorId))
+            {
+                return "AuthorId is Null";
+            }
+            try
+            {
+                role.AuthorId = role.AuthorId.Substring(0, role.AuthorId.Length);
+                var changdu = role.AuthorId.Split(',');
+                string[] canshu = new string[] { role.RoleId, role.RoleName, role.CompanyId, role.IsActive, role.AuthorId, changdu.Length.ToString() };
+                string info = DbHelperSQL.EditDataProcedure("proc_Role", "SelectRole", canshu);
+                if (info == "0")
+                {
+                    return "ok";
+                }
+                else
+                {
+                    return "no";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+        #endregion
+
+        #region 删除角色
+        /// <summary>
+        /// 删除角色
+        /// </summary>
+        /// <param name="RoleId">角色RoleId</param>
+        /// <returns>返回结果</returns>
+        public string DelRole(string RoleId)
+        {
+            if (string.IsNullOrEmpty(RoleId))
+            {
+                return "Role is Null";
+            }
+            try
+            {
+                string[] canshu = new string[] { RoleId };
+                string info = DbHelperSQL.EditDataProcedure("proc_Role", "DelRole", canshu);
+                if (info == "0")
+                {
+                    return "ok";
+                }
+                else
+                {
+                    return "no";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+        #endregion
+
+        #region 查询本公司所有角色
+        /// <summary>
+        /// 根据公司id查询本公司所有角色（IsActive为0）
+        /// </summary>
+        /// <param name="CompanyId">公司Id</param>
+        /// <returns>返回datatable数据集</returns>
+        public DataTable GetAllRole(string CompanyId,string Sign)
+        {
+            //1全部  2.有效的
+            string allRolesql = "";
+            try
+            {
+                if (Sign=="1")
+                {
+                    allRolesql = string.Format($"SELECT RoleId,RoleName FROM dbo.SysRole WHERE CompanyId='{CompanyId}'");
+                }
+                else
+                {
+                    allRolesql = string.Format($"SELECT RoleId,RoleName FROM dbo.SysRole WHERE CompanyId='{CompanyId}' AND IsActive=0");
+                }
+                
+                DataTable allRole = DbHelperSQL.ExecuteDataTable(allRolesql);
+                return allRole;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        #endregion
+
+        #region 根据RoleId获取获取角色的权限信息
+        /// <summary>
+        /// 根据RoleId获取获取角色的权限信息
+        /// </summary>
+        /// <param name="RoleId"></param>
+        /// <returns></returns>
+        public List<AuthorModellist> GetAuthorInfo(string RoleId)
+        {
+            string sqlstr3 = string.Format("SELECT RoleName,dbo.SysRole.RoleId,Authorid,IsActive FROM dbo.SysRole INNER JOIN  dbo.SysRoleDetial ON SysRoleDetial.RoleId = SysRole.RoleId AND dbo.SysRoleDetial.RoleId='{0}'", RoleId);
+            DataTable dt3 = DbHelperSQL.ExecuteDataTable(sqlstr3);
+            if (dt3.Rows.Count > 0)
+            {
+                #region 显示的权限
+                //查出所有父权限
+                string sqlstr = string.Format("select * from SysAuthor where Pid is null and IsActive=0");
+                DataTable dt = DbHelperSQL.ExecuteDataTable(sqlstr);
+                //根据父id得到子id
+                List<AuthorModellist> authorlist = new List<AuthorModellist>();
+                if (dt.Rows.Count > 0)
+                {
+
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        AuthorModellist Authors = new AuthorModellist();
+                        Authors.Id = dt.Rows[i]["AuthorId"].ToString();
+                        Authors.Name = dt.Rows[i]["AuthorName"].ToString();
+                        Authors.AuthName = dt3.Rows[0]["RoleName"].ToString();
+                        Authors.AuthId = dt3.Rows[0]["RoleId"].ToString();
+                        Authors.IsActive = dt3.Rows[0]["IsActive"].ToString();//是否有效
+                        List<AuthorModel> amlist = new List<AuthorModel>();
+                        string sqlstr2 = string.Format("select * from SysAuthor where Pid={0} and IsActive=0", dt.Rows[i]["AuthorId"].ToString());
+                        DataTable dt2 = DbHelperSQL.ExecuteDataTable(sqlstr2);
+                        if (dt2.Rows.Count > 0)
+                        {
+
+                            for (int ii = 0; ii < dt2.Rows.Count; ii++)
+                            {
+                                AuthorModel am = new AuthorModel();
+                                for (int a = 0; a < dt3.Rows.Count; a++)
+                                {
+                                    if (dt3.Rows[a]["AuthorId"].ToString() == dt2.Rows[ii]["AuthorId"].ToString())
+                                    {
+                                        am.AuthorContian = "0";//为0就代表有这个
+                                        a = dt3.Rows.Count;
+                                    }
+                                    else
+                                    {
+                                        am.AuthorContian = "1";
+                                    }
+                                }
+
+                                am.AuthorId = dt2.Rows[ii]["AuthorId"].ToString();
+                                am.AuthorName = dt2.Rows[ii]["AuthorName"].ToString();
+                                am.AuthorUrl = dt2.Rows[ii]["AuthorUrl"].ToString();
+                                am.AuthorIcons = dt2.Rows[ii]["AuthorPhoto"].ToString();
+                                amlist.Add(am);
+                            }
+                            Authors.listAuthor = amlist;
+
+                        }
+
+                        authorlist.Add(Authors);
+                    }
+                    return authorlist;
+
+                }
+                else
+                {
+                    return null;
+                }
+                #endregion
+            }
+            else
+            {
+                return null;
+            }
+        }
+        #endregion
+
+        public List<AuthorModellist> GetAuthorInfo2(string RoleId)
+        {
+            string sqlstr3 = string.Format("SELECT RoleName,dbo.SysRole.RoleId,Authorid,IsActive FROM dbo.SysRole INNER JOIN  dbo.SysRoleDetial ON SysRoleDetial.RoleId = SysRole.RoleId AND dbo.SysRoleDetial.RoleId='{0}' and IsActive=0", RoleId);
+            DataTable dt3 = DbHelperSQL.ExecuteDataTable(sqlstr3);
+            if (dt3.Rows.Count > 0)
+            {
+                #region 显示的权限
+                //查出所有父权限
+                string sqlstr = string.Format("select * from SysAuthor where Pid is null and IsActive=0");
+                DataTable dt = DbHelperSQL.ExecuteDataTable(sqlstr);
+                //根据父id得到子id
+                List<AuthorModellist> authorlist = new List<AuthorModellist>();
+                if (dt.Rows.Count > 0)
+                {
+
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        AuthorModellist Authors = new AuthorModellist();
+                        Authors.Id = dt.Rows[i]["AuthorId"].ToString();
+                        Authors.Name = dt.Rows[i]["AuthorName"].ToString();
+                        Authors.AuthName = dt3.Rows[0]["RoleName"].ToString();
+                        Authors.AuthId = dt3.Rows[0]["RoleId"].ToString();
+                        Authors.IsActive = dt3.Rows[0]["IsActive"].ToString();//是否有效
+                        List<AuthorModel> amlist = new List<AuthorModel>();
+                        string sqlstr2 = string.Format("select * from SysAuthor where Pid={0} and IsActive=0", dt.Rows[i]["AuthorId"].ToString());
+                        DataTable dt2 = DbHelperSQL.ExecuteDataTable(sqlstr2);
+                        if (dt2.Rows.Count > 0)
+                        {
+
+                            for (int ii = 0; ii < dt2.Rows.Count; ii++)
+                            {
+                                AuthorModel am = new AuthorModel();
+                                for (int a = 0; a < dt3.Rows.Count; a++)
+                                {
+                                    if (dt3.Rows[a]["AuthorId"].ToString() == dt2.Rows[ii]["AuthorId"].ToString())
+                                    {
+                                        am.AuthorContian = "0";//为0就代表有这个
+                                        a = dt3.Rows.Count;
+                                    }
+                                    else
+                                    {
+                                        am.AuthorContian = "1";
+                                    }
+                                }
+
+                                am.AuthorId = dt2.Rows[ii]["AuthorId"].ToString();
+                                am.AuthorName = dt2.Rows[ii]["AuthorName"].ToString();
+                                am.AuthorUrl = dt2.Rows[ii]["AuthorUrl"].ToString();
+                                am.AuthorIcons = dt2.Rows[ii]["AuthorPhoto"].ToString();
+                                amlist.Add(am);
+                            }
+                            Authors.listAuthor = amlist;
+
+                        }
+
+                        authorlist.Add(Authors);
+                    }
+                    return authorlist;
+
+                }
+                else
+                {
+                    return null;
+                }
+                #endregion
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        #region 添加角色页面获取所有权限信息
+        /// <summary>
+        /// 添加角色页面获取所有权限信息
+        /// </summary>
+        /// <param name="RoleId"></param>
+        /// <returns></returns>
+        public List<AuthorModellist> GetAllAuthorInfo(string CompanyId)
+        {
+            //判断公司Id是否为空
+            if (CompanyId == null || CompanyId == "")
+            {
+                return null;
+            }
+            //判断用户的CompanyId是否有效
+            string validcomsql = string.Format($"SELECT CompanyId FROM dbo.SysCompany WHERE CompanyId='{CompanyId}'");
+            DataTable validcom = DbHelperSQL.ExecuteDataTable(validcomsql);
+            if (validcom.Rows.Count <= 0)
+            {
+                return null;
+            }
+            #region 添加显示的权限
+            string isflagsql = string.Format($"select IsFlag from dbo.SysCompany where CompanyId='{CompanyId}'");
+            DataTable isflag = DbHelperSQL.ExecuteDataTable(isflagsql);
+            string sqlstr = "";
+            if (int.Parse(isflag.Rows[0]["IsFlag"].ToString()) == 1)
+            {
+                //查出所有父权限
+                sqlstr = string.Format("select * from SysAuthor where Pid is null and IsActive=0 ORDER BY AuthorIndex ASC");
+            }
+            else
+            {
+                //查出所有父权限
+                sqlstr = string.Format("select * from SysAuthor where Pid is null and IsActive=0 and FanWei=0 ORDER BY AuthorIndex ASC");
+            }
+            DataTable dt = DbHelperSQL.ExecuteDataTable(sqlstr);
+            //根据父id得到子id
+            List<AuthorModellist> authorlist = new List<AuthorModellist>();
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    AuthorModellist Authors = new AuthorModellist();
+                    Authors.Id = dt.Rows[i]["AuthorId"].ToString();
+                    Authors.Name = dt.Rows[i]["AuthorName"].ToString();
+                    List<AuthorModel> amlist = new List<AuthorModel>();
+                    string sqlstr2 = "";
+                    if (int.Parse(isflag.Rows[0]["IsFlag"].ToString()) == 1)
+                    {
+                        sqlstr2 = string.Format("select * from SysAuthor where Pid={0} and IsActive=0 ORDER BY AuthorIndex ASC", dt.Rows[i]["AuthorId"].ToString());
+                    }
+                    else
+                    {
+                        sqlstr2 = string.Format("select * from SysAuthor where Pid={0} and IsActive=0 and FanWei=0 ORDER BY AuthorIndex ASC", dt.Rows[i]["AuthorId"].ToString());
+                    }                   
+                    DataTable dt2 = DbHelperSQL.ExecuteDataTable(sqlstr2);
+                    if (dt2.Rows.Count > 0)
+                    {
+                        for (int ii = 0; ii < dt2.Rows.Count; ii++)
+                        {
+                            AuthorModel am = new AuthorModel();
+                            am.AuthorId = dt2.Rows[ii]["AuthorId"].ToString();
+                            am.AuthorName = dt2.Rows[ii]["AuthorName"].ToString();
+                            am.AuthorUrl = dt2.Rows[ii]["AuthorUrl"].ToString();
+                            am.AuthorIcons = "false";
+                            amlist.Add(am);
+                        }
+                        Authors.listAuthor = amlist;
+                    }
+                    authorlist.Add(Authors);
+                }
+                return authorlist;
+            }
+            else
+            {
+                return null;
+            }
+            #endregion
+        }
+
+        #endregion
+
+        //#region 日志
+        //private void WriteLog(string strmsg)
+        //{
+        //    strmsg = $"{strmsg}\r\n";
+        //    using (FileStream fs = System.IO.File.Open("D:\\Role-Dal.txt", FileMode.Append, FileAccess.Write, FileShare.Write))
+        //    {
+        //        byte[] bys = Encoding.Default.GetBytes(strmsg);
+        //        fs.Write(bys, 0, bys.Length);
+        //        fs.Close();
+        //    }
+        //}
+        //#endregion
+    }
+}

@@ -1,0 +1,110 @@
+﻿using SUNPN.BONUS.DALFactory;
+using SUNPN.BONUS.IDAL;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SUNPN.BONUS.Model;
+using SUNPN.BONUS.DAL;
+using SUNPN.BONUS.Common;
+using SUNPN.BONUS.API.Models;
+using System.Text.RegularExpressions;
+
+namespace SUNPN.BONUS.BLL
+{
+  public  class BonusParamBLL
+    {
+        private readonly IBonusParam dal = DataAccess.CreateBonusParam();
+        string strSucess = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(0)).ToString();
+        string strFail = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(1)).ToString();
+        /// <summary>
+        /// 添加奖金参数
+        /// </summary>
+        /// <returns></returns>
+        public string AddBonusParam(BonusParam bonusPar) {
+            string state = dal.AddBonusParam(bonusPar);
+
+            if (state == "100")
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", "");
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, state, "");
+            }
+        }
+
+        /// <summary>
+        /// 修改奖金参数
+        /// </summary>
+        /// <returns></returns>
+        public string UpdBonusParam(BonusParam bonusPar) {
+            string state = dal.UpdBonusParam(bonusPar);
+
+            if (state == "100")
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", "");
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, state, "");
+            }
+        }
+
+        /// <summary>
+        /// 删除奖金参数
+        /// </summary>
+        /// <returns></returns>
+        public string DelBonusParam(int BonusParId) {
+            string state = dal.DelBonusParam(BonusParId);
+
+            if (state == "100")
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", "");
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, state, "");
+            }
+        }
+
+
+
+        /// <summary>
+        /// 查看奖金参数
+        /// </summary>
+        /// <returns></returns>
+        public string GetBonusParam(int BonusParId) {
+            DataTable state = dal.GetBonusParam(BonusParId);
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "show false", "");
+            }
+        }
+
+
+        /// <summary>
+        /// 查看所有奖金参数列表
+        /// </summary>
+        /// <returns></returns>
+        public string GetAllBonusParam(string CompanyID)
+        {
+            DataTable state = dal.GetAllBonusParam(CompanyID);
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "show false", "");
+            }
+        }
+        
+    }
+}

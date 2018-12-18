@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.Model.UserClass.EditUser
+{
+    /// <summary>
+    /// 管理员可以修改的信息
+    /// </summary>
+   public class MEditUser
+    {
+        [Required(ErrorMessage = "OpenId不能为空")]
+        public string OpenId { get; set; }
+
+        public string JoinDate { get; set; }
+
+        public string IsOut { get; set; }
+
+        public string DepId { get; set; }
+
+        public string PostId { get; set; }
+
+        public string SpellJp { get; set; }
+
+        public string SpellQp { get; set; }
+
+        public string UserName { get; set; }
+
+        [Required(ErrorMessage = "CompanyId不能为空")]
+        public string CompanyId { get; set; }
+
+        public string RoleId { get; set; }
+    }
+}

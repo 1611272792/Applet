@@ -1,0 +1,104 @@
+// pages/bonussend/bonussend.js
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    userList: [],
+    showRight1: false,
+    Data: [{
+      id: 0,
+      value: 'a',
+      name: 'A'
+    }, {
+      id: 2,
+      value: 'b',
+      name: 'B'
+    }],
+    array: ['美国', '中国', '巴西', '日本'],
+    currentItem: 0,
+    qtdisable: true,
+    moneyArry: [{
+      moneyText: "大金牛",
+      moneyNum: 10,
+      id: 1,
+      chooseMoney: true
+    }, {
+      moneyText: "小金牛",
+      moneyNum: 10,
+      id: 2,
+      chooseMoney: true
+    }, {
+      moneyText: "中金牛",
+      moneyNum: 10,
+      id: 3,
+      chooseMoney: true
+    }, {
+      moneyText: "超级金牛",
+      moneyNum: 10,
+      id: 4,
+      chooseMoney: true
+    }],
+    currentyy: 'tab1',
+    currentyy_scroll: 'tab1',
+    currentyyshow: true,
+    chooseImg: []
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+  
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+  
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+  
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+  
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+  
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+  
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+  
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+  
+  }
+})

@@ -1,0 +1,115 @@
+<!--pages/editbonusitem/editbonusitem.wxml-->
+<form bindsubmit='formSubmit' bindreset='formReset'>
+<view class="weui-cells weui-cells_after-title">
+<!-- 名称 -->
+  <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__hd">
+      <view class="weui-label">名称</view>
+    </view>
+    <view class="weui-cell__bd">
+      <input class="weui-input" name='BonusItemName' placeholder="奖金项名称" value='{{BonusItemArry[0].BonusItemName}}' />
+    </view>
+  </view>
+  
+<!-- 类型 -->
+  <view class="weui-cell">
+    <view class="weui-cell__hd">
+      <view class="weui-label">类型</view>
+    </view>
+    <view class="weui-cell__bd">
+      <radio-group class="radio-group" bindchange="TypeChange">
+        <label class="radio">
+          <radio value="0" checked="true"/>公司级
+        </label>
+        <label class="radio">
+          <radio value="1" checked="{{BonusItemArry[0].BItemType}}" />部门级
+        </label>
+      </radio-group>
+    </view>
+  </view>
+  
+  <!-- 负责人 -->
+  <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__hd">
+      <view class="weui-label">负责人</view>
+    </view>
+    <view class="weui-cell__bd">
+      <!-- <input class="weui-input" name='UserName' placeholder="负责人" /> -->
+      <input class="weui-input" type='text' name='UserName' bindinput="bindUser" value="{{inputName}}" placeholder="请输入拼音简写" />
+    </view>
+  </view>
+  <scroll-view style="z-index:{{ShowTop?99999:-99999}}" scroll-y="true" class="scrollview">
+    <view wx:for="{{bindUserSource}}" wx:key="{{index}}">
+      <view id="{{item}}" bindtap="Useritemtap" class="itemview">{{util.subs(item)}}</view>
+    </view>
+  </scroll-view>
+
+<!-- 受益部门 -->
+<view wx:if="{{DepShow}}" class="weui-cell weui-cell_input">
+    <view class="weui-cell__hd">
+      <view class="weui-label">受益部门</view>
+    </view>
+    <view class="weui-cell__bd">
+      <!-- <input class="weui-input" name='UserName' placeholder="负责人" /> -->
+      <input class="weui-input" type='text' name='DepName' bindinput="bindDep" value="{{DepinputName}}" placeholder="请输入拼音简写" />
+    </view>
+  </view>
+  <scroll-view style="z-index:{{ShowDepTop?99999:-99999}}" scroll-y="true" class="scrollview2">
+    <view wx:for="{{bindDepSource}}" wx:key="{{index}}">
+      <view id="{{item}}" bindtap="Depitemtap" class="itemview2">{{util.subs2(item)}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 有效月份 -->
+   <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__hd">
+      <view class="weui-label">有效月份</view>
+    </view>
+    <view class="weui-cell__bd">
+      <input class="weui-input" type='number' name='InDate' maxlength='2' placeholder="工号"  value='{{BonusItemArry[0].InDate}}' />
+    </view>
+  </view>
+  
+  <!-- 启用状态 -->
+  <view class="weui-cell">
+    <view class="weui-cell__hd">
+      <view class="weui-label">启用状态</view>
+    </view>
+    <view class="weui-cell__bd">
+      <radio-group class="radio-group" bindchange="ActiveChange">
+        <label class="radio">
+          <radio value="0" checked="true" />启用
+        </label>
+        <label class="radio">
+          <radio value="1" checked='{{BonusItemArry[0].IsActive}}'/>禁用
+        </label>
+      </radio-group>
+    </view>
+  </view>
+
+  <view class="btn-area">
+    <button id='btnsubmit' formType="submit">提交</button>
+    <button type='warn' id='btnreset' formType="reset">取消</button>
+  </view>
+
+</view>
+</form>
+<wxs module="util">
+  var subs = function(val) {
+    if (val == null) {
+      return val
+    } else {
+      return val.split(',')[0]
+    }
+  }
+  module.exports.subs = subs;
+
+   var subs2 = function(val) {
+    if (val == null) {
+      return val
+    } else {
+      return val.split(',')[1]
+    }
+  }
+  module.exports.subs2 = subs2;
+</wxs>

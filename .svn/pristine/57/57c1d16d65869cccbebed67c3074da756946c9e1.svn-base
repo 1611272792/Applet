@@ -1,0 +1,15 @@
+<!--pages/comproblem/comproblem.wxml-->
+<view class="weui-cells weui-cells_after-title">
+  <navigator url="../tbygybm/tbygybm" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+    <view class="weui-cell__bd">如何同步员工与部门</view>
+    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+  </navigator>
+  <navigator url="../rhszjjx/rhszjjx" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+    <view class="weui-cell__bd">如何设置奖金项</view>
+    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+  </navigator>
+  <navigator url="../rhjxjjsq/rhjxjjsq" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+    <view class="weui-cell__bd">如何进行奖金授权</view>
+    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+  </navigator>
+</view>

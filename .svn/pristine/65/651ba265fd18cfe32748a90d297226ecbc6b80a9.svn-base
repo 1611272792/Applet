@@ -1,0 +1,48 @@
+<!--pages/tbygybm/tbygybm.wxml-->
+<view>
+  <view class="tuihead myfont">
+    奖金系统如何管理员工?
+  </view>
+</view>
+<view class="tui-card">
+  <view class="tuicontent">
+    1.通过点击底部导航栏的【功能】按钮,进入功能界面->点击【员工管理】->点击部门后查看此部门中对应的员工
+  </view>
+  <view class="tui-card-content">
+    <swiper class="tui-swiper" indicator-dots="{{indicatorDots}}" vertical="{{vertical}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-color="#777" indicator-active-color="red">
+      <block wx:for-items="{{imgUrls}}" wx:key="{{index}}">
+        <swiper-item>
+          <image class="tui-img" src="{{item}}" mode='scaleToFill' />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</view>
+<view class="tui-card">
+  <view class="tuicontent">
+    2.同步员工成功后通过点击【编辑员工】页面，左滑有编辑员工
+  </view>
+  <view class="tui-card-content">
+    <swiper class="tui-swiper" indicator-dots="{{indicatorDots}}" vertical="{{vertical}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-color="#777" indicator-active-color="red">
+      <block wx:for-items="{{imgUrls2}}" wx:key="{{index}}">
+        <swiper-item>
+          <image class="tui-img" src="{{item}}" mode='scaleToFill' />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</view>
+<view class="tui-card">
+  <view class="tuicontent">
+    3.部门与上述员工一致，同步完成后给部门相关负责人即可
+  </view>
+  <view class="tui-card-content">
+    <swiper class="tui-swiper" indicator-dots="{{indicatorDots}}" vertical="{{vertical}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-color="#777" indicator-active-color="red">
+      <block wx:for-items="{{imgUrls3}}" wx:key="{{index}}">
+        <swiper-item>
+          <image class="tui-img" src="{{item}}" mode='scaleToFill' />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</view>

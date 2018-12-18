@@ -1,0 +1,543 @@
+﻿using SUNPN.BONUS.Common;
+using SUNPN.BONUS.DAL;
+using SUNPN.BONUS.DALFactory;
+using SUNPN.BONUS.IDAL;
+using SUNPN.BONUS.Model;
+using SUNPN.BONUS.Model.UserClass.EditUser;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace SUNPN.BONUS.BLL
+{
+    public class UserBLL
+    {
+
+        #region 状态码枚举
+        string strSucess = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(0)).ToString();
+        string strFail = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(1)).ToString();
+        string strError = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(2)).ToString();
+        #endregion
+
+        #region 定义变量 用户数据访问层
+        /// <summary>
+        /// 用户数据访问层
+        /// </summary>
+        private readonly IUser dal = DataAccess.CreateUser();
+
+        #endregion
+
+        #region 注册用户信息
+        /// <summary>
+        /// 注册用户
+        /// </summary>
+        /// <param name="user">用户信息</param>
+        /// <returns>返回注册用户注册信息</returns>
+        public string AddUser(User user)
+        {          
+            try
+            {
+                //Log.AppLog(user.Photo);
+                string mes = dal.AddUser(user);
+                //Log.AppLog(mes);
+                if (mes == "ok")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", "");
+                }
+                else if (mes == "isin")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "此用户已存在", "");
+                }
+                else if (mes == "nullCompanyId")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "公司Id为空", "");
+                }
+                else if (mes == "isincom")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "公司Id无效", "");
+                }
+                else if (mes == "isinuser")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "此UserId已在本公司注册", "");
+                }
+                else if (mes == "outnum")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "公司人数已超过上限", "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, mes, "");
+                }
+            }
+           
+            catch (Exception ex) {
+                return ResponseHandle<object>.GetResult(strFail,ex.Message, "");
+            }                     
+        }
+        #endregion
+
+        #region 注册用户信息
+        /// <summary>
+        /// 注册用户
+        /// </summary>
+        /// <param name="user">用户信息</param>
+        /// <returns>返回注册用户注册信息</returns>
+        public string AddUser2(User user)
+        {
+            try
+            {
+                //WriteLog(user.Photo);
+                string mes = dal.AddUser2(user);
+                //WriteLog(mes);
+                if (mes == "ok")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", "");
+                }
+                else if (mes == "isin")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "此用户已存在", "");
+                }
+                else if (mes == "isincom")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "公司Id无效", "");
+                }
+                else if (mes == "isinuser")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "此UserId已在本公司注册", "");
+                }
+                else if (mes == "outnum")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "公司人数已超过上限", "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, mes, "");
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 判断用户是否注册过
+        /// <summary>
+        /// 判断用户是否注册过
+        /// </summary>
+        /// <param name="OpenId">用户OpenId</param>
+        /// <returns></returns>
+        public string CheckReg(string OpenId)
+        {
+            //string strSucess = "", strFail = "";
+            try
+            {
+                string mes = dal.CheckReg(OpenId);
+                //strSucess = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(0)).ToString();
+                //strFail = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(1)).ToString();
+                if (mes == "ok")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "已注册通过", "");
+                }
+                else if (mes == "out")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "已离职", "");
+                }
+                else if (mes == "del")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "已注销系统", "");
+                }
+                else if (mes == "isin")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "已注册未通过", "");
+                }
+                else if (mes == "no")
+                {                   
+                    return ResponseHandle<object>.GetResult(strFail, "未注册", "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, mes, "");
+                }
+            }
+            catch (Exception ex)
+            {
+              return  ResponseHandle<object>.GetResult(strError, ex.Message, "");
+    
+            }
+        }
+        #endregion
+
+        #region 修改用户
+
+        #region 管理员修改信息
+        /// <summary>
+        /// 管理员可修改的用户信息
+        /// </summary>
+        /// <param name="meuser">用户信息类</param>
+        /// <returns></returns>
+        public string UpdMUser(MEditUser meuser)
+        {
+            try
+            {
+                string mes = dal.UpdMUser(meuser);
+                if (mes == "ok")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "修改成功", "");
+                }
+                else if (mes == "no")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "修改失败", "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, mes, "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 修改自己信息
+        /// <summary>
+        /// 自己可修改信息
+        /// </summary>
+        /// <param name="ieuser">用户信息信息类</param>
+        /// <returns></returns>
+        public string UpdIUser(IEditUser ieuser)
+        {
+            try
+            {               
+                string mes = dal.UpdIUser(ieuser);
+                if (mes == "ok")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "修改成功", "");
+                }
+                else if (mes == "no")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "修改失败", "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, mes, "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+            }
+        }
+        #endregion
+        #endregion
+
+        #region 修改logo
+        /// <summary>
+        /// 修改logo
+        /// </summary>
+        /// <param name="ieuser"></param>
+        /// <returns></returns>
+        public string UpdLogo(IEditUser ieuser)
+        {
+            try
+            {
+                string mes = dal.UpdLogo(ieuser);
+                if (mes == "ok")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "修改成功", "");
+                }
+                else if (mes == "no")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "修改失败", "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, mes, "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 修改个人基本信息
+        /// <summary>
+        /// 修改个人基本信息
+        /// </summary>
+        /// <param name="ieuser"></param>
+        /// <returns></returns>
+        public string UpdBaseInfo(IEditUser ieuser)
+        {
+            try
+            {
+                string mes = dal.UpdBaseInfo(ieuser);
+                if (mes == "ok")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "修改成功", "");
+                }
+                else if (mes == "no")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "修改失败", "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, mes, "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+            }
+        } 
+        #endregion
+
+        #region 根据用户OpenId获取用户信息
+        /// <summary>
+        /// 根据用户OpenId获取用户信息
+        /// </summary>
+        /// <param name="OpenId">用户OpenId</param>
+        /// <returns></returns>
+        public string GetUserInfo(string OpenId)
+        {
+            if (string.IsNullOrEmpty(OpenId))
+            {
+                return "OpenId is Null";
+            }
+            try
+            {
+                DataTable mes = dal.GetUserInfo(OpenId);
+                
+                if (mes.Rows.Count > 0)
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", mes);
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "暂无数据", "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+            }
+        } 
+        #endregion
+
+        #region 删除用户
+        /// <summary>
+        /// 通过OpenId删除用户
+        /// </summary>
+        /// <param name="OpenId">用户OpenId唯一标识</param>
+        /// <returns></returns>
+        public string DelUser(string OpenId)
+        {
+            if (string.IsNullOrEmpty(OpenId))
+            {
+                return "OpenId is Null";
+            }
+            else
+            {
+                try
+                {
+                    string mes = dal.DelUser(OpenId);
+                    if (mes == "ok")
+                    {
+                        return ResponseHandle<object>.GetResult(strSucess, "删除成功", "");
+                    }
+                    else if (mes == "no")
+                    {
+                        return ResponseHandle<object>.GetResult(strFail, "删除失败", "");
+                    }
+                    else
+                    {
+                        return ResponseHandle<object>.GetResult(strFail, mes, "");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+                }
+            }
+        }
+        #endregion
+
+        #region 查要进入我们公司的人
+        /// <summary>
+        /// 查询想要进入我们公司的人
+        /// </summary>
+        /// <param name="CompanyId">公司Id</param>
+        /// <param name="IsOut">离职状态</param>
+        /// <returns></returns>
+        public string GetWaitUser(string CompanyId,string IsOut)
+        {
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return "CompanyId is Null";
+            }
+            if (string.IsNullOrEmpty(IsOut))
+            {
+                return "IsOut is Null";
+            }
+            try
+            {
+                DataTable mes = dal.GetWaitUser(CompanyId, IsOut);                
+                if (mes.Rows.Count > 0)
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", mes);
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "暂无数据", "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 查询公司所有人（测试使用）
+        public string GetAlluser(string CompanyId)
+        {
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return "OpenId is Null";
+            }
+            else
+            {
+                try
+                {
+                    List<DepUser> mes = dal.GetAllUser(CompanyId);
+                    if (mes != null)
+                    {
+                        return ResponseHandle<object>.GetResult(strSucess, "", mes);
+                    }
+                    else
+                    {
+                        return ResponseHandle<object>.GetResult(strFail, "查询失败", "");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+                }
+            }
+        }
+        #endregion
+
+        #region 员工管理--获取父级部门列表
+        /// <summary>
+        /// 员工管理--获取父级部门列表
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        public string GetParList(string CompanyId)
+        {
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return "OpenId is Null";
+            }
+            else
+            {
+                try
+                {
+                    List<ParList> mes = dal.GetParList(CompanyId);
+                    DataTable dt = dal.GetNoDepartInfo(CompanyId);
+                    if (mes != null && dt?.Rows.Count > 0)
+                    {
+                        return ResponseHandle<object>.GetResult(strSucess, "", mes, dt);
+                    }
+                    else if (mes != null && dt?.Rows.Count <= 0)
+                    {
+                        return ResponseHandle<object>.GetResult(strSucess, "", mes, "");
+                    }
+                    else if (dt?.Rows.Count > 0 && mes == null)
+                    {
+                        return ResponseHandle<object>.GetResult(strSucess, "", "", dt);
+                    }
+                    else
+                    {
+                        return ResponseHandle<object>.GetResult(strFail, "查询失败", "");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+                }
+            }
+        }
+        #endregion
+
+        #region 员工管理--根据公司Id和部门Id查询其对应的所有子部门列表和人员列表
+        /// <summary>
+        /// 获取子部门列表和人员列表
+        /// </summary>
+        /// <param name="CompanyId">公司Id</param>
+        /// <param name="DepId">部门Id</param>
+        /// <returns></returns>
+        public string GetDepUserInfo(string CompanyId, string DepId)
+        {
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return "OpenId is Null";
+            }
+            if (string.IsNullOrEmpty(DepId))
+            {
+                return "DepId is Null";
+            }
+            else
+            {
+                try
+                {
+                    List<ParList> listMes = dal.GetChildList(CompanyId, DepId);
+                    DataTable dtbMes = dal.GetUserList(CompanyId, DepId);
+                    if (listMes != null && dtbMes != null && listMes.ToString() != "" && dtbMes.ToString() != "")
+                    {
+                        return ResponseHandle<object>.GetResult(strSucess, "", listMes, dtbMes);
+                    }
+                    else if (listMes == null  && dtbMes.Rows.Count>0)
+                    {
+                        return ResponseHandle<object>.GetResult(strSucess, "暂无子部门数据", listMes, dtbMes);
+                    }
+                    else if (dtbMes.Rows.Count == 0 && listMes != null)
+                    {
+                        return ResponseHandle<object>.GetResult(strSucess, "暂无员工数据", listMes, null);
+                    }
+                    else
+                    {
+                        return ResponseHandle<object>.GetResult(strFail, "暂无数据", listMes, null);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+                }
+            }
+        } 
+        #endregion
+
+        #region 日志
+        private void WriteLog(string strmsg)
+        {
+            strmsg = $"{strmsg}\r\n";
+            using (FileStream fs = System.IO.File.Open("D:\\测试144-hbuilder.txt", FileMode.Append, FileAccess.Write, FileShare.Write))
+            {
+                byte[] bys = Encoding.Default.GetBytes(strmsg);
+                fs.Write(bys, 0, bys.Length);
+                fs.Close();
+            }
+        }
+        #endregion
+    }
+}

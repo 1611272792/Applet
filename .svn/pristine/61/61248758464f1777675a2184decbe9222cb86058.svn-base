@@ -1,0 +1,224 @@
+﻿using SUNPN.BONUS.Common;
+using SUNPN.BONUS.DBUtility;
+using SUNPN.BONUS.IDAL;
+using SUNPN.BONUS.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.DAL
+{
+    public class BonusItemDal:IBonusItem
+    {
+        #region 新增奖金项
+        /// <summary>
+        /// 新增奖金项
+        /// </summary>
+        /// <param name="bi">奖金项实体类</param>
+        /// <returns></returns>
+        public string AddBonusItem(BonusItem bi)
+        {
+            #region 校验数据有效性
+            //判断公司Id是否为空
+            if (bi.CompanyId == null || bi.CompanyId == "")
+            {
+                return "nullCompanyId";
+            }
+            //判断奖金项的CompanyId是否有效
+            string validcomsql = string.Format($"SELECT CompanyId FROM dbo.SysCompany WHERE CompanyId='{bi.CompanyId}'");
+            DataTable validcom = DbHelperSQL.ExecuteDataTable(validcomsql);
+            if (validcom.Rows.Count <= 0)
+            {
+                return "isincom";
+            }
+            //判断奖金项的名称是否在同一个公司注册过
+            string validusersql = string.Format($"SELECT * FROM dbo.BosBonusItem WHERE BonusItemName='{bi.BonusItemName}' AND CompanyId='{bi.CompanyId}'");
+            DataTable validuser = DbHelperSQL.ExecuteDataTable(validusersql);
+            if (validuser.Rows.Count > 0)
+            {
+                return "isinname";
+            } 
+            #endregion
+
+            #region 新增奖金项语句
+            string StrAddSql = string.Format($@"INSERT INTO dbo.BosBonusItem
+        ( BonusItemId ,
+          BonusItemName ,
+          IsActive ,
+          OpenId ,
+          CompanyId ,
+          BItemType ,
+          InDate ,
+          DepId
+        )
+VALUES  ( NEWID() , -- BonusItemId - nvarchar(200)
+          N'{bi.BonusItemName}' , -- BonusItemName - nvarchar(50)
+          0 , -- IsActive - bit
+          '{bi.OpenId}' , -- OpenId - varchar(200)
+          N'{bi.CompanyId}' , -- CompanyId - nvarchar(50)
+          {bi.BItemType} , -- BItemType - bit
+          {bi.InDate} , -- InDate - int
+          {bi.DepId}  -- DepId - int
+        )");
+            #endregion
+            //Log.AppLog("sql:" + StrAddSql);
+            try
+            {
+                int add = DbHelperSQL.ExecuteSql(StrAddSql);
+                if (add > 0)
+                {
+                    return "ok";
+                }
+                else
+                {
+                    return "no";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+        #endregion
+
+        #region 删除奖金项
+        /// <summary>
+        /// 根据奖金项Id删除奖金项
+        /// </summary>
+        /// <param name="BonusItemId">奖金项Id</param>
+        /// <returns></returns>
+        public string DelBonusItem(string BonusItemId)
+        {
+            if (string.IsNullOrEmpty(BonusItemId))
+            {
+                return "BonusItemId Is Not In Dal";
+            }
+            string strdelsql = string.Format($"DELETE FROM dbo.BosBonusItem WHERE BonusItemId='{BonusItemId}'");
+            try
+            {
+                int delbositem = DbHelperSQL.ExecuteSql(strdelsql);
+                if (delbositem > 0)
+                {
+                    return "ok";
+                }
+                else
+                {
+                    return "no";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+        #endregion
+
+        #region 修改奖金项
+        /// <summary>
+        /// 修改奖金项信息
+        /// </summary>
+        /// <param name="bi"></param>
+        /// <returns></returns>
+        public string UpdBonusItem(BonusItem bi)
+        {
+            if (string.IsNullOrEmpty(bi.BonusItemId))
+            {
+                return "BonusItemId Is Null";
+            }
+            try
+            {
+                string updsql = string.Format($@"UPDATE dbo.BosBonusItem SET BonusItemName='{bi.BonusItemName}',IsActive='{bi.IsActive}',OpenId='{bi.OpenId}',BItemType='{bi.BItemType}',InDate='{bi.InDate}',DepId='{bi.DepId}' WHERE BonusItemId='{bi.BonusItemId}'");
+                int upd = DbHelperSQL.ExecuteSql(updsql);
+                if (upd > 0)
+                {
+                    return "ok";
+                }
+                else
+                {
+                    return "no";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+        #endregion
+
+        #region 查询奖金项详情
+        /// <summary>
+        /// 通过奖金项Id获取奖金项信息
+        /// </summary>
+        /// <param name="BonusItemId"></param>
+        /// <returns></returns>
+        public DataTable GetBonusItem(string BonusItemId)
+        {
+            if (string.IsNullOrEmpty(BonusItemId))
+            {
+                return null;
+            }
+            string strgetsql = string.Format($@"SELECT BonusItemId,BonusItemName,IsActive,dbo.SysUser.OpenId,UserName,dbo.BosBonusItem.CompanyId,BItemType,InDate,BosBonusItem.DepId,DepName FROM dbo.BosBonusItem
+inner JOIN dbo.SysUser ON SysUser.OpenId = BosBonusItem.OpenId
+left JOIN dbo.SysDepart ON SysDepart.DepId = BosBonusItem.DepId
+WHERE BonusItemId = '{BonusItemId}'");
+            try
+            {
+                DataTable strget = DbHelperSQL.ExecuteDataTable(strgetsql);
+                return strget;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region 查询奖金项列表
+        /// <summary>
+        /// 根据公司Id查询奖金项列表
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        public DataTable GetBonusItemList(string CompanyId)
+        {
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return null;
+            }
+            string boslistsql = string.Format($@"SELECT bi.BonusItemId,bi.DepId,
+(SELECT COUNT(OpenId) GainNum FROM dbo.SysUser WHERE CompanyId='{CompanyId}' AND (bi.DepId = 0 OR DepId=bi.DepId)) Num
+,br.BRId,BonusItemName,BItemType,InDate 
+FROM dbo.BosBonusItem bi 
+LEFT JOIN dbo.BosBonusItemRule br ON br.BonusItemId = bi.BonusItemId 
+WHERE CompanyId='{CompanyId}'");
+            try
+            {
+                DataTable boslist = DbHelperSQL.ExecuteDataTable(boslistsql);
+                //Log.AppLog(boslistsql);
+                return boslist;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        } 
+        #endregion
+
+        //#region 日志
+        //private void WriteLog(string strmsg)
+        //{
+        //    strmsg = $"{strmsg}\r\n";
+        //    using (FileStream fs = System.IO.File.Open("D:\\BosDal.txt", FileMode.Append, FileAccess.Write, FileShare.Write))
+        //    {
+        //        byte[] bys = Encoding.Default.GetBytes(strmsg);
+        //        fs.Write(bys, 0, bys.Length);
+        //        fs.Close();
+        //    }
+        //}
+        //#endregion
+    }
+}

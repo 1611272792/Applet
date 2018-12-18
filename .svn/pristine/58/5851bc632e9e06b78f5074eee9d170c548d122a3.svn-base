@@ -1,0 +1,249 @@
+/* pages/SendBonus/sendbonus.wxss */
+/* pages/SelectUsers/selectUsers.wxss */
+@import "/pages/TemplateUsers/users.wxss";
+
+page{
+  background-color: #f9f9f9; 
+  
+}
+
+/* 其他金额输入框 */
+.qtclass{
+border: 1px solid gray;
+width: 500rpx;
+height: 30px;
+margin-bottom: 5px;
+margin-left: 5px;
+padding-left: 5px;
+}
+.scrollview {
+  /* height: 60%; */
+  position: absolute;
+  top: 460px;
+  /* border: 1px solid red; */
+  /* z-index: 999； */
+}
+.scrollview2 {
+  /* height: 60%; */
+  position: absolute;
+  top: 70px;
+  /* border: 1px solid red; */
+  /* z-index: 999； */
+}
+.itemview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* padding: 20rpx 20rpx 20rpx 20rpx; */
+  border-bottom: 1px solid #b1b1b1;
+  height: 35px;
+  line-height: 35px;
+  padding-left: 10px;
+  background-color: white;
+}
+.jiangjinxiang{
+ display : flex ; flex-flow : row;
+}
+.searchInput {
+  height: 20px;
+  width: 80%;
+  border: 1px solid rgb(201, 193, 193);
+  margin: 0px auto;
+  border-radius: 3px;
+  background-color: white;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+}
+
+.searchBg {
+  z-index: 9999;
+  position: fixed;
+  top: 0;
+  background-color: #d0d0d0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+/* 手机 */
+    margin-top: 30px;  
+     /* margin-top: 20px;   电脑 */
+}
+.xzUserClass{
+  float: left;
+  /* border:1px solid red; */
+  margin-top: 10px;
+  
+}
+.xzUserClass i-avatar{
+margin-left: 10pt;
+}
+.demo-container{
+	width:80vw;
+	height: 100vh;
+	background:#fff;
+}
+.listuser{
+  background-color: white;
+}
+.chooseUserGh{
+  color: gray;
+  /* height: 20px; */
+  /* border: 1px solid red; */
+  line-height: 20px;
+  font-size: 14px;
+  text-align: center;
+}
+.cho{
+  /* display:flex; */
+    float:left;  
+  padding-left:200rpt;
+  width: 140rpx;
+}
+.choImg{
+   width: 190rpx;
+  height: 190rpx; 
+  margin-left: 50rpx;
+}
+.bottonFix {
+  width: 100%;
+  /* border: 1px solid gray; */
+  position: fixed;
+   bottom: 30px; 
+  text-align: right;
+  height: 40px;
+  background-color: #d0d0d0;
+  vertical-align: middle;
+  
+}
+.bottonFix text{
+ color: #3b4795;
+ padding-right: 20px; 
+ letter-spacing: 2px;
+ vertical-align: middle;
+ line-height: 40px;
+ 
+}
+
+
+.picker{
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
+}
+.radio-group{
+  margin-top: 10px;
+  padding: 5px;
+}
+.radio{
+margin-left: 10pt;
+}
+.section{
+  margin-top: 10px;
+  margin-left: 10px;
+  width: 400rpx;
+  border: 1px solid gray;
+}
+.moneyClass{
+  border: 1px solid gray;
+  width: 20%;
+  height: 50pt;
+  margin: 10px 5pt 10px 5pt;
+  float: left;
+  text-align: center;
+  font-size: 16px;
+   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  vertical-align: middle;
+}
+.moneyClass2{
+   border: 1px solid red;
+  width: 20%;
+  height: 50pt;
+  margin: 10px 5pt 10px 5pt;
+  float: left;
+  text-align: center;
+  font-size: 16px;
+   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  vertical-align: middle;
+}
+.moneyClass text{
+ top: 50pt;
+  color: #319ee3;
+  vertical-align: middle;
+}
+.bordsss{
+   width: 100%;
+    height: 34pt;
+  border: 1px solid gray;
+  /* display: block;
+   flex-direction: row; */
+}
+.bordsss2{
+  width: 80%;
+   height: 34pt;
+  border: 1px solid red;
+   display: block;
+   flex-direction: row;
+}
+.leftry{
+  width: 100%;
+  border: 1px solid green;
+  height: 34pt;
+}
+.inputClass{
+float:left;
+width:80%;
+height:37px;
+padding-left: 10rpx;
+ 
+}
+
+.xzUserClass{
+  float: left;
+  /* border:1px solid red; */
+  margin-top: 10px;
+  
+}
+.xzUserClass i-avatar{
+margin-left: 10pt;
+}
+.demo-container{
+	width:80vw;
+	height: 100vh;
+	background:#fff;
+}
+.listuser{
+  background-color: white;
+}
+.chooseUserGh{
+  color: gray;
+  /* height: 20px; */
+  /* border: 1px solid red; */
+  line-height: 20px;
+  font-size: 14px;
+  text-align: center;
+}
+.cho{
+  /* display:flex; */
+    float:left;  
+  padding-left:200rpt;
+  width: 140rpx;
+}
+.choImg{
+   width: 190rpx;
+  height: 190rpx; 
+  margin-left: 50rpx;
+}
+.jiahao{
+border: 1px solid gray;
+width: 190rpx;
+height: 190rpx;
+display: flex;
+flex-direction: row;
+float: right;
+margin-right: 30rpx;
+}

@@ -1,0 +1,38 @@
+/* pages/editbonusitem/editbonusitem.wxss */
+
+.scrollview {
+  /* height: 60%; */
+  position: absolute;
+  top: 250rpx;
+  /* z-index: 999； */
+}
+
+.itemview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* padding: 20rpx 20rpx 20rpx 20rpx; */
+  border-bottom: 1px solid #b1b1b1;
+  height: 35px;
+  line-height: 35px;
+  padding-left: 10px;
+  background-color: white;
+}
+.scrollview2 {
+  /* height: 60%; */
+  position: absolute;
+  top: 370rpx;
+  /* z-index: 999； */
+}
+
+.itemview2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* padding: 20rpx 20rpx 20rpx 20rpx; */
+  border-bottom: 1px solid #b1b1b1;
+  height: 35px;
+  line-height: 35px;
+  padding-left: 10px;
+  background-color: white;
+}

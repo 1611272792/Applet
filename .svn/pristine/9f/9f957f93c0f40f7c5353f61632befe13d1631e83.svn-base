@@ -1,0 +1,67 @@
+<!--pages/shencompany/shencompany.wxml-->
+<view>
+  <form bindsubmit='formSubmit' bindreset='formReset'>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">公司名称</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" disabled='disabled' value='{{cominfo.CompanyName}}' name='CompanyName' />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">负责人</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" disabled='disabled' type='text' name='UserName' value='{{cominfo.UserName}}' />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">联系电话</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" disabled='disabled' value='{{cominfo.UserPhone}}' type='number' name='CompanyPhone' />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">注册人数</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" value='{{cominfo.UserCount}}' name='CompanyCount' />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">注册时间</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker class='mypicker' mode="date" disabled='disabled' value='{{begindate}}' start="1900-10-01" bindchange="changeBegindate">
+            <view class="tui-picker-detail">
+              {{begindate}}
+            </view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">有效期限</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker class='mypicker' mode="date" value='{{enddate}}' start="1900-10-01" bindchange="changeEnddate">
+            <view class="tui-picker-detail">
+              {{enddate}}
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+    <view class="btn-area">
+      <button class='btnsubmit' formType="submit">提交</button>
+      <!-- <button type='warn' id='btnreset' formType="reset">取消</button> -->
+    </view>
+  </form>
+</view>

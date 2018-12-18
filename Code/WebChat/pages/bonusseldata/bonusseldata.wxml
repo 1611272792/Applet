@@ -1,0 +1,114 @@
+<!--pages/bonusseldata/bonusseldata.wxml-->
+<view class='container'>
+  <!-- 个人 -->
+  <view style="display:{{show?'block':'none'}}">
+    <view class="weui-search-bar">
+      <view class="weui-search-bar__form">
+        <view class="weui-search-bar__box">
+          <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+          <!-- <input type="text" class="weui-search-bar__input" placeholder="搜索个人" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" /> -->
+          <input type="text" class="weui-search-bar__input" placeholder="搜索个人" name='UserName' value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+          <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+            <icon type="clear" size="14"></icon>
+          </view>
+        </view>
+        <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+          <icon class="weui-icon-search" type="search" size="14"></icon>
+          <view class="weui-search-bar__text">搜索个人</view>
+        </label>
+      </view>
+      <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">搜索</view>
+    </view>
+  </view>
+  <!-- 部门 -->
+  <view style="display:{{show2?'block':'none'}}">
+    <view class="weui-search-bar">
+      <view class="weui-search-bar__form">
+        <view class="weui-search-bar__box">
+          <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+          <!-- <input type="text" class="weui-search-bar__input" placeholder="搜索部门" value="{{inputVals}}" focus="{{inputShoweds}}" bindinput="inputTypings" /> -->
+          <input type="text" class="weui-search-bar__input" placeholder="搜索部门" name='UserNames' value="{{inputVals}}" focus="{{inputShoweds}}" bindinput="inputTypings" />
+
+          <view class="weui-icon-clear" wx:if="{{inputVals.length > 0}}" bindtap="clearInputs">
+            <icon type="clear" size="14"></icon>
+          </view>
+        </view>
+        <label class="weui-search-bar__label" hidden="{{inputShoweds}}" bindtap="showInputs">
+          <icon class="weui-icon-search" type="search" size="14"></icon>
+          <view class="weui-search-bar__text">搜索部门</view>
+        </label>
+      </view>
+      <view class="weui-search-bar__cancel-btn" hidden="{{!inputShoweds}}" bindtap="hideInputs">搜索</view>
+    </view>
+  </view>
+
+  <!-- 按钮 -->
+  <view>
+    <radio-group class="radio-group" bindchange="radioChange">
+      <label class="radio" wx:for="{{items}}" wx:key="{{index}}">
+        <radio class='pickthree' color="#007aff" value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
+      </label>
+    </radio-group>
+  </view>
+
+  <!-- 表格 -->
+  <view>
+    <view class="table" style="display:{{show?'block':'none'}}">
+      <view class="tr">
+        <view class="th">工号</view>
+        <view class="th">名称</view>
+        <view class="th">当月奖金(￥)</view>
+        <view class="th">总获奖金(￥)</view>
+      </view>
+      <view class="tr" catchtap='UserClickOne' id='{{item.OpenId}}' wx:for="{{GdetailData}}" wx:key="{{index}}">
+        <view class='td'> {{item.UserId}} </view>
+        <view class="td"> {{item.UserName}} </view>
+        <view class="td"> {{item.SumMonth}} </view>
+        <view class="td"> {{item.SumBonus}} </view>
+      </view>
+    </view>
+    <view class="table" style="display:{{show2?'block':'none'}}">
+      <view class="tr">
+        <view class="th">名称</view>
+        <view class="th">当月收入(￥)</view>
+        <view class="th">未领取(￥)</view>
+        <view class="th">累计(￥)</view>
+      </view>
+      <view class="tr" catchtap='DepClickOne' id='{{item.DepId}}' wx:for="{{DdetailData}}" wx:key="{{index}}">
+        <view class='td'> {{item.DepName}} </view>
+        <view class="td"> {{item.SumMonth}} </view>
+        <view class="td"> {{item.NoGet}} </view>
+        <view class="td"> {{item.sumBonus}} </view>
+      </view>
+    </view>
+  </view>
+  <scroll-view style="z-index:{{ShowTop?99999:-1}},display:{{show?'block':'none'}}" scroll-y="true" class="scrollview">
+    <view wx:for="{{bindSource}}" wx:key="{{index}}">
+      <view id="{{item}}" bindtap="itemtap" class="itemview">{{util.subs(item)}}</view>
+    </view>
+  </scroll-view>
+  <scroll-view style="z-index:{{ShowTops?99999:-1}},display:{{show2?'block':'none'}}" scroll-y="true" class="scrollview">
+    <view wx:for="{{bindSources}}" wx:key="{{index}}">
+      <view id="{{item}}" bindtap="itemtaps" class="itemview">{{util.sub(item)}}</view>
+    </view>
+  </scroll-view>
+
+</view>
+<wxs module="util">
+  var subs = function(val) {
+    if (val == null) {
+      return val
+    } else {
+      return val.split(',')[0]
+    }
+  }
+  var sub = function(val) {
+    if (val == null) {
+      return val
+    } else {
+      return val.split(',')[1]
+    }
+  }
+  module.exports.subs = subs;
+  module.exports.sub = sub;
+</wxs>

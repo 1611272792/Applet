@@ -1,0 +1,284 @@
+﻿using SUNPN.BONUS.DALFactory;
+using SUNPN.BONUS.IDAL;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SUNPN.BONUS.Model;
+using SUNPN.BONUS.DAL;
+using SUNPN.BONUS.Common;
+using SUNPN.BONUS.API.Models;
+using System.Text.RegularExpressions;
+
+namespace SUNPN.BONUS.BLL
+{
+   public class WoBLL
+    {
+        private readonly IWo dal = DataAccess.CreateWo();
+        string strSucess = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(0)).ToString();
+        string strFail = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(1)).ToString();
+
+
+
+        /// <summary>
+        /// 查看个人余额
+        /// </summary>
+        /// <returns></returns>
+        public string GetEmpBonus(string CompanyId, string OpenId)
+        {
+            DataTable state = dal.GetEmpBonus(CompanyId, OpenId);
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "no info");
+            }
+        }
+        /// <summary>
+        /// 查看单个人员奖金详情
+        /// </summary>
+        /// <returns></returns>
+        public string GetOneBonusInfo(string CompanyId, string OpenId, string StartTime, string EndTime)
+        {
+            DataTable state = dal.GetOneBonusInfo(CompanyId, OpenId, StartTime, EndTime);
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "no info");
+            }
+        }
+
+
+   
+
+
+    /// <summary>
+    /// 查看部门余额
+    /// </summary>
+    /// <returns></returns>
+    public string GetDepBonus(string CompanyId, string OpenId)
+        {
+            DataTable state = dal.GetDepBonus(CompanyId, OpenId);
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "no info");
+            }
+        }
+
+
+        /// <summary>
+        /// 查看个人信息
+        /// </summary>
+        /// <returns></returns>
+        public string GetEmpInfo(string CompanyId, string OpenId)
+        {
+            DataTable state = dal.GetEmpInfo(CompanyId, OpenId);
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "error");
+            }
+        }
+
+
+        /// <summary>
+        /// 个人提现
+        /// </summary>
+        /// <returns></returns>
+        public string GetDeposit(string CompanyId, string OpenId,decimal Summoney)
+        {
+            string state = dal.GetDeposit(CompanyId, OpenId, Summoney);
+            if (state=="success")
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "");
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, state);
+            }
+        }
+
+        /// <summary>
+        /// 部门提现
+        /// </summary>
+        /// <returns></returns>
+        public string GetDepDeposit(string CompanyId, int DepID)
+        {
+            string state = dal.GetDepDeposit(CompanyId, DepID);
+            if (state == "success")
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "");
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, state);
+            }
+        }
+
+
+
+        /// <summary>
+        /// 查看奖金项
+        /// </summary>
+        /// <returns></returns>
+        public string GetItemsBonus(string CompanyId, string OpenId)
+        {
+            try
+            {
+                List<BonusItemInfo> listmes = dal.GetItemsBonus(CompanyId, OpenId);
+                DataTable state = dal.GetMyItemsBonus(CompanyId, OpenId);
+                if (listmes != null&& state.Rows.Count > 0)
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", listmes,state);
+                }
+                else if (listmes == null && state.Rows.Count > 0)
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "无被授权奖金项", "",state);
+                }
+                else if (listmes != null && state.Rows.Count <= 0)
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "无被授权奖金项", listmes,"");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "暂无信息", listmes, state);
+                    return ResponseHandle<object>.GetResult(strFail, "no info");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// 查看自己负责奖金项
+        /// </summary>
+        /// <returns></returns>
+        public string GetMyItemsBonus(string CompanyId, string OpenId)
+        {
+            DataTable state = dal.GetMyItemsBonus(CompanyId, OpenId);
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "no info");
+            }
+        }
+
+
+
+        /// <summary>
+        /// 查看奖金项明细（支出和收入）
+        /// </summary>
+        /// <returns></returns>
+        public string GetMyItemsDetail(string CompanyId, string OpenId,string ItemsId)
+        {
+            List<DataTable> state = dal.GetMyItemsDetail(CompanyId, OpenId, ItemsId);
+            DataTable dd = state[0];
+            DataTable dd2 = state[1];
+            if (dd.Rows.Count>0&& dd2.Rows.Count>0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", dd, dd2);
+            }
+            else if (dd.Rows.Count == 0 && dd2.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", "noinfo", dd2);
+            }
+            else if (dd.Rows.Count > 0 && dd2.Rows.Count == 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", dd, "noinfo");
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "no info");
+            }
+        }
+        
+
+        /// <summary>
+        /// 获取部门奖金详情
+        /// </summary>
+        /// <param name="DepId"></param>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        public string GetDepBonusInfo(string DepId, string CompanyId, string StartTime, string EndTime)
+        {
+            if (string.IsNullOrEmpty(DepId))
+            {
+                return null;
+            }
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return null;
+            }
+            try
+            {
+                DataTable dtbmes = dal.GetDepBonusInfo(DepId, CompanyId, StartTime, EndTime);
+                if (dtbmes.Rows.Count > 0)
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", dtbmes);
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "暂无数据");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// 个人交易
+        /// </summary>
+        /// <returns></returns>
+        public string AddTrading(BonusDeal deal)
+        {
+            if (deal.TradingMoney <= 0)
+            {
+                return ResponseHandle<object>.GetResult(strFail, "no money!");
+            } 
+            else if (deal.DisMan == deal.EarMan)
+            {
+                return ResponseHandle<object>.GetResult(strFail, "disman and earman is one people!");
+            } else if (deal.HaveMoney<deal.TradingMoney) {
+                return ResponseHandle<object>.GetResult(strFail, "not sufficient funds");
+            }
+            else
+            {
+                string state = dal.AddTrading(deal);
+
+                if (state == "success")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, state);
+                }
+            }
+        }
+        
+    }
+}

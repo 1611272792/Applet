@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AA815ECE-F1FC-441F-8344-71ACA61F4209}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SUNPN.BONUS.DAL</RootNamespace>
+    <AssemblyName>SUNPN.BONUS.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AuditBonusDAL.cs" />
+    <Compile Include="BonusDataQueryDAL.cs" />
+    <Compile Include="BonusItemDal.cs" />
+    <Compile Include="BonusParamDAL.cs" />
+    <Compile Include="BonusRuleDal.cs" />
+    <Compile Include="CompanyDal.cs" />
+    <Compile Include="BonusImpowerDal.cs" />
+    <Compile Include="DepartBonusDal.cs" />
+    <Compile Include="PositionDAL.cs" />
+    <Compile Include="ReasonDal.cs" />
+    <Compile Include="RoleDal.cs" />
+    <Compile Include="DepartDAL.cs" />
+    <Compile Include="PinYinDAL.cs" />
+    <Compile Include="SendBonusDal.cs" />
+    <Compile Include="UserDal.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WoDAL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SUNPN.BONUS.Common\SUNPN.BONUS.Common.csproj">
+      <Project>{a7c7609f-b9a1-4ae3-9bdf-60ab205c3dee}</Project>
+      <Name>SUNPN.BONUS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SUNPN.BONUS.DBUtility\SUNPN.BONUS.DBUtility.csproj">
+      <Project>{cda1f004-37e3-4062-a433-c12ae5d0992e}</Project>
+      <Name>SUNPN.BONUS.DBUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SUNPN.BONUS.IDAL\SUNPN.BONUS.IDAL.csproj">
+      <Project>{4bbf79b0-9e71-41c1-8d2f-5515fd6c70d9}</Project>
+      <Name>SUNPN.BONUS.IDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SUNPN.BONUS.Model\SUNPN.BONUS.Model.csproj">
+      <Project>{a3fcfe39-ce26-44ef-8ff0-c021b6f08c17}</Project>
+      <Name>SUNPN.BONUS.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

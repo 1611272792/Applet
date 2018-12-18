@@ -1,0 +1,30 @@
+<!--pages/editbonusparas/editbonusparas.wxml-->
+<view>
+  <form bindsubmit='formSubmit' bindreset='formReset'>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">名称</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='TypeName' value='{{typename}}' placeholder="参数名" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">金额</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" type='number' name='BonusNum' value='{{bonusnum}}' placeholder="金额" />
+        </view>
+        <view class="weui-cell__ft">
+          <text>￥</text>
+        </view>
+      </view>
+    </view>
+    <view class="btn-area" style='margin-top:10px;'>
+      <button class='btnsubmit' formType="submit">提交</button>
+      <!-- <button type='warn' formType="reset">取消</button> -->
+    </view>
+  </form>
+</view>

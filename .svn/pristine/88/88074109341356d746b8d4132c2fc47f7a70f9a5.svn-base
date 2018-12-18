@@ -1,0 +1,89 @@
+﻿using SUNPN.BONUS.DBUtility;
+using SUNPN.BONUS.IDAL;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.DAL
+{
+   public class ClientDal:IClient
+    {
+        #region 全部公司信息
+        /// <summary>
+        /// 全部公司信息
+        /// </summary>
+        /// <returns></returns>
+        public List<DataTable> GetAllList()
+        {
+            string EndTime = DateTime.Now.ToString();
+            string sql = string.Format($@"SELECT SysCompany.CompanyId, CompanyName, ComPhoto, UserName FROM dbo.SysCompany LEFT JOIN dbo.SysUser ON SysUser.OpenId = SysCompany.OpenId");
+            string AllSql = sql;
+            string OutTimesql = sql + string.Format($@" WHERE EndTime<'{EndTime}'");
+            string NoPassSql = sql + string.Format($@" WHERE IsTongguo=1");
+            try
+            {
+                DataTable all = DbHelperSQL.ExecuteDataTable(sql);
+                DataTable OutTime = DbHelperSQL.ExecuteDataTable(OutTimesql);
+                DataTable NoPass = DbHelperSQL.ExecuteDataTable(NoPassSql);
+                List<DataTable> ld = new List<DataTable>();
+                if (all.Rows.Count>=0&& OutTime.Rows.Count>=0&&NoPass.Rows.Count>=0)
+                {
+                    ld.Add(all);
+                    ld.Add(OutTime);
+                    ld.Add(NoPass);
+                }
+                return ld;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region 审核公司
+        /// <summary>
+        /// 审核公司
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="UserCount"></param>
+        /// <param name="EndTime"></param>
+        /// <returns></returns>
+        public string UpdPassState(string CompanyId, string UserCount, string EndTime)
+        {
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return "CompanyId Is Null InDal";
+            }
+            if (string.IsNullOrEmpty(UserCount))
+            {
+                return "UserCount Is Null InDal";
+            }
+            if (string.IsNullOrEmpty(EndTime))
+            {
+                return "EndTime Is Null InDal";
+            }
+            string updsql = string.Format($@"UPDATE dbo.SysCompany SET UserCount='{UserCount}',EndTime='{EndTime}',IsTongguo=0 WHERE CompanyId='{CompanyId}'");
+            try
+            {
+                int upd = DbHelperSQL.ExecuteSql(updsql);
+                if (upd > 0)
+                {
+                    return "ok";
+                }
+                else
+                {
+                    return "no";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        } 
+        #endregion
+    }
+}

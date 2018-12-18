@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.Model
+{
+   public class BonusItemInfo
+    {
+        public string BonusItemId { get; set; }
+        public string BonusItemName { get; set; }
+        public string DepId { get; set; }
+        public string RemainMoney { get; set; }
+    }
+}

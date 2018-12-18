@@ -1,0 +1,132 @@
+﻿/*
+ * 创建者           刘志成
+ * 更新时间         2018-07-26
+*/
+using SUNPN.BONUS.BLL;
+using SUNPN.BONUS.Model;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Web.Http;
+
+namespace SUNPN.BONUS.API.Areas.Sys.Controllers
+{
+    public class RoleController : ApiController
+    {
+        #region 定义变量
+        /// <summary>
+        /// 用户业务逻辑类
+        /// </summary>
+        RoleBLL roleBLL = new RoleBLL();
+        #endregion
+
+        #region 增加角色
+        /// <summary>
+        /// 增加角色接口
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public HttpResponseMessage AddRole([FromBody] Role role)
+        {
+            return new HttpResponseMessage { Content = new StringContent(roleBLL.AddRole(role), Encoding.GetEncoding("UTF-8"), "text/json") };
+        }
+        #endregion
+
+        #region 更新角色
+        /// <summary>
+        /// 增加角色接口
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public HttpResponseMessage UpdRole([FromBody] Role role)
+        {
+            WriteLog(role.RoleId+role.RoleName+role.AuthorId);
+            return new HttpResponseMessage { Content = new StringContent(roleBLL.UpdRole(role), Encoding.GetEncoding("UTF-8"), "text/json") };
+        }
+        #endregion
+
+        #region 删除角色
+        /// <summary>
+        /// 删除角色接口
+        /// </summary>
+        /// <param name="RoleId">角色RoleId</param>
+        /// <returns></returns>
+        [HttpGet]
+        public HttpResponseMessage DelRole(string RoleId)
+        {
+            return new HttpResponseMessage { Content = new StringContent(roleBLL.DelRole(RoleId), Encoding.GetEncoding("UTF-8"), "text/json") };
+        }
+        #endregion
+
+        #region 查询公司所有有效角色
+        /// <summary>
+        /// 根据公司Id查询公司所有角色
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HttpResponseMessage GetAllRole(string CompanyId,string Sign)
+        {
+            return new HttpResponseMessage { Content = new StringContent(roleBLL.GetAllRole(CompanyId, Sign), Encoding.GetEncoding("UTF-8"), "text/json") };
+        }
+        #endregion
+
+        #region 获取角色的权限信息
+        /// <summary>
+        /// 根据RoleId获取角色的权限
+        /// </summary>
+        /// <param name="RoleId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HttpResponseMessage GetAuthorInfo(string RoleId)
+        {
+            return new HttpResponseMessage { Content = new StringContent(roleBLL.GetAuthorInfo(RoleId), Encoding.GetEncoding("UTF-8"), "text/json") };
+        }
+        #endregion
+
+        #region 获取角色的权限信息
+        /// <summary>
+        /// 根据RoleId获取角色的权限
+        /// </summary>
+        /// <param name="RoleId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HttpResponseMessage GetAuthorInfo2(string RoleId)
+        {
+            return new HttpResponseMessage { Content = new StringContent(roleBLL.GetAuthorInfo2(RoleId), Encoding.GetEncoding("UTF-8"), "text/json") };
+        }
+        #endregion
+
+        #region 添加角色页面获取所有权限
+        /// <summary>
+        /// 添加角色页面获取所有权限
+        /// </summary>
+        /// <param name="RoleId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HttpResponseMessage GetAllAuthorInfo(string CompanyId)
+        {
+            return new HttpResponseMessage { Content = new StringContent(roleBLL.GetAllAuthorInfo(CompanyId), Encoding.GetEncoding("UTF-8"), "text/json") };
+        }
+        #endregion
+
+        #region 日志
+        private void WriteLog(string strmsg)
+        {
+            strmsg = $"{strmsg}\r\n";
+            using (FileStream fs = System.IO.File.Open("D:\\Role.txt", FileMode.Append, FileAccess.Write, FileShare.Write))
+            {
+                byte[] bys = Encoding.Default.GetBytes(strmsg);
+                fs.Write(bys, 0, bys.Length);
+                fs.Close();
+            }
+        }
+        #endregion
+    }
+}

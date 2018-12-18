@@ -1,0 +1,276 @@
+// pages/inpowerdetial/inpowerdetial.js
+const app = getApp()
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    durl: app.globalData.ddurl,
+    begindate: "年-月-日",
+    enddate: "年-月-日",
+    BonusItemId: '',//奖金项id
+    BImpowerUser: '',//奖金项授权人id
+    InpowerList: [],//授权详细信息
+    CountMoney: []//最顶端的统计
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.SelectDetial();
+  },
+  //被授权人的详情
+  SelectDetial: function () {
+    var that = this;
+    // var BonusItemId = that.data.BonusItemId;
+    //奖金项id
+    try {
+      var BonusItemId = wx.getStorageSync('BonusItemId');
+      that.setData({
+        BonusItemId: BonusItemId
+      })
+    } catch (e) {
+
+    }
+
+
+    //奖金项授权人id
+    try {
+      var BImpowerUser = wx.getStorageSync('BImpowerUser');
+      that.setData({
+        BImpowerUser: BImpowerUser
+      })
+    } catch (e) {
+
+    }
+
+    wx.request({
+      url: that.data.durl + '/api/Bos/BonusImpower/GetBonusImpowerList',
+      data: {
+        BonusItemId: that.data.BonusItemId,
+        BImpowerUser: that.data.BImpowerUser
+      },
+      method: "GET",
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      },
+      success: function (resd) {
+
+        if (resd.data.code == "100") {
+          that.setData({
+            InpowerList: resd.data.data,
+            CountMoney: resd.data.data1
+          })
+        }
+        else {
+          wx.showModal({
+            title: '提示',
+            content: resd.data.msg,
+          })
+          that.setData({
+            InpowerList: [],
+            CountMoney: []
+          })
+        }
+      },
+      fail: function () {
+        console.log("no");
+      }
+    })
+
+  },
+  //搜索按钮
+  bindSearch: function (e) {
+    var that = this;
+    if (that.data.begindate == '年-月-日') {
+      wx.showModal({
+        title: '提示',
+        content: '未选择开始时间',
+        showCancel: false,
+        success: function (res) {
+
+        }
+      })
+
+    }
+    else if (that.data.enddate == '年-月-日') {
+      wx.showModal({
+        title: '提示',
+        content: '未选择结束时间',
+        showCancel: false,
+        success: function (res) {
+
+        }
+      })
+    }
+    else if (that.data.enddate < that.data.begindate) {
+      wx.showModal({
+        title: '提示',
+        content: '结束日期不能小于开始日期',
+        showCancel: false,
+        success: function (res) {
+
+        }
+      })
+
+    } else {
+      wx.request({
+        url: that.data.durl + '/api/Bos/BonusImpower/GetImpowerListByTime',
+        data: {
+          BonusItemId: that.data.BonusItemId,
+          BImpowerUser: that.data.BImpowerUser,
+          StartTime: that.data.begindate,
+          EndTime: that.data.enddate
+        },
+        method: "GET",
+        header: {
+          'content-type': 'application/x-www-form-urlencoded' // 默认值
+        },
+        success: function (resd) {
+
+          if (resd.data.code == "100") {
+            that.setData({
+              InpowerList: resd.data.data,
+
+            })
+          }
+          else {
+            wx.showModal({
+              title: '提示',
+              content: resd.data.msg,
+            })
+            that.setData({
+              InpowerList: []
+            })
+          }
+        },
+        fail: function () {
+          console.log("no");
+        }
+      })
+    }
+
+  },
+  //查询原因
+  SelectReson: function (e) {
+    var Remake = e.currentTarget.dataset.remake;
+    wx.showModal({
+      title: '原因',
+      content: Remake,
+      showCancel: false,
+      success: function (res) {
+
+      }
+    })
+  },
+  //收回授权
+  Shouhui: function (e) {
+    var that = this;
+    var biId = e.currentTarget.dataset.biid;
+    wx.showModal({
+      title: '提示',
+      content: '确认收回该授权？',
+
+      success: function (res) {
+        if (res.confirm) {
+          wx.request({
+            url: that.data.durl + '/api/Bos/BonusImpower/UpdState',
+            data: {
+              BiId: biId,
+
+            },
+            method: "GET",
+            header: {
+              'content-type': 'application/x-www-form-urlencoded' // 默认值
+            },
+            success: function (resd) {
+
+              if (resd.data.code == "100") {
+                wx.showToast({
+                  title: '成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+                that.SelectDetial();
+              }
+              else {
+                wx.showModal({
+                  title: '提示',
+                  content: resd.data.msg,
+                })
+
+              }
+            },
+            fail: function () {
+              console.log("no");
+            }
+          })
+        } else {
+
+        }
+      }
+    })
+  },
+  //开始时间选择
+  bindBegin: function (e) {
+    this.setData({
+      begindate: e.detail.value
+    })
+  },
+  //结束时间选择
+  bindEnd: function (e) {
+    this.setData({
+      enddate: e.detail.value
+    })
+  },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  }
+})

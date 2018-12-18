@@ -1,0 +1,54 @@
+/* pages/cashexamine/cashexamine.wxss */
+/* 提交按钮 */
+.btnsubmit{
+  background-color: #1296db;
+  color: white;
+  height: 30px;
+  line-height: 30px;
+  font-size: 12px;
+  margin-left: 3px;
+}
+/* 布局 */
+.Grid {
+  display: flex;
+}
+
+.Grid-cell {
+  flex: 1;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  margin: 5px 2px;
+}
+/* 表格 */
+
+.table {
+  margin-top: 15px;
+  border-right: 0;
+  border-bottom: 0;
+  width: 100%;
+}
+
+.tr {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.th, .td {
+  padding: 10px;
+  border-bottom: 1px solid #808080;
+  border-right: 1px solid #808080;
+  text-align: center;
+  width: 100%;
+}
+
+.td {
+  word-break: break-all;
+}
+
+.th {
+  font-weight: 100;
+  background-color: #007aff;
+  color: white;
+}

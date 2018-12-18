@@ -1,0 +1,140 @@
+﻿using SUNPN.BONUS.DBUtility;
+using SUNPN.BONUS.IDAL;
+using SUNPN.BONUS.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.DAL
+{
+    public class BonusParamDAL : IBonusParam
+    {
+
+        /// <summary>
+        /// 添加奖金参数
+        /// </summary>
+        /// <returns></returns>
+        public string AddBonusParam(BonusParam bonusPar)
+        {
+            try
+            {
+                string str = string.Format($@"
+INSERT INTO dbo.BosBonusParam
+        ( BPName, BPMoney, CompanyId )
+VALUES  ( '{bonusPar.BPName}', -- BPName - varchar(50)
+          '{bonusPar.BPMoney}', -- BPMoney - decimal
+          N'{bonusPar.CompanyId}'  -- CompanyId - nvarchar(50)
+          )");
+                int num = DbHelperSQL.ExecuteSql(str);
+                if (num > 0)
+                {
+                    return "100";
+                }
+                else
+                {
+                    return "insert false";
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 修改奖金参数
+        /// </summary>
+        /// <returns></returns>
+        public string UpdBonusParam(BonusParam bonusPar)
+        {
+            try
+            {
+                string strSql = string.Format($@"
+         UPDATE dbo.BosBonusParam SET  BPName='{bonusPar.BPName}',BPMoney='{bonusPar.BPMoney}' WHERE BonusParamId='{bonusPar.BonusParamId}' AND CompanyId='{bonusPar.CompanyId}'");
+                int num = DbHelperSQL.ExecuteSql(strSql);
+                if (num > 0)
+                {
+                    return "100";
+                }
+                else
+                {
+                    return "update false";
+                }
+            }
+            catch (Exception)
+            {
+
+                return "update false";
+            }
+        }
+
+
+        /// <summary>
+        /// 删除奖金参数
+        /// </summary>
+        /// <returns></returns>
+        public string DelBonusParam(int BonusParId)
+        {
+            try
+            {
+                string strSql = string.Format($@"DELETE FROM dbo.BosBonusParam WHERE BonusParamId={BonusParId}");
+                int num = DbHelperSQL.ExecuteSql(strSql);
+                if (num > 0)
+                {
+                    return "100";
+                }
+                else
+                {
+                    return "delete false";
+                }
+            }
+
+
+            catch (Exception)
+            {
+
+                return "delete false";
+            }
+        }
+
+
+
+        /// <summary>
+        /// 查看奖金参数详情
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetBonusParam(int BonusParId)
+        {
+            try
+            {
+                string str = string.Format($@"SELECT * FROM dbo.BosBonusParam WHERE BonusParamId={BonusParId}");
+                DataTable ds = DbHelperSQL.ExecuteDataTable(str);
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public DataTable GetAllBonusParam(string CompanyID)
+        {
+
+            try
+            {
+                string str = string.Format($@"SELECT * FROM dbo.BosBonusParam WHERE CompanyId='{CompanyID}'");
+                DataTable ds = DbHelperSQL.ExecuteDataTable(str);
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    }
+}

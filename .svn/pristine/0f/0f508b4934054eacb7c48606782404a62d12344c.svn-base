@@ -1,0 +1,136 @@
+<!--pages/company/company.wxml-->
+<block wx:if="{{companys.length==0}}">
+  <text style='color:gray;margin-left:20px;'>无权限</text>
+</block>
+<view wx:else>
+  <form bindsubmit='formSubmit' bindreset='formReset'>
+    <view style="display:{{shows1?'block':'none'}}">
+      <view class='imgviw'>
+        <image src='{{comlogo}}' class='weuiimg' mode="aspectFill"></image>
+        <view class='deleteimgs'>
+          <icon type="cancel" size="23" catchtap="deleteImgd"></icon>
+        </view>
+      </view>
+
+    </view>
+    <view style="display:{{shows2?'block':'none'}}">
+      <view class="weui-uploader__bd">
+        <view class="weui-uploader__files" id="uploaderFiles">
+          <block wx:for="{{files}}" wx:key="*this">
+            <view class="weui-uploader__file" style='position: relative;' bindtap="previewImage" id="{{item}}">
+              <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+              <view class='deleteimg'>
+                <icon type="cancel" size="23" catchtap="deleteImg"></icon>
+              </view>
+            </view>
+          </block>
+        </view>
+        <view class="weui-uploader__input-box" style="display:{{showAdd?'block':'none'}}">
+          <view class="weui-uploader__input" bindtap="chooseImage"></view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">公司名称</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" value='{{companys.CompanyName}}' name='CompanyName' placeholder="公司名称" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">负责人</view>
+        </view>
+        <view class="weui-cell__bd">
+          <!-- <input class="weui-input" type='text' style="display:none;" value="{{inputName}}" /> -->
+          <input class="weui-input" type='text' name='UserName' bindinput="bindinput" value="{{inputValue}}" placeholder="请输入拼音简写" />
+          <!-- <input class="weui-input" value='{{companys.UserName}}' name='UserName' placeholder="负责人" /> -->
+        </view>
+
+      </view>
+      <scroll-view style="z-index:{{ShowTop?99999:-1}}" scroll-y="true" class="scrollview">
+        <view wx:for="{{bindSource}}" wx:key="{{index}}" wx:for-item="item">
+          <view id="{{item}}" bindtap="itemtap" class="itemview"> {{util.sub(item)}}</view>
+        </view>
+      </scroll-view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">联系电话</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" value='{{companys.CompanyPhone}}' type='number' name='CompanyPhone' placeholder="联系电话" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">电子邮箱</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" value='{{companys.CompanyEmail}}' name='CompanyEmail' placeholder="电子邮箱" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">注册时间</view>
+        </view>
+        <view class="weui-cell__bd">
+          <!-- <input class="weui-input" name='RegTime' placeholder="注册时间" /> -->
+          <picker class='mypicker' mode="date" style='color:gray;' disabled='disabled' value='{{begindate}}' start="1900-10-01" bindchange="changeBegindate">
+            <view class="tui-picker-detail">
+              {{begindate}}
+            </view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">有效期限</view>
+        </view>
+        <view class="weui-cell__bd">
+          <!-- <input class="weui-input" name='EndTime' placeholder="有效期限" /> -->
+          <picker class='mypicker' mode="date" style='color:gray;' disabled='disabled' value='{{enddate}}' start="1900-10-01" bindchange="changeEnddate">
+            <view class="tui-picker-detail">
+              {{enddate}}
+            </view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">公司秘钥</view>
+        </view>
+        <view class="weui-cell__bd" bindtap='copyText' data-text="{{companys.CompanyId}}">
+          <button >复制</button>
+        </view>
+        <!-- <view class="weui-cell__ft" bindtap='copyText' data-text="{{companys.CompanyId}}">
+          <button >复制</button>
+        </view> -->
+      </view>
+    </view>
+    <view class="btn-area">
+      <button class='btnsubmit' formType="submit">提交</button>
+      <!-- <button type='warn' id='btnreset' formType="reset">取消</button> -->
+    </view>
+  </form>
+</view>
+
+<wxs module="util">
+  var sub = function(val) {
+    return val.split(',')[0]
+  }
+  module.exports.sub = sub;
+</wxs>
+<!-- <wxs module="util">
+  var subs = function(val) {
+  if(val==null)
+  {
+  return val
+  }else{
+  return val.split(',')[1]
+  }
+    
+  }
+  module.exports.subs = subs;
+</wxs> -->

@@ -1,0 +1,4 @@
+<!--pages/backredeta/backredeta.wxml-->
+<view class="tui-card-content">
+    {{content}}
+  </view>

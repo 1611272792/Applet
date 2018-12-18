@@ -1,0 +1,45 @@
+<!--pages/backrecord/backrecord.wxml-->
+<view class='container'>
+  <!-- 日期框 -->
+  <view class="tui-picker-content">
+    <!-- <view class="tui-picker-name">选择日期</view> -->
+    <picker class='mypicker' mode="date" value="{{begindate}}" start="1900-10-01" bindchange="changeBegindate">
+      <view class="tui-picker-detail">
+        {{begindate}}
+      </view>
+    </picker>
+    <text class='mytext'>至</text>
+    <picker class='mypicker' mode="date" value="{{enddate}}" start="1900-10-01" bindchange="changeEnddate">
+      <view class="tui-picker-detail">
+        {{enddate}}
+      </view>
+    </picker>
+    <view class="icon-group iconlist" bindtap='SouSuo'>
+      <view class='myicon'>
+        <icon type="search" color='white' size="20"></icon>
+      </view>
+    </view>
+  </view>
+  <view>
+    <view class='zanwu' wx:if="{{depDetail.length==0}}">
+      <text>暂无数据</text>
+    </view>
+    <block wx:else>
+      <!-- 表格 -->
+      <view class="table">
+        <view class="tr">
+          <view class="th">公司名称</view>
+          <view class="th">时间</view>
+          <view class="th">联系人</view>
+          <view class="th">联系方式</view>
+        </view>
+        <view class="tr" wx:for="{{depDetail}}" id='{{item.SuggestContentId}}' catchtap='SuggestClick' wx:key="{{index}}">
+          <view class='td'> {{item.CompanyName}} </view>
+          <view class="td"> {{item.CommitDate}} </view>
+          <view class="td"> {{item.UserName}} </view>
+          <view class="td"> {{item.lxType}} </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

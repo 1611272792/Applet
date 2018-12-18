@@ -1,0 +1,281 @@
+﻿using SUNPN.BONUS.Common;
+using SUNPN.BONUS.DALFactory;
+using SUNPN.BONUS.IDAL;
+using SUNPN.BONUS.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.BLL
+{
+    public class SendBonusBLL
+    {
+        #region 状态码枚举
+        string strSucess = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(0)).ToString();
+        string strFail = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(1)).ToString();
+        #endregion
+
+        #region 定义变量 用户数据访问层
+        /// <summary>
+        /// 用户数据访问层
+        /// </summary>
+        private readonly ISendBonus dal = DataAccess.CreateSendBonus();
+
+        #endregion
+
+        #region 根据部门Id和公司Id查询对应的可发放的人员列表
+        /// <summary>
+        /// 根据部门Id和公司Id查询对应的可发放的人员列表
+        /// </summary>
+        /// <param name="DepId"></param>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        public string GetBenefitList(string DepId, string CompanyId)
+        {
+            if (string.IsNullOrEmpty(DepId))
+            {
+                return null;
+            }
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return null;
+            }
+            try
+            {
+                if (DepId=="0")
+                {
+                    try
+                    {
+                        DataTable dtUsermes = dal.GetBenefitUser(DepId, CompanyId);
+                        DataTable dtDepmes = dal.GetBenefitDep(DepId, CompanyId);
+                        if (dtUsermes.Rows.Count > 0 && dtDepmes.Rows.Count > 0)
+                        {
+                            return ResponseHandle<object>.GetResult(strSucess, "", dtUsermes, dtDepmes);
+                        }
+                        if (dtUsermes.Rows.Count <= 0 && dtDepmes.Rows.Count > 0)
+                        {
+                            return ResponseHandle<object>.GetResult(strSucess, "暂无用户信息", dtDepmes);
+                        }
+                        if (dtUsermes.Rows.Count > 0 && dtDepmes.Rows.Count <= 0)
+                        {
+                            return ResponseHandle<object>.GetResult(strSucess, "", dtUsermes, "暂无部门信息");
+                        }
+                        else
+                        {
+                            return ResponseHandle<object>.GetResult(strFail, "暂无数据", "");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        DataTable dtmes = dal.GetBenefitUser(DepId, CompanyId);
+                        if (dtmes.Rows.Count > 0)
+                        {
+                            return ResponseHandle<object>.GetResult(strSucess, "", dtmes);
+                        }
+                        else
+                        {
+                            return ResponseHandle<object>.GetResult(strFail, "暂无数据", "");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+                    }
+                }
+             
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 添加常用原因
+        /// <summary>
+        /// 添加常用原因
+        /// </summary>
+        /// <param name="ur"></param>
+        /// <returns></returns>
+        public string AddUsualReason(UsualReason ur)
+        {
+            if (string.IsNullOrEmpty(ur.BrContent))
+            {
+                return "BrContent Is Null In Dal";
+            }
+            if (string.IsNullOrEmpty(ur.OpenId))
+            {
+                return "OpenId Is Null In Dal";
+            }
+            try
+            {
+                string strmes = dal.AddUsualReason(ur);
+                if (strmes == "ok")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "添加成功", "");
+                }
+                else if (strmes == "no")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "添加失败", "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, strmes, "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 获取常用原因
+        /// <summary>
+        /// 获取常用原因信息
+        /// </summary>
+        /// <param name="OpenId"></param>
+        /// <returns></returns>
+        public string GetUsualReason(string OpenId)
+        {
+            if (string.IsNullOrEmpty(OpenId))
+            {
+                return "OpenId Is Null";
+            }
+            DataTable dtbmes = dal.GetUsualReason(OpenId);
+            try
+            {
+                if (dtbmes.Rows.Count > 0)
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", dtbmes);
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "暂无数据", "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 根据UserId、CompanyId、DepId查询出二维码信息是否有效
+        /// <summary>
+        /// 根据UserId、CompanyId、DepId查询出二维码信息是否有效
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <param name="CompanyId"></param>
+        /// <param name="DepId"></param>
+        /// <returns></returns>
+        public string CheckQRValid(string UserId, string CompanyId, string DepId)
+        {
+            if (string.IsNullOrEmpty(UserId))
+            {
+                return "UserId Is Null";
+            }
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return "CompanyId Is Null";
+            }
+            if (string.IsNullOrEmpty(DepId))
+            {
+                return "DepId Is Null";
+            }
+            try
+            {
+                string strmes = dal.CheckQRValid(UserId, CompanyId, DepId);
+                if (strmes == "ok")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", "");
+                }
+                else if (strmes == "no")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "数据无效", "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, strmes, "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 发奖金
+        /// <summary>
+        /// 发奖金
+        /// </summary>
+        /// <param name="bo"></param>
+        /// <returns></returns>
+        public string SendOut(BonusOut bo)
+        {
+            try
+            {
+                string strmes = dal.SendOut(bo);
+                if (strmes == "ok")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", "");
+                }
+                else if (strmes == "no")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "发放失败", "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, strmes, "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 罚奖金
+        /// <summary>
+        /// 罚奖金
+        /// </summary>
+        /// <param name="bo"></param>
+        /// <returns></returns>
+        public string SendFa(BonusOut bo)
+        {
+            try
+            {
+                string strmes = dal.SendFa(bo);
+                if (strmes == "ok")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", "");
+                }
+                else if (strmes == "no")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "发放失败", "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, strmes, "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strFail, ex.Message, "");
+            }
+        } 
+        #endregion
+    }
+}

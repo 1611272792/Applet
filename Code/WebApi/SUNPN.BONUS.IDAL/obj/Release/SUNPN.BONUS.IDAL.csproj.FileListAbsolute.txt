@@ -1,0 +1,9 @@
+E:\小程序奖金系统\Code\WebApi\SUNPN.BONUS.IDAL\bin\Release\SUNPN.BONUS.IDAL.dll
+E:\小程序奖金系统\Code\WebApi\SUNPN.BONUS.IDAL\bin\Release\SUNPN.BONUS.IDAL.pdb
+E:\小程序奖金系统\Code\WebApi\SUNPN.BONUS.IDAL\bin\Release\SUNPN.BONUS.Model.dll
+E:\小程序奖金系统\Code\WebApi\SUNPN.BONUS.IDAL\bin\Release\SUNPN.BONUS.Model.pdb
+E:\小程序奖金系统\Code\WebApi\SUNPN.BONUS.IDAL\obj\Release\SUNPN.BONUS.IDAL.dll
+E:\小程序奖金系统\Code\WebApi\SUNPN.BONUS.IDAL\obj\Release\SUNPN.BONUS.IDAL.pdb
+E:\小程序奖金系统\Code\WebApi\SUNPN.BONUS.IDAL\obj\Release\SUNPN.BONUS.IDAL.csprojAssemblyReference.cache
+E:\小程序奖金系统\Code\WebApi\SUNPN.BONUS.IDAL\obj\Release\SUNPN.BONUS.IDAL.csproj.CoreCompileInputs.cache
+E:\小程序奖金系统\Code\WebApi\SUNPN.BONUS.IDAL\obj\Release\SUNPN.BONUS.IDAL.csproj.CopyComplete

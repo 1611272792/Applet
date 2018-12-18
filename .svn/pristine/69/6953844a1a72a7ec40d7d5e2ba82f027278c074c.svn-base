@@ -1,0 +1,84 @@
+/* pages/inpowerdetial/inpowerdetial.wxss */
+/* 日期框 */
+.dataClss{
+display : flex ; 
+flex-flow : row;
+justify-content: center;
+}
+.section{
+border: 1px solid gray;
+width: 240rpx;
+}
+.zhi{
+margin-left: 5px;
+margin-right: 5px;
+}
+/* 搜索按钮 */
+.iconlist{
+  margin-left: 10px;
+}
+
+.top{
+font-size: 14px;
+text-align: center;
+font-weight: bold;
+}
+.top text{
+  margin-right: 15px;
+}
+.xian{
+border: 0.2px solid #F5F5F5;
+margin: 4px 8px 4px 8px;
+}
+
+/* 表格 */
+.table {
+margin-top: 15px;
+border-right: 0;
+border-bottom: 0;
+width: 100%;
+}
+.table .tr{
+  display: flex;
+  flex-direction: row;
+/* border: 1px solid gray; */
+border-top: 1px solid gray;
+border-bottom: 1px solid gray;
+width: 100%;
+}
+.tr .th{
+  font-size: 18px;
+  background-color: #007aff;
+  /* border: 1px solid gray; */
+  padding: 5rpx;
+  border-right: 1px solid gray;
+  text-align: center;
+  color: white;
+}
+.tr .td{
+  font-size: 14px;
+  border-right: 1px solid gray;
+  /* border: 1px solid gray; */
+  padding: 5rpx;
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+.th1{
+width: 140rpx;
+}
+.th2{
+  width: 135rpx;
+}
+.th3{
+  width: 300rpx;
+}
+
+.aa{
+  background-color: #007aff;
+  color: white;
+}

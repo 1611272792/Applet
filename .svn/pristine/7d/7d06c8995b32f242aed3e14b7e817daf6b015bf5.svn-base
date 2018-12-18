@@ -1,0 +1,21 @@
+<!--pages/cashexamine/cashexamine.wxml-->
+<!-- 按钮 -->
+<view class="Grid">
+  <view class="Grid-cell">
+    <radio-group class="radio-group" bindchange="radioChange">
+      <label class="radio" wx:for="{{items}}" wx:key="{{index}}">
+        <radio class='pickthree' color="#007aff" value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
+      </label>
+    </radio-group>
+  </view>
+  <view class="Grid-cell">
+    <view class="Grid">
+      <view class="Grid-cell">
+        <button class='btnsubmit'>批准</button>
+      </view>
+      <view class="Grid-cell">
+        <button class='btnsubmit'>驳回</button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,32 @@
+/* pages/onetrans/onetrans.wxss */
+
+.sao {
+  width: 20px;
+  height: 20px;
+}
+
+.btn-area {
+  margin-top: 5px;
+}
+.tijiao{
+  background-color: #1296db;
+  color: white;
+}
+.scrollview {
+  /* height: 60%; */
+  position: absolute;
+  top: 200rpx;
+  /* z-index: 999； */
+}
+
+.itemview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* padding: 20rpx 20rpx 20rpx 20rpx; */
+  border-bottom: 1px solid #b1b1b1;
+  height: 35px;
+  line-height: 35px;
+  padding-left: 10px;
+  background-color: white;
+}

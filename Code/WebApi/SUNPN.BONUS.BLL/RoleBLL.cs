@@ -1,0 +1,255 @@
+﻿using SUNPN.BONUS.Common;
+using SUNPN.BONUS.DALFactory;
+using SUNPN.BONUS.IDAL;
+using SUNPN.BONUS.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.BLL
+{
+   public class RoleBLL
+    {
+        #region 定义变量 用户数据访问层
+        /// <summary>
+        /// 用户数据访问层
+        /// </summary>
+        private readonly IRole dal = DataAccess.CreateRole(); 
+        #endregion
+
+        #region 状态码枚举
+        string strSucess = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(0)).ToString();
+        string strFail = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(1)).ToString();
+        string strError = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(2)).ToString();
+        #endregion
+
+        #region 新增角色 
+        /// <summary>
+        /// 新增角色
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        public string AddRole(Role role)
+        {
+            try
+            {
+                string mes = dal.AddRole(role);
+                if (mes == "ok")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", "");
+                }
+                else if (mes == "no")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "添加失败", "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, mes, "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strError, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 更新角色
+        /// <summary>
+        /// 更新角色
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        public string UpdRole(Role role)
+        {
+            try
+            {
+                string mes = dal.UpdRole(role);
+                if (mes == "ok")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", "");
+                }
+                else if (mes == "no")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "更新失败", "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, mes, "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strError, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 删除角色
+        /// <summary>
+        /// 删除角色
+        /// </summary>
+        /// <param name="RoleId">角色RoleId</param>
+        /// <returns></returns>
+        public string DelRole(string RoleId)
+        {
+            try
+            {
+                string mes = dal.DelRole(RoleId);
+                if (mes == "ok")
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", "");
+                }
+                else if (mes == "no")
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "删除失败", "");
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, mes, "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strError, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 查询本公司所有角色
+        public string GetAllRole(string CompanyId,string Sign)
+        {
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return "CompanyId为空";
+            }
+            if (string.IsNullOrEmpty(Sign))
+            {
+                return "Sign为空";
+            }
+            try
+            {
+                DataTable mes = dal.GetAllRole(CompanyId, Sign);
+                if (mes.Rows.Count > 0)
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", mes);
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "暂无数据", "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strError, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 根据RoleId获取角色权限信息
+        /// <summary>
+        /// 根据RoleId获取角色权限信息
+        /// </summary>
+        /// <param name="RoleId">角色Id</param>
+        /// <returns></returns>
+        public string GetAuthorInfo(string RoleId)
+        {
+            if (string.IsNullOrEmpty(RoleId))
+            {
+                return "RoleId为空";
+            }
+            List<AuthorModellist> listmes = dal.GetAuthorInfo(RoleId);
+            try
+            {
+                if (listmes != null)
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", listmes);
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "暂无数据", "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strError, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 根据RoleId获取角色权限信息
+        /// <summary>
+        /// 根据RoleId获取角色权限信息
+        /// </summary>
+        /// <param name="RoleId">角色Id</param>
+        /// <returns></returns>
+        public string GetAuthorInfo2(string RoleId)
+        {
+            if (string.IsNullOrEmpty(RoleId))
+            {
+                return "RoleId为空";
+            }
+            List<AuthorModellist> listmes = dal.GetAuthorInfo2(RoleId);
+            try
+            {
+                if (listmes != null)
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", listmes);
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "暂无数据", "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strError, ex.Message, "");
+            }
+        }
+        #endregion
+
+        #region 添加角色页面获取所有权限信息
+        /// <summary>
+        /// 添加角色页面获取所有权限信息
+        /// </summary>
+        /// <param name="RoleId">角色Id</param>
+        /// <returns></returns>
+        public string GetAllAuthorInfo(string CompanyId)
+        {
+            List<AuthorModellist> listmes = dal.GetAllAuthorInfo(CompanyId);
+            try
+            {
+                if (listmes != null)
+                {
+                    return ResponseHandle<object>.GetResult(strSucess, "", listmes);
+                }
+                else
+                {
+                    return ResponseHandle<object>.GetResult(strFail, "暂无数据", "");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseHandle<object>.GetResult(strError, ex.Message, "");
+            }
+        }
+        #endregion
+
+        //#region 日志
+        //private void WriteLog(string strmsg)
+        //{
+        //    strmsg = $"{strmsg}\r\n";
+        //    using (FileStream fs = System.IO.File.Open("D:\\Role-BLL.txt", FileMode.Append, FileAccess.Write, FileShare.Write))
+        //    {
+        //        byte[] bys = Encoding.Default.GetBytes(strmsg);
+        //        fs.Write(bys, 0, bys.Length);
+        //        fs.Close();
+        //    }
+        //}
+        //#endregion
+    }
+}

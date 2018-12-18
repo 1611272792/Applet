@@ -1,0 +1,21 @@
+/* pages/about/about.wxss */
+
+/* logo */
+
+.myimg {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.images {
+  width: 200px;
+  height: 200px;
+  margin: 0px auto;
+}
+
+/* 列表 */
+
+.mylist {
+  margin-top: 10px;
+}

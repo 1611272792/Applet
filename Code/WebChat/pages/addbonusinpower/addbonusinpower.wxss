@@ -1,0 +1,19 @@
+/* pages/addbonusinpower/addbonusinpower.wxss */
+.scrollview {
+  /* height: 60%; */
+  position: absolute;
+  top: 90px;
+  /* z-index: 999； */
+}
+
+.itemview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* padding: 20rpx 20rpx 20rpx 20rpx; */
+  border-bottom: 1px solid #b1b1b1;
+  height: 35px;
+  line-height: 35px;
+  padding-left: 10px;
+  background-color: white;
+}

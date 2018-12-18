@@ -1,0 +1,97 @@
+/**index.wxss**/
+
+
+.tui-picker-content {
+  margin-bottom: 10px;
+}
+
+.mypicker {
+  width: 100%;
+}
+
+.mytext {
+  float: left;
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 30px;
+  text-align: center;
+}
+
+.tui-picker-name {
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+}
+
+.tui-picker-detail {
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #fff;
+  font-size: 35rpx;
+  width: 100%;
+  overflow: hidden;
+}
+
+
+page {
+  background-color: #efeff4;
+}
+
+
+.deleteimg {
+  position: absolute;
+  top: 0px;
+  left: 60px;
+  /* border: 1px solid #ff0000; */
+  width: 20px;
+  height: 20px;
+}
+
+.deleteimg image {
+  width: 20px;
+  height: 20px;
+}
+
+/* update style */
+.tops{
+  margin-top: 10px;
+}
+.topscontent{
+  text-align: center;
+}
+.topsbg{
+  border-radius: 50px;
+  border: 1px solid black;
+  padding-left: 7px;
+  padding-right: 7px;
+  text-align: center;
+}
+/* .topsng1{
+  color: blue;
+  border: 1px solid blue;
+} */
+.cenbtn{
+  display: inline-flex;
+  margin: 20px;
+}
+.centerstop{
+  text-align: center;
+}
+.btncenters{
+  background-color: #1296db;
+  color: #fff;
+}
+
+.imagesize{
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+.weuiimg{
+  border-radius: 50px;
+  width: 100px;
+  height: 100px;
+}
+.aa{
+  font-weight: bold;  
+}

@@ -1,0 +1,84 @@
+/**app.wxss**/
+@import "./src/css/icon.wxss";
+@import './src/css/weui.wxss';
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:60rpx;
+}
+/*本项目使用的18个图标  */
+/*清除浮动  */
+.tui-clear:after{
+  content:".";
+  display:block;
+  height:0;
+  clear:both;
+  visibility:hidden;
+}
+.tui-show{display: block;}
+.tui-hide{display: none;}
+
+/*tabbar style  */
+.tui-tabbar-content{
+  padding: 10px;
+}
+.tui-tabbar-group{
+  border: 1px solid #1296db;
+  border-radius: 3px;
+  overflow: hidden;
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+  color: #1296db;
+}
+.tui-tabbar-cell{
+  display: table-cell;
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 35rpx;
+  text-align: center;
+}
+.tui-tabbar-cell:not(:last-child){border-right: 1px solid #1296db;}
+.tui-tabbar-cell.tui-active{background-color: #1296db;color: #ffffff;}
+
+/* 上边框 */
+.tui-list-box{border-top:1px solid #c8c7cc;}
+
+/* 提交按钮 */
+.btnsubmit {
+  background-color: #1296db;
+  color: #ffffff;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+/* 补全列表 */
+.scrollview {
+  /* height: 60%; */
+  position: absolute;
+  top: 200rpx;
+  left: 0px;
+  /* z-index: 999； */
+}
+
+.itemview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* padding: 20rpx 20rpx 20rpx 20rpx; */
+  border-bottom: 1px solid #b1b1b1;
+  height: 70rpx;
+  line-height: 70rpx;
+  padding-left: 10px;
+  background-color: #ffffff;
+}
+/* 滑块 */
+.addimg {
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+}
+
+
+
+

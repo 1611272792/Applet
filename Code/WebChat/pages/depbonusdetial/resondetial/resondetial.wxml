@@ -1,0 +1,15 @@
+<!--pages/depbonusdetial/resondetial/resondetial.wxml-->
+<view>
+文字原因：
+<text>{{wzReson}}</text>
+</view>
+
+  <swiper  catchtap='tzDetials' vertical='{{false}}' indicator-dots="true" indicator-color="red" autoplay="true">
+  
+  <swiper-item wx:for="{{imgReson}}">
+      <image src='{{durl+"/ProductImage/"+item.BrContent}}' class='img' style='flex-direction: row;justify-content: center;'></image>
+    </swiper-item>
+  
+  
+ 
+  </swiper>

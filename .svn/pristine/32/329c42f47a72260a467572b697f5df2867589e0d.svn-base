@@ -1,0 +1,33 @@
+<!--pages/rolemanager/rolemanager.wxml-->
+<movable-area class='areas'>
+  <movable-view direction="all" x="0" y="200" bindtap='addRole' class='views'>
+    <image class='addimg' src='../../src/image/add.png'></image>
+  </movable-view>
+  <view class="container" wx:if='{{items.length>0}}'>
+
+    <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove" wx:for="{{items}}" bindtap='editRole' wx:key="{{index}}">
+      <view class="weui-cell content">
+        <view class="weui-cell__hd">
+          <image src="{{icon}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+        </view>
+        <view class="weui-cell__bd">{{item.RoleName}}</view>
+        <!-- <view class="weui-cell__ft weui-cell__ft_in-access">{{item.count}}</view> -->
+      </view>
+      <view class="del" catchtap="delRole" data-index="{{index}}">删除</view>
+      <view class="edit" catchtap="editRole" data-index="{{index}}">编辑</view>
+    </view>
+  </view>
+
+  <view class="page" wx:else>
+   
+    <view class="page__bd">
+       
+        <view class="weui-loadmore weui-loadmore_line">
+            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无数据</view>
+        </view>
+        <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+            <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
+        </view>
+    </view>
+</view>
+</movable-area>

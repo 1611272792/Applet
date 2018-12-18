@@ -1,0 +1,16 @@
+<!--pages/itemremark/itemremark.wxml-->
+<block wx:if="{{message.length==0}}">
+<text class='noyuan'>无原因</text>
+</block>
+  <block else>
+    <view class="tuihead myfont">
+      {{content}}
+    </view>
+    <swiper class="tui-swiper tuiimgs" indicator-dots="{{indicatorDots}}" vertical="{{vertical}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-color="#777" indicator-active-color="red">
+      <block wx:for-items="{{imgUrls}}" wx:key='{{index}}'>
+        <swiper-item>
+          <image class="tuiimg" src="{{item}}" />
+        </swiper-item>
+      </block>
+    </swiper>
+  </block>

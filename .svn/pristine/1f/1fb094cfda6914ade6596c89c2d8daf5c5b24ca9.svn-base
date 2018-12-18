@@ -1,0 +1,96 @@
+<!--pages/addbonusitems/addbonusitems.wxml-->
+<form bindsubmit='formSubmit' bindreset='formReset'>
+  <view class="weui-cells weui-cells_after-title">
+    <!-- 奖金项 -->
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">奖金项</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input class="weui-input weui-disable" name='BonusItemName' placeholder="奖金项名称" disabled='disabled' value='{{BonusItemName}}' />
+      </view>
+    </view>
+
+    <!-- 被授权人 -->
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">被授权人</view>
+      </view>
+      <view class="weui-cell__bd">
+        <!-- <input class="weui-input" name='UserName' placeholder="负责人" /> -->
+        <input class="weui-input" type='text' name='UserName' bindinput="bindUser" value="{{inputName}}" placeholder="请输入拼音简写" />
+      </view>
+    </view>
+    <scroll-view style="z-index:{{ShowTop?99999:-99999}}" scroll-y="true" class="scrollview">
+      <view wx:for="{{bindUserSource}}" wx:key="{{index}}">
+        <view id="{{item}}" bindtap="Useritemtap" class="itemview">{{util.subs(item)}}</view>
+      </view>
+    </scroll-view>
+
+    <!-- 授权金额 -->
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">授权金额</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input class="weui-input" name='InpowerMoney' type='number' placeholder="授权金额"  />
+      </view>
+    </view>
+
+    <!-- 授权模式 -->
+    <view class="weui-cell">
+      <view class="weui-cell__hd">
+        <view class="weui-label">授权模式</view>
+      </view>
+      <view class="weui-cell__bd">
+        <radio-group class="radio-group" bindchange="ModeChange">
+          <label class="radio">
+            <radio value="1" checked="true" />长期
+          </label>
+          <label class="radio">
+            <radio value="0" />本月
+          </label>
+        </radio-group>
+      </view>
+    </view>
+
+
+ <!-- 备注 -->
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">备注</view>
+      </view>
+      <view class="weui-cell__bd">
+          <textarea class="weui-textarea" bindblur="bindContent" name='ResonContent' value='{{ResonContent}}' bindinput='TextareaInput' placeholder="请输入备注内容" maxlength="50" style="height: 3.3em;padding-top:5px;" />
+          <view class="weui-textarea-counter">{{currentlength}}/50</view>
+        </view>
+      <!-- <view class="weui-cell__bd">
+        <textarea class="weui-textarea" maxlength="200" bindblur="bindContent"  placeholder="备注" style="height: 3.3em"/>
+      </view> -->
+    </view>
+</view>
+ <view class="btn-area">
+    <button id='btnsubmit' class='btnsubmit' formType="submit">提交</button>
+    <button type='warn' id='btnreset' formType="reset">取消</button>
+  </view>
+
+</form>
+<wxs module="util">
+  var subs = function(val) {
+    if (val == null) {
+      return val
+    } else {
+      return val.split(',')[0]
+    }
+  }
+  module.exports.subs = subs;
+
+  var subs2 = function(val) {
+    if (val == null) {
+      return val
+    } else {
+      return val.split(',')[1]
+    }
+  }
+  module.exports.subs2 = subs2;
+</wxs>

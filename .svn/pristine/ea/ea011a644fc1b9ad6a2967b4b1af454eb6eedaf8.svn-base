@@ -1,0 +1,20 @@
+/**index.wxss**/
+
+page {
+  background-color: #efeff4;
+}
+
+
+.deleteimg {
+  position: absolute;
+  top: 0px;
+  left: 60px;
+  border: 1px solid #ff0000;
+  width: 20px;
+  height: 20px;
+}
+
+.deleteimg image {
+  width: 20px;
+  height: 20px;
+}

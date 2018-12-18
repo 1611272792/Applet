@@ -1,0 +1,117 @@
+﻿using SUNPN.BONUS.BLL;
+using SUNPN.BONUS.DALFactory;
+using SUNPN.BONUS.IDAL;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SUNPN.BONUS.Model;
+using SUNPN.BONUS.DAL;
+using SUNPN.BONUS.Common;
+using SUNPN.BONUS.API.Models;
+using System.Text.RegularExpressions;
+
+namespace SUNPN.BONUS.BLL
+{
+    public class CompanyBLL
+    {
+        private readonly ICompany dal = DataAccess.CreateCompany();
+        string strSucess = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(0)).ToString();
+        string strFail = Convert.ToInt32(Enum.GetValues(typeof(EnumParam.Code)).GetValue(1)).ToString();
+        /// <summary>
+        /// 注册公司
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
+        public string RegCompany(Company company)
+        {
+            string state = dal.RegCompany(company);
+         
+            if (state == "100")
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", null);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, state, null);
+            }
+        }
+
+        /// <summary>
+        /// 显示公司信息
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
+        public string ShowCompany(Company company)
+        {
+            DataTable state = dal.ShowCompany(company);
+            if (state.Rows.Count > 0)
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", state);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, "show false", null);
+            }
+        }
+
+        /// <summary>
+        /// 修改公司信息
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
+        public string UpdateCompany(Company company)
+        {
+            string state = dal.UpdateCompany(company);
+          
+            if (state == "100")
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", null);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, state, null);
+            }
+        }
+        /// <summary>
+        /// 修改公司信息不包括log
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
+        public string UpdateComNolog(Company company)
+        {
+            string state = dal.UpdateComNoLog(company);
+
+            if (state == "100")
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", null);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, state, null);
+            }
+        }
+
+        /// <summary>
+        /// 修改公司信息不包括log
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
+        public string DelCompany(string  OpenId)
+        {
+            string state = dal.DelCompany(OpenId);
+
+            if (state == "100")
+            {
+                return ResponseHandle<object>.GetResult(strSucess, "", null);
+            }
+            else
+            {
+                return ResponseHandle<object>.GetResult(strFail, state, null);
+            }
+        }
+        
+    }
+}

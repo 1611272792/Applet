@@ -1,0 +1,21 @@
+<!--pages/bonusimpower/bonusimpower.wxml-->
+<movable-area class='areas'>
+  <movable-view direction="all" x="0" y="200" bindtap='addBonusItem' class='views'>
+    <icon type="info" size="25"></icon>
+  </movable-view>
+  <view class="container">
+
+    <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove" wx:for="{{items}}" bindtap='SelectBonusInpower' data-BomusItemId='{{index}}' wx:key="{{index}}">
+      <view class="weui-cell content">
+        <view class="weui-cell__hd">
+          <image src="{{icon}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+        </view>
+        <view class="weui-cell__bd">{{item.BonusItemName}}</view>
+        <!-- <view class="weui-cell__ft weui-cell__ft_in-access">{{item.count}}</view> -->
+      </view>
+      <view class="del" catchtap="AddMoney" data-index="{{index}}">添加授权</view>
+
+      
+    </view>
+  </view>
+</movable-area>

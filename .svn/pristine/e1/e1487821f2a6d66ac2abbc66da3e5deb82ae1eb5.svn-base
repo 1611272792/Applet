@@ -1,0 +1,52 @@
+<!--pages/adddepart/adddepart.wxml-->
+<view>
+  <form bindsubmit='formSubmit' bindreset='formReset'>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">部门名称</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='DepName' placeholder="部门名称" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">负责人</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" type='text' name='UserName' bindinput="bindinput" value="{{inputValue}}" placeholder="请输入拼音简写" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">选择级别</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker class='picktwo' bindchange="changeCountry" value="{{countryIndex}}" range="{{countryList}}">
+            <view class="tui-picker-detail pickfont">{{countryList[countryIndex]}}</view>
+          </picker>
+        </view>
+      </view>
+      <scroll-view style="z-index:{{ShowTop?99999:-1}}" scroll-y="true" class="scrollview">
+        <view wx:for="{{bindSource}}" wx:key="{{index}}">
+          <view id="{{item}}" bindtap="itemtap" class="itemview">{{util.subs(item)}}</view>
+        </view>
+      </scroll-view>
+    </view>
+    <view class="btn-area">
+      <button class='btnsubmit' formType="submit">提交</button>
+      <button type='warn' id='btnreset' formType="reset">取消</button>
+    </view>
+  </form>
+</view>
+<wxs module="util">
+  var subs = function(val) {
+    if (val == null) {
+      return val
+    } else {
+      return val.split(',')[0]
+    }
+  }
+  module.exports.subs = subs;
+</wxs>

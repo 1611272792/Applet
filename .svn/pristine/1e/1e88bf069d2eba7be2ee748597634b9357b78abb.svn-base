@@ -1,0 +1,154 @@
+﻿using SUNPN.BONUS.DBUtility;
+using SUNPN.BONUS.IDAL;
+using SUNPN.BONUS.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.DAL
+{
+    public class SendBonusDal : ISendBonus
+    {
+        #region 根据部门Id和公司Id查询对应的可发放的人员列表
+        /// <summary>
+        /// 根据部门Id和公司Id查询对应的可发放的人员列表
+        /// </summary>
+        /// <param name="DepId"></param>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        //public List<BenefitList> GetBenefitList(string DepId, string CompanyId)
+        //{
+        //    if (string.IsNullOrEmpty(DepId))
+        //    {
+        //        return null;
+        //    }
+        //    if (string.IsNullOrEmpty(CompanyId))
+        //    {
+        //        return null;
+        //    }
+        //    //受益员工列表
+        //    List<BenefitList> lbfl = new List<BenefitList>();
+        //    string bflistsql = "";
+        //    if (DepId == "0")
+        //    {
+        //        bflistsql = string.Format($@"SELECT OpenId,UserId,UserName,Photo FROM dbo.SysUser WHERE CompanyId='{CompanyId}'");
+        //    }
+        //    else
+        //    {
+        //        bflistsql = string.Format($@"SELECT OpenId,UserId,UserName,Photo FROM dbo.SysUser WHERE CompanyId='{CompanyId}' AND DepId='{DepId}'");
+        //    }
+        //    try
+        //    {
+        //          DataTable bflist = DbHelperSQL.ExecuteDataTable(bflistsql);
+        //        if (bflist.Rows.Count > 0)
+        //        {
+        //            for (int i = 0; i < bflist.Rows.Count; i++)
+        //            {
+        //                //受益员工信息
+        //                BenefitList bfl = new BenefitList();
+        //                bfl.OpenId = bflist.Rows[i]["OpenId"].ToString();
+        //                bfl.UserId = bflist.Rows[i]["UserId"].ToString();
+        //                bfl.UserName = bflist.Rows[i]["UserName"].ToString();
+        //                bfl.Photo = bflist.Rows[i]["Photo"].ToString();
+        //                if (DepId == "0")
+        //                {
+        //                    //受益部门列表
+        //                    List<DepList> ldp = new List<DepList>();
+        //                    string deplistsql = string.Format($@"SELECT DepId,DepName FROM dbo.SysDepart WHERE CompanyId='{CompanyId}'");
+        //                    DataTable deplist = DbHelperSQL.ExecuteDataTable(deplistsql);
+        //                    if (deplist.Rows.Count > 0)
+        //                    {
+        //                        for (int j = 0; j < deplist.Rows.Count; j++)
+        //                        {
+        //                            //受益部门信息
+        //                            DepList dl = new DepList();
+        //                            dl.DepId = deplist.Rows[j]["DepId"].ToString();
+        //                            dl.DepName = deplist.Rows[j]["DepName"].ToString();
+        //                            ldp.Add(dl);
+        //                        }
+        //                        bfl.depList = ldp;
+        //                    }
+        //                    else
+        //                    {
+        //                        bfl.depList = null;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    bfl.depList = null;
+        //                }
+        //                lbfl.Add(bfl);
+        //            }
+        //            return lbfl;
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //} 
+       
+        public DataTable GetBenefitUser(string DepId, string CompanyId)
+        {
+            if (string.IsNullOrEmpty(DepId))
+            {
+                return null;
+            }
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return null;
+            }
+            string bflistsql = "";
+            try
+            {
+                if (DepId == "0")
+                {
+                    bflistsql = string.Format($@"SELECT OpenId,UserId,UserName,Photo FROM dbo.SysUser WHERE CompanyId='{CompanyId}'");
+                }
+                else
+                {
+                    bflistsql = string.Format($@"SELECT OpenId,UserId,UserName,Photo FROM dbo.SysUser WHERE CompanyId='{CompanyId}' AND DepId='{DepId}'");
+                }
+                DataTable bflist = DbHelperSQL.ExecuteDataTable(bflistsql);
+                return bflist;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public DataTable GetBenefitDep(string DepId, string CompanyId)
+        {
+            if (string.IsNullOrEmpty(DepId))
+            {
+                return null;
+            }
+            if (string.IsNullOrEmpty(CompanyId))
+            {
+                return null;
+            }
+            try
+            {
+                string bflistsql = string.Format($@" SELECT DepId,DepName FROM dbo.SysDepart WHERE CompanyId='{CompanyId}'");
+                DataTable bflist = DbHelperSQL.ExecuteDataTable(bflistsql);
+                return bflist;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+
+    }
+}

@@ -1,0 +1,41 @@
+/* pages/adddepart/adddepart.wxss */
+
+#btnsubmit {
+  background-color: #1296db;
+  color: white;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.picktwo {
+  height: 100rpx;
+  line-height: 100rpx;
+}
+
+.tui-picker-detail {
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #fff;
+  font-size: 40rpx;
+  padding: 0 10px;
+  overflow: hidden;
+}
+
+.scrollview {
+  /* height: 60%; */
+  position: absolute;
+  top: 200rpx;
+  /* z-index: 999； */
+}
+
+.itemview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* padding: 20rpx 20rpx 20rpx 20rpx; */
+  border-bottom: 1px solid #b1b1b1;
+  height: 35px;
+  line-height: 35px;
+  padding-left: 10px;
+  background-color: white;
+}

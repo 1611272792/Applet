@@ -1,0 +1,216 @@
+﻿using SUNPN.BONUS.DBUtility;
+using SUNPN.BONUS.IDAL;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SUNPN.BONUS.Model;
+using System.IO;
+using System.Text.RegularExpressions;
+using SUNPN.BONUS.Common;
+
+namespace SUNPN.BONUS.DAL
+{
+    class CompanyDal : ICompany
+    {
+
+        /// <summary>
+        /// 注册公司
+        /// </summary>
+        public string RegCompany(Company company)
+        {
+            string rx = RegexData.RegexPhoneEmail(company.CompanyPhone, company.CompanyEmail);
+           
+            if (rx == "ok")
+            {
+                try
+                {
+                    string strSql = string.Format(@"INSERT INTO dbo.SysCompany
+        ( CompanyId ,
+          CompanyName ,
+          OpenId ,
+          ComPhoto ,
+          RegTime ,
+          EndTime ,
+          UserCount ,
+          IsTongguo ,
+          CompanyPhone ,
+          CompanyEmail
+        )
+VALUES  ( NEWID(), -- CompanyId - nvarchar(50)
+          N'{0}' , -- CompanyName - nvarchar(200)
+          '{1}' , -- OpenId - varchar(200)
+          N'{2}' , -- ComPhoto - nvarchar(200)
+          GETDATE() , -- RegTime - datetime
+          GETDATE() , -- EndTime - datetime
+          10 , -- UserCount - int
+          1 , -- IsTongguo - bit
+          N'{3}' , -- CompanyPhone - nvarchar(11)
+          N'{4}'  -- CompanyEmail - nvarchar(50)
+        )", company.CompanyName, company.OpenId, company.ComPhoto, company.CompanyPhone, company.CompanyEmail);
+                    WriteLog(strSql);
+                    int num = DbHelperSQL.ExecuteSql(strSql.ToString());
+                    if (num > 0)
+                    {
+                        return "100";
+                    }
+                    else
+                    {
+                        return "添加失败";
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    return ex.Message;
+                }
+            }
+            else
+            {
+                return rx;
+            }
+
+        }
+
+        /// <summary>
+        /// 显示公司信息
+        /// </summary>
+        public DataTable ShowCompany(Company company)
+        {
+            try
+            {
+                string strSql = string.Format($@"SELECT  SysCompany.CompanyId ,
+        CompanyName ,
+        SysCompany.OpenId ,
+        ComPhoto ,
+        RegTime ,
+        EndTime ,
+        UserCount ,
+        CompanyPhone ,
+        CompanyEmail,dbo.SysUser.UserName FROM dbo.SysCompany INNER JOIN dbo.SysUser ON SysCompany.OpenId=SysUser.OpenId WHERE SysCompany.OpenId='{company.OpenId}'");
+                //WriteLog(strSql);
+                DataTable showCom = DbHelperSQL.ExecuteDataTable(strSql.ToString());
+                return showCom;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+
+        }
+
+        /// <summary>
+        /// 修改公司
+        /// </summary>
+        public string UpdateCompany(Company company)
+        {
+            string rx = RegexData.RegexPhoneEmail(company.CompanyPhone, company.CompanyEmail);
+            if (rx == "ok")
+            {
+                try
+                {
+                    string strSql = string.Format($@"UPDATE  dbo.SysCompany 
+SET CompanyName='{company.CompanyName}',ComPhoto='{company.ComPhoto}',CompanyPhone='{ company.CompanyPhone}',CompanyEmail='{ company.CompanyEmail}',OpenId='{company.OpenId}' 
+WHERE CompanyId='{company.CompanyID}'");
+                    WriteLog(strSql);
+                    int num = DbHelperSQL.ExecuteSql(strSql.ToString());
+                    if (num > 0)
+                    {
+                        return "100";
+                    }
+                    else
+                    {
+                        return "更新失败";
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    return ex.Message;
+                }
+            }
+            else
+            {
+                return rx;
+            }
+
+        }
+
+        /// <summary>
+        /// 修改公司不包括图片
+        /// </summary>
+        public string UpdateComNoLog(Company company)
+        {
+            string rx = RegexData.RegexPhoneEmail(company.CompanyPhone, company.CompanyEmail);
+            if (rx == "ok")
+            {
+                try
+                {
+                    string strSql = string.Format($@"UPDATE  dbo.SysCompany 
+SET CompanyName='{company.CompanyName}',CompanyPhone='{ company.CompanyPhone}',CompanyEmail='{ company.CompanyEmail}',OpenId='{company.OpenId}' 
+WHERE CompanyId='{company.CompanyID}'");
+                    WriteLog(strSql);
+                    int num = DbHelperSQL.ExecuteSql(strSql.ToString());
+                    if (num > 0)
+                    {
+                        return "100";
+                    }
+                    else
+                    {
+                        return "update false";
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    return ex.Message;
+                }
+            }
+            else
+            {
+                return rx;
+            }
+
+        }
+
+        /// <summary>
+        /// 根据openid删除公司
+        /// </summary>
+        /// <param name="OpenId"></param>
+        /// <returns></returns>
+       public string DelCompany(string OpenId) {
+        
+                string sqls = string.Format($"DELETE FROM dbo.SysCompany WHERE OpenId='{OpenId}'");
+                int num = DbHelperSQL.ExecuteSql(sqls);
+                if (num>0)
+                {
+                    return "100";
+                }
+                else
+                {
+                    return "delete false";
+                }
+              
+            
+          
+        }
+
+        #region 日志
+        private void WriteLog(string strmsg)
+        {
+            strmsg = $"{strmsg}\r\n";
+            using (FileStream fs = System.IO.File.Open("D:\\测试177-hbuilder.txt", FileMode.Append, FileAccess.Write, FileShare.Write))
+            {
+                byte[] bys = Encoding.Default.GetBytes(strmsg);
+                fs.Write(bys, 0, bys.Length);
+                fs.Close();
+            }
+        }
+        #endregion
+
+
+    }
+}

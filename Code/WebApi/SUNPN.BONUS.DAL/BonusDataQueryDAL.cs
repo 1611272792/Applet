@@ -1,0 +1,142 @@
+﻿using SUNPN.BONUS.DBUtility;
+using SUNPN.BONUS.IDAL;
+using SUNPN.BONUS.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.DAL
+{
+    public class BonusDataQueryDAL:IBonusDataQuery
+    {
+        /// <summary>
+        /// 获取所有员工流水记录
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetEmpBonusData(string OpenId, string CompanyId) {
+
+            string EmpSqls = string.Format($@"SELECT OpenId,UserId,UserName,ISNULL(EarMoney1,0) SumMonth, ISNULL(EarMoney2,0) SumBonus FROM dbo.SysUser With(NOLOCK) LEFT JOIN (SELECT EarMan, SUM(BonusMoney) EarMoney1 from dbo.BosBonusData WHERE   (BonusType=1 OR  BonusType=2) AND
+DisDate between Cast(dateadd(dd, -day(getdate()) + 1, getdate()) AS DATE) and Cast(dateadd(ms, -3, DATEADD(mm, DATEDIFF(m, 0, getdate()) + 1, 0)) AS DATE)
+GROUP BY EarMan) AS A ON A.EarMan =  dbo.SysUser.OpenId
+LEFT JOIN (SELECT EarMan, SUM(BonusMoney)EarMoney2 from dbo.BosBonusData WHERE   (BonusType = 1 or BonusType = 2) 
+GROUP BY EarMan) AS B ON B.EarMan = OpenId where 1 = 1  and CompanyId='{CompanyId}'");
+            if (!string.IsNullOrEmpty(OpenId))
+            {
+                EmpSqls += string.Format(" And OpenId = '{0}'", OpenId);
+            }
+            DataTable Empds = DbHelperSQL.ExecuteDataTable(EmpSqls);
+            return Empds;   
+        }
+
+        /// <summary>
+        /// 获取所有部门流水记录
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetDepBonusData(string DepId, string CompanyId)
+        {
+            string DepSqls = string.Format($@"SELECT DepId,DepName,ISNULL(EarMoney1,0) SumMonth, ISNULL(EarMoney2,0) NoGet,ISNULL(EarMoney3,0) sumBonus FROM dbo.SysDepart With(NOLOCK) LEFT JOIN (SELECT EarMan, SUM(BonusMoney) EarMoney1 from dbo.BosBonusData where   BonusType=0 AND
+DisDate between Cast(dateadd(dd, -day(getdate()) + 1, getdate()) AS DATE) and Cast(dateadd(ms, -3, DATEADD(mm, DATEDIFF(m, 0, getdate()) + 1, 0)) AS DATE)
+GROUP BY EarMan) AS A ON A.EarMan =dbo.SysDepart.DepId    
+LEFT JOIN (SELECT EarMan, SUM(BonusMoney)EarMoney2 from dbo.BosBonusData WHERE   BonusType = 0 AND IsGet = 0
+GROUP BY EarMan) AS B ON B.EarMan = dbo.SysDepart.DepId LEFT JOIN (SELECT EarMan, SUM(BonusMoney)EarMoney3 from dbo.BosBonusData WHERE   BonusType = 0  
+GROUP BY EarMan) AS C ON C.EarMan = dbo.SysDepart.DepId where 1=1 and CompanyId='{CompanyId}'");
+
+            if (!string.IsNullOrEmpty(DepId))
+            {
+                DepSqls += string.Format(" And DepId='{0}'", DepId);
+            }
+            DataTable Depds = DbHelperSQL.ExecuteDataTable(DepSqls);
+            return Depds;
+        }
+
+        /// <summary>
+        /// 获取该员工流水记录（筛选）
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetOneEmpData(string OpenId, string CompanyId,string StartTime, string EndTime)
+        {
+            try
+            {
+                string EmpSqls = string.Format($@"SELECT  BdId,   CASE  WHEN BonusType=2 THEN e.UserName WHEN BonusType=1 THEN  b2.BonusItemName END Bonusform,BonusMoney,DisDate,
+                       CASE WHEN IsGet=0 THEN '未领取' ELSE '已领取' END isget FROM dbo.BosBonusData b LEFT JOIN dbo.SysUser e ON b.DisMan=e.OpenId LEFT JOIN dbo.BosBonusItem b2 ON b.BonusItemID=b2.BonusItemID 
+                       WHERE EarMan='{OpenId}' and b.CompanyId='{CompanyId}' ");
+                if (!string.IsNullOrEmpty(StartTime) && string.IsNullOrEmpty(EndTime))
+                {
+                    EmpSqls += string.Format($@" AND CONVERT(DATE,DisDate)>='{StartTime}'");
+                }
+                else if (string.IsNullOrEmpty(StartTime) && !string.IsNullOrEmpty(EndTime))
+                {
+                    EmpSqls += string.Format($@" AND CONVERT(DATE,DisDate)<='{EndTime}'");
+                }
+                else if (!string.IsNullOrEmpty(StartTime) && !string.IsNullOrEmpty(EndTime))
+                {
+                    EmpSqls += string.Format($@"  AND CONVERT(DATE,DisDate) BETWEEN '{StartTime}' AND '{EndTime}'");
+                }
+                else
+                {
+
+                }
+                EmpSqls += " ORDER BY DisDate DESC";
+                DataTable Empds = DbHelperSQL.ExecuteDataTable(EmpSqls);
+                return Empds;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
+        }
+
+
+        /// <summary>
+        /// 获取该部门流水记录（筛选）
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetOneDepData(string DepID, string CompanyId,string StartTime, string EndTime)
+        {
+            try
+            {
+
+
+                string EmpSqls = string.Format($@"SELECT  BdId, BonusItemName,BonusMoney,DisDate,
+                       CASE WHEN IsGet=0 THEN '未领取' ELSE '已领取' END isget FROM dbo.BosBonusData b LEFT JOIN dbo.SysDepart d ON b.EarMan=d.DepId LEFT JOIN dbo.BosBonusItem b2 ON b.BonusItemID=b2.BonusItemID 
+                       WHERE b.BonusType=0 and EarMan='{DepID}' and b.CompanyId='{CompanyId}'");
+                if (!string.IsNullOrEmpty(StartTime) && string.IsNullOrEmpty(EndTime))
+                {
+                    EmpSqls += string.Format($@" AND CONVERT(DATE,DisDate)>='{StartTime}'");
+                }
+                else if (string.IsNullOrEmpty(StartTime) && !string.IsNullOrEmpty(EndTime))
+                {
+                    EmpSqls += string.Format($@" AND CONVERT(DATE,DisDate)<='{EndTime}'");
+                }
+                else if (!string.IsNullOrEmpty(StartTime) && !string.IsNullOrEmpty(EndTime))
+                {
+                    EmpSqls += string.Format($@"  AND CONVERT(DATE,DisDate) BETWEEN '{StartTime}' AND '{EndTime}'");
+                }
+                else
+                {
+
+                }
+                EmpSqls += " ORDER BY DisDate DESC";
+
+
+
+                DataTable Empds = DbHelperSQL.ExecuteDataTable(EmpSqls);
+                return Empds;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        
+
+    }
+}

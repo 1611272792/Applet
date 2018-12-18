@@ -1,0 +1,74 @@
+﻿using SUNPN.BONUS.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SUNPN.BONUS.IDAL
+{
+    public interface ISendBonus
+    {
+        ///// <summary>
+        ///// 根据部门Id和公司Id查询对应的可发放的人员列表
+        ///// </summary>
+        ///// <param name="DepId"></param>
+        ///// <param name="CompanyId"></param>
+        ///// <returns></returns>
+        //List<BenefitList> GetBenefitList(string DepId, string CompanyId);
+
+        /// <summary>
+        /// 获取受益人列表
+        /// </summary>
+        /// <param name="DepId"></param>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        DataTable GetBenefitUser(string DepId, string CompanyId,string BonusItemId);
+
+        /// <summary>
+        /// 获取部门列表
+        /// </summary>
+        /// <param name="DepId"></param>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        DataTable GetBenefitDep(string DepId, string CompanyId);
+
+        /// <summary>
+        /// 添加常用原因
+        /// </summary>
+        /// <returns></returns>
+        string AddUsualReason(UsualReason ur);
+
+        /// <summary>
+        /// 查询常用原因
+        /// </summary>
+        /// <param name="OpenId"></param>
+        /// <returns></returns>
+        DataTable GetUsualReason(string OpenId);
+
+        /// <summary>
+        /// 测试二维码有效性
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <param name="CompanyId"></param>
+        /// <param name="DepId"></param>
+        /// <returns></returns>
+        string CheckQRValid(string UserId,string CompanyId,string DepId);
+
+        /// <summary>
+        /// 发奖金
+        /// </summary>
+        /// <param name="bo"></param>
+        /// <returns></returns>
+        string SendOut(BonusOut bo);
+
+        /// <summary>
+        /// 罚
+        /// </summary>
+        /// <param name="bo"></param>
+        /// <returns></returns>
+        string SendFa(BonusOut bo);
+
+    }
+}

@@ -1,0 +1,76 @@
+<!--pages/position/position.wxml-->
+<movable-area class='areas' style='height:{{he}}px'>
+  <movable-view direction="all" x="0" y="200" bindtap='PositionAdd' class='views'>
+    <image class='addimg' src='../../src/image/add.png'></image>
+  </movable-view>
+  <block wx:if='{{departlist.length==0&&items.length==0}}'>
+    <view class="page">
+      <view class="page__bd">
+        <view class="weui-loadmore weui-loadmore_line">
+          <view class="weui-loadmore__tips weui-loadmore__tips_in-line">当前无数据</view>
+        </view>
+        <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+          <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="container">
+      <view class="weui-cells weui-cells_after-title" id='{{item.DepId}}' bindtap='DepartClick' wx:for='{{departlist}}' wx:key='{{index}}'>
+        <view class="weui-cell">
+          <view class="weui-cell__hd">
+            <image src="{{icon}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+          </view>
+          <view class="weui-cell__bd">{{item.DepName}}</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">{{item.UserNum}}</view>
+        </view>
+      </view>
+
+      <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" catchtap='edit' id='{{item.PostId}}' data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove" wx:for="{{items}}" wx:key="{{index}}">
+        <view class="weui-cell content">
+          <view class="weui-cell__hd">
+            <image src="{{icon1}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+          </view>
+          <view class="weui-cell__bd">{{item.PostName}}</view>
+        </view>
+        <view class="del" catchtap="del" id='{{item.PostId}}' data-index="{{index}}">删除</view>
+        <view class="edit" catchtap="edit" id='{{item.PostId}}' data-index="{{index}}">编辑</view>
+      </view>
+    </view>
+  </block>
+  <!-- <block wx:else>
+    <view class="container">
+      <view class="weui-cells weui-cells_after-title" id='{{item.DepId}}' bindtap='DepartClick' wx:for='{{departlist}}' wx:key='{{index}}'>
+        <view class="weui-cell">
+          <view class="weui-cell__hd">
+            <image src="{{icon}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+          </view>
+          <view class="weui-cell__bd">{{item.DepName}}</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">{{item.UserNum}}</view>
+        </view>
+      </view>
+
+      <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" catchtap='edit' id='{{item.PostId}}' data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove" wx:for="{{items}}" wx:key="{{index}}">
+        <view class="weui-cell content">
+          <view class="weui-cell__hd">
+            <image src="{{icon1}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+          </view>
+          <view class="weui-cell__bd">{{item.PostName}}</view>
+        </view>
+        <view class="del" catchtap="del" id='{{item.PostId}}' data-index="{{index}}">删除</view>
+        <view class="edit" catchtap="edit" id='{{item.PostId}}' data-index="{{index}}">编辑</view>
+      </view>
+    </view>
+  </block> -->
+  <!-- <view class="page" style="display:{{shows?'block':'none'}}">
+    <view class="page__bd">
+      <view class="weui-loadmore weui-loadmore_line">
+        <view class="weui-loadmore__tips weui-loadmore__tips_in-line">当前无数据</view>
+      </view>
+      <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+        <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
+      </view>
+    </view>
+  </view> -->
+</movable-area>

@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        $.ajax({
+            url: "/api/Company/RegCompany",
+            type: "Post",
+            data: {
+                "CompanyName": "公司名1",
+                "ComPhoto": "公司头像.jpg",
+                "OpenId": "人员主键",
+                "CompanyPhone": "1359999555",
+                "CompanyEmail": "142@qq.com",
+                "UserId": "账号",
+                "UserPwd": "md5加密"
+            },
+            success: function (obj) {
+                alert(obj.StateCode + obj.Reason);
+                //$("#DivFood").html(str);
+            }
+        })
+
+    </script>
+</head>
+<body>
+    <div>
+        <div id="DivFood"></div>
+    </div>
+</body>
+</html>
